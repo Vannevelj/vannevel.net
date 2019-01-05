@@ -1,0 +1,2 @@
+webpackJsonp([0xa2868bfb69fc],{400:function(e,t){e.exports={data:{site:{siteMetadata:{title:"To kill a mocking bug",subtitle:"Unearthing curious .NET behaviour",copyright:"© All rights reserved.",menu:[{label:"Articles",path:"/"},{label:"About me",path:"/about/"},{label:"Contact me",path:"/contact/"}],author:{name:"Jeroen Vannevel",email:"jer_vannevel@outlook.com",telegram:"",twitter:"VannevelJeroen",github:"Vannevelj",rss:"",vk:""}}}},pathContext:{}}}});
+//# sourceMappingURL=path---404-html-ef3d0192820399cd66ca.js.map
