@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sat, 05 Jan 2019 20:03:25 GMT</lastBuildDate><item><title><![CDATA[Here be dragons: string concatenation]]></title><description><![CDATA[String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.]]></description><link>https://vannevel.net/posts/here-be-dragons-string-concatenation/</link><guid isPermaLink="false">https://vannevel.net/posts/here-be-dragons-string-concatenation/</guid><pubDate>Thu, 17 Sep 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sun, 06 Jan 2019 16:28:21 GMT</lastBuildDate><item><title><![CDATA[Here be dragons: string concatenation]]></title><description><![CDATA[String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.]]></description><link>https://vannevel.net/posts/here-be-dragons-string-concatenation/</link><guid isPermaLink="false">https://vannevel.net/posts/here-be-dragons-string-concatenation/</guid><pubDate>Thu, 17 Sep 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.&lt;/p&gt;
 &lt;p&gt;The approaches discussed are:&lt;/p&gt;
 &lt;ul&gt;
@@ -752,7 +752,7 @@ namespace ConsoleApplication1
 &lt;div class=&quot;gatsby-highlight&quot;&gt;
       &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo apt-get install Mono-Complete&lt;/code&gt;&lt;/pre&gt;
       &lt;/div&gt;
-&lt;p&gt;Afterwards it’s time to install the DNVM. For more information about the .NET Version Manager you can take a look here (Github) and here (MSDN).&lt;/p&gt;
+&lt;p&gt;Afterwards it’s time to install the DNVM. For more information about the .NET Version Manager you can take a look &lt;a href=&quot;https://github.com/aspnet/home&quot;&gt;here (Github)&lt;/a&gt; and &lt;a href=&quot;http://blogs.msdn.com/b/dotnet/archive/2015/04/29/net-announcements-at-build-2015.aspx&quot;&gt;here (MSDN)&lt;/a&gt;.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot;&gt;
       &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh &amp;amp;&amp;amp; source ~/.dnx/dnvm/dnvm.sh&lt;/code&gt;&lt;/pre&gt;
       &lt;/div&gt;
@@ -763,7 +763,7 @@ namespace ConsoleApplication1
 &lt;div class=&quot;gatsby-highlight&quot;&gt;
       &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo apt-get install npm&lt;/code&gt;&lt;/pre&gt;
       &lt;/div&gt;
-&lt;p&gt;One problem I had here was that there was a naming conflict between node and nodejs which are apparently different packages. This is solved by executing&lt;/p&gt;
+&lt;p&gt;One problem I had here was that there was &lt;a href=&quot;https://stackoverflow.com/q/21168141/1864167&quot;&gt;a naming conflict between node and nodejs&lt;/a&gt; which are apparently different packages. This is solved by executing&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot;&gt;
       &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo apt-get install nodejs-legacy&lt;/code&gt;&lt;/pre&gt;
       &lt;/div&gt;
@@ -852,7 +852,7 @@ Use the arrows keys to select “Console Application” and press enter. Give yo
   &lt;/a&gt;
     
 Notice how it’s a very minimal template and only consists of a gitignore, a main class and the project configuration file. There is no &lt;code class=&quot;language-text&quot;&gt;AssemblyInfo&lt;/code&gt;, no &lt;code class=&quot;language-text&quot;&gt;bin&lt;/code&gt;/&lt;code class=&quot;language-text&quot;&gt;obj&lt;/code&gt; folders, no &lt;code class=&quot;language-text&quot;&gt;app.config&lt;/code&gt;, etc.&lt;/p&gt;
-&lt;p&gt;More information about the generator can be found here.&lt;/p&gt;
+&lt;p&gt;More information about the generator can be found &lt;a href=&quot;https://www.npmjs.com/package/generator-aspnet&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h1&gt;Installing Visual Studio Code&lt;/h1&gt;
 &lt;p&gt;Time to get that new editor up and running!&lt;/p&gt;
 &lt;p&gt;Go to &lt;a href=&quot;https://code.visualstudio.com&quot;&gt;https://code.visualstudio.com&lt;/a&gt; and download the zip file. Navigate to your Downloads folder and create a folder which will hold the unzipped content. I just left this in Downloads, you might as well put this elsewhere (which you probably should if you use Linux properly).&lt;/p&gt;

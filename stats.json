@@ -5,28 +5,28 @@
       "component---src-templates-tag-template-jsx-2b3726fa7cce65b202ed.js.map"
     ],
     "path---tags-visual-studio-code": [
-      "path---tags-visual-studio-code-3a79ba9898c9a524d2fe.js",
-      "path---tags-visual-studio-code-3a79ba9898c9a524d2fe.js.map"
+      "path---tags-visual-studio-code-81edd6bdc2d682839c74.js",
+      "path---tags-visual-studio-code-81edd6bdc2d682839c74.js.map"
     ],
     "path---posts-hello-linux": [
-      "path---posts-hello-linux-9ced8f8192e383732211.js",
-      "path---posts-hello-linux-9ced8f8192e383732211.js.map"
+      "path---posts-hello-linux-e9cd18146aaaa79e9546.js",
+      "path---posts-hello-linux-e9cd18146aaaa79e9546.js.map"
     ],
-    "component---src-templates-page-template-jsx": [
-      "component---src-templates-page-template-jsx-ef150ef5bc28b140dfe9.js",
-      "component---src-templates-page-template-jsx-ef150ef5bc28b140dfe9.js.map"
+    "component---src-pages-projects-jsx": [
+      "component---src-pages-projects-jsx-4e20184c7619564550e1.js",
+      "component---src-pages-projects-jsx-4e20184c7619564550e1.js.map"
     ],
     "path---categories": [
-      "path---categories-e0c0f8b9af74d13ee839.js",
-      "path---categories-e0c0f8b9af74d13ee839.js.map"
+      "path---categories-a2e5c9a8b739e1f60906.js",
+      "path---categories-a2e5c9a8b739e1f60906.js.map"
     ],
     "path---tags-dependency-injection": [
-      "path---tags-dependency-injection-348ca1ff468b7942163f.js",
-      "path---tags-dependency-injection-348ca1ff468b7942163f.js.map"
+      "path---tags-dependency-injection-54df0da42c65ec15475f.js",
+      "path---tags-dependency-injection-54df0da42c65ec15475f.js.map"
     ],
     "path---tags-routing": [
-      "path---tags-routing-dfbdc10e882dbfa41378.js",
-      "path---tags-routing-dfbdc10e882dbfa41378.js.map"
+      "path---tags-routing-2115610fafcd8929a298.js",
+      "path---tags-routing-2115610fafcd8929a298.js.map"
     ],
     "path---posts-launching-your-first-webapp-in-visual-studio-code-through-gulp": [
       "path---posts-launching-your-first-webapp-in-visual-studio-code-through-gulp-3b2a82be3e588c5acdb0.js",
@@ -41,16 +41,16 @@
       "component---src-pages-tags-jsx-e787e63a56bf6859a224.js.map"
     ],
     "path---tags-entity-framework": [
-      "path---tags-entity-framework-49d888ef8f174f5dfc85.js",
-      "path---tags-entity-framework-49d888ef8f174f5dfc85.js.map"
+      "path---tags-entity-framework-1964d2687228b9154c6b.js",
+      "path---tags-entity-framework-1964d2687228b9154c6b.js.map"
     ],
     "path---tags": [
-      "path---tags-99956cc66e1c5e7e5e09.js",
-      "path---tags-99956cc66e1c5e7e5e09.js.map"
+      "path---tags-8a896c6fb90efdd1568d.js",
+      "path---tags-8a896c6fb90efdd1568d.js.map"
     ],
     "path---categories-net": [
-      "path---categories-net-0a8be86b761610c0c945.js",
-      "path---categories-net-0a8be86b761610c0c945.js.map"
+      "path---categories-net-6976b4837a630a1903ff.js",
+      "path---categories-net-6976b4837a630a1903ff.js.map"
     ],
     "path---posts-how-to-configure-a-custom-identityuser-for-entity-framework": [
       "path---posts-how-to-configure-a-custom-identityuser-for-entity-framework-4c07589d63d576bf0b2f.js",
@@ -65,92 +65,116 @@
       "path----557518bd178906f8d58a.js.map"
     ],
     "path---tags-dnx": [
-      "path---tags-dnx-f95c68d5ab5a4a0a4437.js",
-      "path---tags-dnx-f95c68d5ab5a4a0a4437.js.map"
+      "path---tags-dnx-1ccdbf3b322ee4bb5f5d.js",
+      "path---tags-dnx-1ccdbf3b322ee4bb5f5d.js.map"
     ],
     "component---src-layouts-index-jsx": [
       "component---src-layouts-index-jsx-ec1ab570faa350e0ff3a.js",
       "component---src-layouts-index-jsx-ec1ab570faa350e0ff3a.js.map"
     ],
     "path---tags-performance": [
-      "path---tags-performance-9d062408bc632b02c586.js",
-      "path---tags-performance-9d062408bc632b02c586.js.map"
+      "path---tags-performance-25b126364387615b0e2f.js",
+      "path---tags-performance-25b126364387615b0e2f.js.map"
+    ],
+    "path---projects-redditcrap": [
+      "path---projects-redditcrap-3d0be45540a63afd9597.js",
+      "path---projects-redditcrap-3d0be45540a63afd9597.js.map"
     ],
     "component---src-templates-category-template-jsx": [
       "component---src-templates-category-template-jsx-801615e0ee15486d4622.js",
       "component---src-templates-category-template-jsx-801615e0ee15486d4622.js.map"
     ],
+    "path---projects-roslyntester": [
+      "path---projects-roslyntester-7a9565209e5399b6c133.js",
+      "path---projects-roslyntester-7a9565209e5399b6c133.js.map"
+    ],
     "path---tags-debugging": [
-      "path---tags-debugging-f64174f9404ac34e72b8.js",
-      "path---tags-debugging-f64174f9404ac34e72b8.js.map"
+      "path---tags-debugging-1342eb1003041f8ff054.js",
+      "path---tags-debugging-1342eb1003041f8ff054.js.map"
     ],
     "path---tags-angular-js": [
-      "path---tags-angular-js-48efbbced77540e32661.js",
-      "path---tags-angular-js-48efbbced77540e32661.js.map"
+      "path---tags-angular-js-abf59859420417c28019.js",
+      "path---tags-angular-js-abf59859420417c28019.js.map"
+    ],
+    "path---projects": [
+      "path---projects-35f8a60c823bc247086a.js",
+      "path---projects-35f8a60c823bc247086a.js.map"
     ],
     "component---node-modules-gatsby-plugin-offline-app-shell-js": [
       "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js",
       "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js.map"
     ],
     "path---tags-c": [
-      "path---tags-c-af40ec20b234addfaf74.js",
-      "path---tags-c-af40ec20b234addfaf74.js.map"
+      "path---tags-c-c3da0687f4da3eab4712.js",
+      "path---tags-c-c3da0687f4da3eab4712.js.map"
+    ],
+    "path---categories-dev-tools": [
+      "path---categories-dev-tools-5a1c7337c88396843d4a.js",
+      "path---categories-dev-tools-5a1c7337c88396843d4a.js.map"
     ],
     "path---posts-quick-tip-getting-a-variables-data-during-debugging": [
       "path---posts-quick-tip-getting-a-variables-data-during-debugging-85779fea5148f5273225.js",
       "path---posts-quick-tip-getting-a-variables-data-during-debugging-85779fea5148f5273225.js.map"
     ],
     "path---categories-web-dev": [
-      "path---categories-web-dev-e9a7cce3bf8bca159068.js",
-      "path---categories-web-dev-e9a7cce3bf8bca159068.js.map"
+      "path---categories-web-dev-a771e7eb31c7b1fbdb9a.js",
+      "path---categories-web-dev-a771e7eb31c7b1fbdb9a.js.map"
     ],
     "path---tags-net": [
-      "path---tags-net-f8fffc77f4e89e87004b.js",
-      "path---tags-net-f8fffc77f4e89e87004b.js.map"
+      "path---tags-net-262191b2169cd8e23bc3.js",
+      "path---tags-net-262191b2169cd8e23bc3.js.map"
     ],
     "component---src-templates-post-template-jsx": [
-      "component---src-templates-post-template-jsx-d7589e304c7c1cd853c9.js",
-      "component---src-templates-post-template-jsx-d7589e304c7c1cd853c9.js.map"
+      "component---src-templates-post-template-jsx-4c1c99dd96b73e8d9acd.js",
+      "component---src-templates-post-template-jsx-4c1c99dd96b73e8d9acd.js.map"
     ],
     "path---posts-getting-started-with-your-first-diagnostic": [
       "path---posts-getting-started-with-your-first-diagnostic-5fca875b077b313c8014.js",
       "path---posts-getting-started-with-your-first-diagnostic-5fca875b077b313c8014.js.map"
     ],
     "path---tags-linux": [
-      "path---tags-linux-554aa3e6776b17136842.js",
-      "path---tags-linux-554aa3e6776b17136842.js.map"
+      "path---tags-linux-9e08dc2222914615feab.js",
+      "path---tags-linux-9e08dc2222914615feab.js.map"
+    ],
+    "path---projects-vsdiagnostics": [
+      "path---projects-vsdiagnostics-937f208b27cf78680f1b.js",
+      "path---projects-vsdiagnostics-937f208b27cf78680f1b.js.map"
     ],
     "path---posts-properly-testing-entity-framework-with-effort": [
       "path---posts-properly-testing-entity-framework-with-effort-4f552f6c7f49b364f220.js",
       "path---posts-properly-testing-entity-framework-with-effort-4f552f6c7f49b364f220.js.map"
     ],
     "path---categories-roslyn": [
-      "path---categories-roslyn-f00b0dcbdada1711630f.js",
-      "path---categories-roslyn-f00b0dcbdada1711630f.js.map"
+      "path---categories-roslyn-d0387e9034360127329f.js",
+      "path---categories-roslyn-d0387e9034360127329f.js.map"
     ],
     "path---categories-debugging": [
-      "path---categories-debugging-3d7793dd94d486a97794.js",
-      "path---categories-debugging-3d7793dd94d486a97794.js.map"
+      "path---categories-debugging-f6039fbe06b112051fd3.js",
+      "path---categories-debugging-f6039fbe06b112051fd3.js.map"
     ],
     "component---src-pages-categories-jsx": [
       "component---src-pages-categories-jsx-2da18a892adca87ae12e.js",
       "component---src-pages-categories-jsx-2da18a892adca87ae12e.js.map"
     ],
     "path---index": [
-      "path---index-d7e9ce31f96fe71aca4f.js",
-      "path---index-d7e9ce31f96fe71aca4f.js.map"
+      "path---index-67b47ee11fb5c21bc6ba.js",
+      "path---index-67b47ee11fb5c21bc6ba.js.map"
+    ],
+    "component---src-templates-project-template-jsx": [
+      "component---src-templates-project-template-jsx-1cf79d1513af6bee36b2.js",
+      "component---src-templates-project-template-jsx-1cf79d1513af6bee36b2.js.map"
     ],
     "path---posts-introducing-vsdiagnostics": [
       "path---posts-introducing-vsdiagnostics-768ca97b8d1103fe7f13.js",
       "path---posts-introducing-vsdiagnostics-768ca97b8d1103fe7f13.js.map"
     ],
     "path---tags-asp-net": [
-      "path---tags-asp-net-db9a54f69c36f205913b.js",
-      "path---tags-asp-net-db9a54f69c36f205913b.js.map"
+      "path---tags-asp-net-7fc467ef85f3aecd8172.js",
+      "path---tags-asp-net-7fc467ef85f3aecd8172.js.map"
     ],
     "path---categories-testing": [
-      "path---categories-testing-7d6d12a5a2491b311910.js",
-      "path---categories-testing-7d6d12a5a2491b311910.js.map"
+      "path---categories-testing-a4b96ee5b298434c6238.js",
+      "path---categories-testing-a4b96ee5b298434c6238.js.map"
     ],
     "commons": [
       "commons-43af95a5f1acc5674dce.js",
@@ -159,44 +183,56 @@
       "build-js-styles.css.map"
     ],
     "path---tags-nu-get": [
-      "path---tags-nu-get-a615fd9d2f49649cd4db.js",
-      "path---tags-nu-get-a615fd9d2f49649cd4db.js.map"
+      "path---tags-nu-get-7e9233a755936a539d2b.js",
+      "path---tags-nu-get-7e9233a755936a539d2b.js.map"
+    ],
+    "path---categories-social": [
+      "path---categories-social-7e8d75b48819fe1167f2.js",
+      "path---categories-social-7e8d75b48819fe1167f2.js.map"
+    ],
+    "path---tags-google-chrome": [
+      "path---tags-google-chrome-5dc03cec265c71dfc602.js",
+      "path---tags-google-chrome-5dc03cec265c71dfc602.js.map"
     ],
     "path---tags-gulp": [
-      "path---tags-gulp-c0bb9c9145d02cd3d940.js",
-      "path---tags-gulp-c0bb9c9145d02cd3d940.js.map"
+      "path---tags-gulp-eb9bedc1e67913531e79.js",
+      "path---tags-gulp-eb9bedc1e67913531e79.js.map"
     ],
     "path---404-html": [
-      "path---404-html-3f0bc974455f28acdbbf.js",
-      "path---404-html-3f0bc974455f28acdbbf.js.map"
+      "path---404-html-bf08a895707187e44122.js",
+      "path---404-html-bf08a895707187e44122.js.map"
     ],
     "component---src-pages-404-jsx": [
       "component---src-pages-404-jsx-265d0c38bdff4d0a90c6.js",
       "component---src-pages-404-jsx-265d0c38bdff4d0a90c6.js.map"
     ],
     "path---tags-roslyn": [
-      "path---tags-roslyn-b0912a1b48832d919c70.js",
-      "path---tags-roslyn-b0912a1b48832d919c70.js.map"
+      "path---tags-roslyn-dd506e8012e63e554502.js",
+      "path---tags-roslyn-dd506e8012e63e554502.js.map"
     ],
     "path---tags-unit-testing": [
-      "path---tags-unit-testing-caf243c6a82fb34e806a.js",
-      "path---tags-unit-testing-caf243c6a82fb34e806a.js.map"
+      "path---tags-unit-testing-e3ddbb7bc5d2efff2e8b.js",
+      "path---tags-unit-testing-e3ddbb7bc5d2efff2e8b.js.map"
     ],
     "path---tags-visual-studio": [
-      "path---tags-visual-studio-852478496826fb8f034d.js",
-      "path---tags-visual-studio-852478496826fb8f034d.js.map"
+      "path---tags-visual-studio-1d4b34ea667661cb4b1e.js",
+      "path---tags-visual-studio-1d4b34ea667661cb4b1e.js.map"
     ],
     "path---posts-what-is-unit-testing": [
       "path---posts-what-is-unit-testing-21aefc78c63e0e3033f6.js",
       "path---posts-what-is-unit-testing-21aefc78c63e0e3033f6.js.map"
     ],
     "path---tags-diagnostics": [
-      "path---tags-diagnostics-976d4d43b5f9570a4047.js",
-      "path---tags-diagnostics-976d4d43b5f9570a4047.js.map"
+      "path---tags-diagnostics-9c0e63517e6a688d0101.js",
+      "path---tags-diagnostics-9c0e63517e6a688d0101.js.map"
     ],
     "path---offline-plugin-app-shell-fallback": [
       "path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js",
       "path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js.map"
+    ],
+    "path---tags-java-script": [
+      "path---tags-java-script-b47c54b21b4506c559d5.js",
+      "path---tags-java-script-b47c54b21b4506c559d5.js.map"
     ],
     "component---src-pages-index-jsx": [
       "component---src-pages-index-jsx-64649fde84da96ead11c.js",
@@ -211,20 +247,20 @@
       "path---posts-a-few-important-roslyn-api-helpers-d63d457cb4423d8b80c3.js.map"
     ],
     "app": [
-      "app-e8b3ce8ffa3ade1059a3.js",
-      "app-e8b3ce8ffa3ade1059a3.js.map"
+      "app-b471f95f302475b0fa0e.js",
+      "app-b471f95f302475b0fa0e.js.map"
     ],
     "path---categories-ms-build": [
-      "path---categories-ms-build-73d63dd5158e79776764.js",
-      "path---categories-ms-build-73d63dd5158e79776764.js.map"
+      "path---categories-ms-build-81da58c6e1eca6d8d9eb.js",
+      "path---categories-ms-build-81da58c6e1eca6d8d9eb.js.map"
     ],
     "path---404": [
-      "path---404-3f0bc974455f28acdbbf.js",
-      "path---404-3f0bc974455f28acdbbf.js.map"
+      "path---404-bf08a895707187e44122.js",
+      "path---404-bf08a895707187e44122.js.map"
     ],
     "path---tags-ms-build": [
-      "path---tags-ms-build-5e4f40b51bb951e2fe39.js",
-      "path---tags-ms-build-5e4f40b51bb951e2fe39.js.map"
+      "path---tags-ms-build-cb38f9ec5b6316c3b6df.js",
+      "path---tags-ms-build-cb38f9ec5b6316c3b6df.js.map"
     ],
     "path---posts-unit-testing-web-api-routes-and-parameter-validation": [
       "path---posts-unit-testing-web-api-routes-and-parameter-validation-28a3ad01bcc55304f041.js",
@@ -235,16 +271,12 @@
       "path---posts-here-be-dragons-string-concatenation-b7dab888fa1b46caff75.js.map"
     ],
     "path---tags-authentication": [
-      "path---tags-authentication-4d174359ca097dda79ff.js",
-      "path---tags-authentication-4d174359ca097dda79ff.js.map"
-    ],
-    "path---about": [
-      "path---about-1c066fa4cd3b6b3c578d.js",
-      "path---about-1c066fa4cd3b6b3c578d.js.map"
+      "path---tags-authentication-88047435938069c9d81b.js",
+      "path---tags-authentication-88047435938069c9d81b.js.map"
     ],
     "path---categories-performance": [
-      "path---categories-performance-aad82b5fde4390f111ef.js",
-      "path---categories-performance-aad82b5fde4390f111ef.js.map"
+      "path---categories-performance-4479ff43297653438bb2.js",
+      "path---categories-performance-4479ff43297653438bb2.js.map"
     ]
   }
 }
