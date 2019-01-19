@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sat, 19 Jan 2019 03:06:39 GMT</lastBuildDate><item><title><![CDATA[Evaluating Chrome Devtools]]></title><description><![CDATA[Simple console log statements are not as innocent as they might seem.]]></description><link>https://vannevel.net/posts/evaluating-chrome-devtools/</link><guid isPermaLink="false">https://vannevel.net/posts/evaluating-chrome-devtools/</guid><pubDate>Sat, 19 Jan 2019 00:03:00 GMT</pubDate><content:encoded>&lt;p&gt;While debugging with some &lt;code class=&quot;language-text&quot;&gt;console.log&lt;/code&gt; statements I noticed that the values logged seemed to differ from what they initially said. Upon uncollapsing the log entry it would consistently show a &lt;code class=&quot;language-text&quot;&gt;NaN&lt;/code&gt; value for some property values while it clearly stated the proper value above it.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sat, 19 Jan 2019 03:34:27 GMT</lastBuildDate><item><title><![CDATA[Evaluating Chrome Devtools]]></title><description><![CDATA[Simple console log statements are not as innocent as they might seem.]]></description><link>https://vannevel.net/posts/evaluating-chrome-devtools/</link><guid isPermaLink="false">https://vannevel.net/posts/evaluating-chrome-devtools/</guid><pubDate>Sat, 19 Jan 2019 00:03:00 GMT</pubDate><content:encoded>&lt;p&gt;While debugging with some &lt;code class=&quot;language-text&quot;&gt;console.log&lt;/code&gt; statements I noticed that the values logged seemed to differ from what they initially said. Upon uncollapsing the log entry it would consistently show a &lt;code class=&quot;language-text&quot;&gt;NaN&lt;/code&gt; value for some property values while it clearly stated the proper value above it.&lt;/p&gt;
 &lt;p&gt;
   &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -35,11 +35,104 @@
     &lt;/p&gt;
 &lt;p&gt;As it turns out this is caused by Chrome re-evaluating the object with the data it has at the moment you uncollapse it rather than just showing you what the values were at that moment in time. There is a small info icon that does aim to explain this behaviour but its wording does not really clarify the most important aspect, which is that it re-evaluates it without the original context.&lt;/p&gt;
 &lt;p&gt;We can quickly verify this behaviour ourselves by defining an object, logging it and making a change to the object prior to uncollapsing:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./demo-initial.png&quot; alt=&quot;Declaring an object&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/demo-initial-2b917fed2abcdb1ce14a216f70da00d0-11e6d.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 250px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 52.400000000000006%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABJ0AAASdAHeZh94AAABL0lEQVQoz51Si26EIBDk/z/wLjZtqlfRi7WxKsjbKQvH9ZH0eukmIysswzAsM8aAoDcNJRSCD1hXBRFzZ21ak1JC67i+KUiR64UQcdRYF53qpRRpniUyGyf5gtfDEEktjscJp5NEMBKbWDHPC/q+jyQS587G/xVt28J7i4ejBn8xkXQCBQshgOC9h70oSodoC+dcVOxRaij2PdfmfEeO/TK3Z4WEaZrQdR3qusY4jjHnaJoGSqnr5nvAiJlQvCqnh/BZlBXm8U9CIiIVnHNUVZVIyzX+E1cPCUROvpE1xmTColiKgE2a5OF3/34QUjt47zAMQ1JJUJtF126pFchX5zyqg8LT4xAPdjc9ZfQhVfTCxU9S66zLr5w6ICRS/+XFfwOL/YtnLjC/v928yr3xAUV6DzVALdGWAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Declaring an object&quot;
+        title=&quot;&quot;
+        src=&quot;/static/demo-initial-2b917fed2abcdb1ce14a216f70da00d0-11e6d.png&quot;
+        srcset=&quot;/static/demo-initial-2b917fed2abcdb1ce14a216f70da00d0-477d9.png 240w,
+/static/demo-initial-2b917fed2abcdb1ce14a216f70da00d0-11e6d.png 250w&quot;
+        sizes=&quot;(max-width: 250px) 100vw, 250px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;Change a value on the object:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./demo-action.png&quot; alt=&quot;Change property value&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/demo-action-b99803a6e89c5daf98a27b7e300a6b21-bbffd.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 284px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 62.323943661971825%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABJ0AAASdAHeZh94AAABZUlEQVQoz5WSCWrEMAxFc//LlV4gNDTLTJaJl0wcy8uv5JkWSgtNBcIKRt9PX6n6rkdd19juWzn7roXbNwz9ALnbrIU1FsZoPs2j1gbbpvnOQHOtlMK6rmjfW1REhBQTzMWArOdGQtdZpECgw8HajZtFILBA4OYV3jtcB8I03kF0IOeMlBIkKuLGQAH3y1YElfIYhh3ICZ4FjREKxXWGVnupRWQaI5bFlfozRLgQhhBgmGJaZkZfWPSGeZ6ZxONc5K+qEjFJy15prXHfdx5PxrSQx+TVyJbISGeyOo4Dkk3TYJqmn2/n/K3+K6sYYyEUKqFMKYK8mJwfhHwazQtin89E8VAIZe3DcIFzOxtOPL6F0gt/R7y+rLwce4qyeCiUQrizf7KIQA6HI6hbeI6cT41bBEVAsm0bjOMV13GEd/zzKsJbfTypcDqeW07o28BU+Zel/FOQWND7gKHb2cvIzed/kd/yA9LlquMfDixRAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Change property value&quot;
+        title=&quot;&quot;
+        src=&quot;/static/demo-action-b99803a6e89c5daf98a27b7e300a6b21-bbffd.png&quot;
+        srcset=&quot;/static/demo-action-b99803a6e89c5daf98a27b7e300a6b21-1e1a9.png 240w,
+/static/demo-action-b99803a6e89c5daf98a27b7e300a6b21-bbffd.png 284w&quot;
+        sizes=&quot;(max-width: 284px) 100vw, 284px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;If we now uncollapse the previous log statement, we can see it got re-evaluated based on our current context&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;./demo-result.png&quot; alt=&quot;Uncollapse log statement&quot;&gt;&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/demo-result-093fba728f79ad28128d2d4e8cab31ff-69b3b.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 298px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 79.86577181208054%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAABJ0AAASdAHeZh94AAABy0lEQVQ4y5VUi3KbMBDk//8xJXVaMOYl0PuBtndynMEOrlvN3EiAbnV7u6Ia+gFt20Ibg647Q8kVRmusi8S68tpAKwUpJc36MxS05nfX97xvXVYsy4LKe48UE+YfE7z0aFqNc6uQ/DW5H3pKNlhEogROmiDmDT9rDWMkcgZF/ooqxlgAzWzgrYcQlpIc8pYQQiAwTXOEc7SHWDjv4F0mJhExBjyOAshVjvOI7tJhHHui3mIYBmzbttuaD9f76kqFXAUHA3AFTIGBvkcu8y2Rnx/BCiBXx4Cn06nQezXyi+9flFmlvr9QryIJEAl8pZDo2oR3EqwZA8YlHdK8q5BpMKg2GmISRZhxcLh0pHQKcDZDriSUStB2uwM8rHD/EAwBC0W2SGh/hweSucQe7Ai02m/wmmyyKsyCAf1n0pNe7kDvKN8+WGeLcSP5Tc0WarKwZPQtbUWsuq7RNA3O5zP12T2v8GaFRInBk4UsmVh7RFp7Qw7wV9GmaSKPjuV6cc+v1vlur8paSyda1O9vJUGIGcFJ/Pogccb43D7PVObTQqCeNfQjMLZ4koezrP5xn/7qwxQ9JUfUbw63m8a3YK/o/0QlDVWS8kvD/mv8AdQR5xJofqJxAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Uncollapse log statement&quot;
+        title=&quot;&quot;
+        src=&quot;/static/demo-result-093fba728f79ad28128d2d4e8cab31ff-69b3b.png&quot;
+        srcset=&quot;/static/demo-result-093fba728f79ad28128d2d4e8cab31ff-b83ef.png 240w,
+/static/demo-result-093fba728f79ad28128d2d4e8cab31ff-69b3b.png 298w&quot;
+        sizes=&quot;(max-width: 298px) 100vw, 298px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
 &lt;p&gt;Interestingly it looks like the evaluation is only done on the first collapse: subsequent alterations to the property and collapsing/uncollapsing does not change the existing log statement.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Here be dragons: string concatenation]]></title><description><![CDATA[String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.]]></description><link>https://vannevel.net/posts/here-be-dragons-string-concatenation/</link><guid isPermaLink="false">https://vannevel.net/posts/here-be-dragons-string-concatenation/</guid><pubDate>Thu, 17 Sep 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.&lt;/p&gt;
 &lt;p&gt;The approaches discussed are:&lt;/p&gt;
