@@ -1,4 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sun, 06 Jan 2019 16:28:21 GMT</lastBuildDate><item><title><![CDATA[Here be dragons: string concatenation]]></title><description><![CDATA[String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.]]></description><link>https://vannevel.net/posts/here-be-dragons-string-concatenation/</link><guid isPermaLink="false">https://vannevel.net/posts/here-be-dragons-string-concatenation/</guid><pubDate>Thu, 17 Sep 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sat, 19 Jan 2019 03:06:39 GMT</lastBuildDate><item><title><![CDATA[Evaluating Chrome Devtools]]></title><description><![CDATA[Simple console log statements are not as innocent as they might seem.]]></description><link>https://vannevel.net/posts/evaluating-chrome-devtools/</link><guid isPermaLink="false">https://vannevel.net/posts/evaluating-chrome-devtools/</guid><pubDate>Sat, 19 Jan 2019 00:03:00 GMT</pubDate><content:encoded>&lt;p&gt;While debugging with some &lt;code class=&quot;language-text&quot;&gt;console.log&lt;/code&gt; statements I noticed that the values logged seemed to differ from what they initially said. Upon uncollapsing the log entry it would consistently show a &lt;code class=&quot;language-text&quot;&gt;NaN&lt;/code&gt; value for some property values while it clearly stated the proper value above it.&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/console-log-827ff2858062ac2c4198046cce6b994d-451f7.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 960px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 31.806615776081426%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsSAAALEgHS3X78AAAA3klEQVQY06VQW07EMAzsnTkCd+AAfPCxfHMBToKgLWq33WbZ5mUnmZ1k/5AQSFia2JnYYzudKrCur1iXB8zTM/b9if4Rn+MLYgzkI6wN5D22TRjvMMbw7rCdFIacD3x3CaUUdAWAxndczncYhnuSA0qeoHpsCaoFOWeiQCQjpUROmhe5caqMtSoBXT28NVj6A8a3A2JI7C4tMbCz947wLQZuRT9Zm7AGEhNOfcY2Fq7guO4OZyNFK5SQhlrwG5pglgSzXNB/WPzXuqoafIA9e9ivyJUj5nni59s/TfQdVxJO0yNtDLzaAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Console output&quot;
+        title=&quot;&quot;
+        src=&quot;/static/console-log-827ff2858062ac2c4198046cce6b994d-c83f1.png&quot;
+        srcset=&quot;/static/console-log-827ff2858062ac2c4198046cce6b994d-569e3.png 240w,
+/static/console-log-827ff2858062ac2c4198046cce6b994d-93400.png 480w,
+/static/console-log-827ff2858062ac2c4198046cce6b994d-c83f1.png 960w,
+/static/console-log-827ff2858062ac2c4198046cce6b994d-451f7.png 1179w&quot;
+        sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;As it turns out this is caused by Chrome re-evaluating the object with the data it has at the moment you uncollapse it rather than just showing you what the values were at that moment in time. There is a small info icon that does aim to explain this behaviour but its wording does not really clarify the most important aspect, which is that it re-evaluates it without the original context.&lt;/p&gt;
+&lt;p&gt;We can quickly verify this behaviour ourselves by defining an object, logging it and making a change to the object prior to uncollapsing:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./demo-initial.png&quot; alt=&quot;Declaring an object&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Change a value on the object:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./demo-action.png&quot; alt=&quot;Change property value&quot;&gt;&lt;/p&gt;
+&lt;p&gt;If we now uncollapse the previous log statement, we can see it got re-evaluated based on our current context&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./demo-result.png&quot; alt=&quot;Uncollapse log statement&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Interestingly it looks like the evaluation is only done on the first collapse: subsequent alterations to the property and collapsing/uncollapsing does not change the existing log statement.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Here be dragons: string concatenation]]></title><description><![CDATA[String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.]]></description><link>https://vannevel.net/posts/here-be-dragons-string-concatenation/</link><guid isPermaLink="false">https://vannevel.net/posts/here-be-dragons-string-concatenation/</guid><pubDate>Thu, 17 Sep 2015 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;String concatenation can be done in several ways, each with their own advantages and usecases. In this blogpost I will take a closer look at 4 different ways of concatenating strings and how these are implemented internally. At the end of this post I hope I will have made clear when they are useful, when they are not and how they compare to eachother implementation-wise.&lt;/p&gt;
 &lt;p&gt;The approaches discussed are:&lt;/p&gt;
 &lt;ul&gt;
