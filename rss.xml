@@ -1,4 +1,97 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sat, 19 Jan 2019 03:34:27 GMT</lastBuildDate><item><title><![CDATA[Evaluating Chrome Devtools]]></title><description><![CDATA[Simple console log statements are not as innocent as they might seem.]]></description><link>https://vannevel.net/posts/evaluating-chrome-devtools/</link><guid isPermaLink="false">https://vannevel.net/posts/evaluating-chrome-devtools/</guid><pubDate>Sat, 19 Jan 2019 00:03:00 GMT</pubDate><content:encoded>&lt;p&gt;While debugging with some &lt;code class=&quot;language-text&quot;&gt;console.log&lt;/code&gt; statements I noticed that the values logged seemed to differ from what they initially said. Upon uncollapsing the log entry it would consistently show a &lt;code class=&quot;language-text&quot;&gt;NaN&lt;/code&gt; value for some property values while it clearly stated the proper value above it.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sun, 26 May 2019 16:58:45 GMT</lastBuildDate><item><title><![CDATA[Exposing ElasticSearch from an Azure VM]]></title><description><![CDATA[Exposing your ElasticSearch service from an Azure VM]]></description><link>https://vannevel.net/posts/exposing-elasticsearch-from-azure-vm</link><guid isPermaLink="false">https://vannevel.net/posts/exposing-elasticsearch-from-azure-vm</guid><pubDate>Sun, 26 May 2019 20:00:00 GMT</pubDate><content:encoded>&lt;p&gt;After I set up ElasticSearch on a Windows Server 2019 VM in Azure, I noticed that I could query the instance from the VM itself but not from outside of it.&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/error-49fcd037a13c2bce29e79e11cc5a096e-da44e.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 960px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 13.884228187919462%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAIAAAAcOLh5AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAkUlEQVQI113NwQ6CMBAEUJR6AElMkLS1pESNB+1uAxR2IYL//1tWDx5MXiZzmknO42K6oEPQ/VCGtRqW3M+ZveVHldZX0a1pu2671wbnBPjfxY0NcOm4goiqeyi0LU6NfPSqfUoYc0fC0Q5YfP1KlGjk6ACcAUvkBtn4SfvJACmgGlkhx7T4WTdIFqmOZ8B74Df9FBnYO8fLmQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Console output&quot;
+        title=&quot;&quot;
+        src=&quot;/static/error-49fcd037a13c2bce29e79e11cc5a096e-c83f1.png&quot;
+        srcset=&quot;/static/error-49fcd037a13c2bce29e79e11cc5a096e-569e3.png 240w,
+/static/error-49fcd037a13c2bce29e79e11cc5a096e-93400.png 480w,
+/static/error-49fcd037a13c2bce29e79e11cc5a096e-c83f1.png 960w,
+/static/error-49fcd037a13c2bce29e79e11cc5a096e-23e13.png 1440w,
+/static/error-49fcd037a13c2bce29e79e11cc5a096e-10d8f.png 1920w,
+/static/error-49fcd037a13c2bce29e79e11cc5a096e-da44e.png 2384w&quot;
+        sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;The solution to expose it was two-fold: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Assign &lt;code class=&quot;language-text&quot;&gt;network.host&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Assign &lt;code class=&quot;language-text&quot;&gt;discovery.seed_hosts&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Without the latter, you will find an error like this in your logs (&lt;code class=&quot;language-text&quot;&gt;C:\ProgramData\Elastic\Elasticsearch\logs&lt;/code&gt;):&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;[2019-05-26T15:55:43,504][INFO ][o.e.b.BootstrapChecks    ] [rapide] bound or publishing to a non-loopback address, enforcing bootstrap checks
+[2019-05-26T15:55:43,519][ERROR][o.e.b.Bootstrap          ] [rapide] node validation exception
+[1] bootstrap checks failed
+[1]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;These values worked for me:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;network.host: 0.0.0.0
+discovery.seed_hosts: [&amp;quot;127.0.0.1&amp;quot;, &amp;quot;[::1]&amp;quot;]&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;I verified it worked by executing the following request. Change &lt;code class=&quot;language-text&quot;&gt;&amp;lt;IP&amp;gt;&lt;/code&gt; with &lt;code class=&quot;language-text&quot;&gt;localhost&lt;/code&gt; if you test on the VM or the VM’s public IP if you execute it outside of it.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Invoke-WebRequest -method GET &amp;#39;http://&amp;lt;IP&amp;gt;:9200/_cat/indices?v&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;The output should look something like this:&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/output-89eb8f32a4e586f88e408b0d28379350-53706.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 960px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 43.53276353276353%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAACToAAAk6AGCYwUcAAABUElEQVQoz4VS207CQBBdquXS4gWBqDE+gAJtARUsavQj+mKvFMtF1P//gXFmuluN0fhwMjPd3XOZVBjDFA5uMjDHMVYPmq4HjakHFSsAczgH3YlBDEIQdvQFS879AMSFX6B0iXPL3UDFjsEYpVAfZyA6IR5EsNML+YLWC7jfRaiqekY/B5MRcXu2gaqTINkC2rM11hT2r1+4mqMcLHa14Dt0tid7gomgWR9EOWENY4nuM5TtBM4e3xFvcPqwZdfaNwd8Ge/9CRVZdPKBFE7ut9By14zju1fc5ZL75u2KnZZRhAxUnTkKJpyshj19K0Q1Yu367Iji0CFFMbDmSLnWZTSOKyMTIYlQLQhpB+SSHjYmSyYkN6TMOyRyuUsT91oI4lySZhgq8vnTB+hWzMqHk4yj08P8stqR/3svSRTY4dF0xf+hUqbdUERN/jb/4SfpJ+xgE+YD0yBnAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Console output&quot;
+        title=&quot;&quot;
+        src=&quot;/static/output-89eb8f32a4e586f88e408b0d28379350-c83f1.png&quot;
+        srcset=&quot;/static/output-89eb8f32a4e586f88e408b0d28379350-569e3.png 240w,
+/static/output-89eb8f32a4e586f88e408b0d28379350-93400.png 480w,
+/static/output-89eb8f32a4e586f88e408b0d28379350-c83f1.png 960w,
+/static/output-89eb8f32a4e586f88e408b0d28379350-23e13.png 1440w,
+/static/output-89eb8f32a4e586f88e408b0d28379350-53706.png 1755w&quot;
+        sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;</content:encoded></item><item><title><![CDATA[Evaluating Chrome Devtools]]></title><description><![CDATA[Simple console log statements are not as innocent as they might seem.]]></description><link>https://vannevel.net/posts/evaluating-chrome-devtools/</link><guid isPermaLink="false">https://vannevel.net/posts/evaluating-chrome-devtools/</guid><pubDate>Sat, 19 Jan 2019 00:03:00 GMT</pubDate><content:encoded>&lt;p&gt;While debugging with some &lt;code class=&quot;language-text&quot;&gt;console.log&lt;/code&gt; statements I noticed that the values logged seemed to differ from what they initially said. Upon uncollapsing the log entry it would consistently show a &lt;code class=&quot;language-text&quot;&gt;NaN&lt;/code&gt; value for some property values while it clearly stated the proper value above it.&lt;/p&gt;
 &lt;p&gt;
   &lt;a
     class=&quot;gatsby-resp-image-link&quot;

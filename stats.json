@@ -17,8 +17,8 @@
       "component---src-pages-projects-jsx-4e20184c7619564550e1.js.map"
     ],
     "path---categories": [
-      "path---categories-55f8cb39e58ebc23926e.js",
-      "path---categories-55f8cb39e58ebc23926e.js.map"
+      "path---categories-de8a323308d75eaf6636.js",
+      "path---categories-de8a323308d75eaf6636.js.map"
     ],
     "path---tags-dependency-injection": [
       "path---tags-dependency-injection-54df0da42c65ec15475f.js",
@@ -40,13 +40,17 @@
       "component---src-pages-tags-jsx-e787e63a56bf6859a224.js",
       "component---src-pages-tags-jsx-e787e63a56bf6859a224.js.map"
     ],
+    "path---posts-exposing-elasticsearch-from-azure-vm": [
+      "path---posts-exposing-elasticsearch-from-azure-vm-a99cac8a334343083be3.js",
+      "path---posts-exposing-elasticsearch-from-azure-vm-a99cac8a334343083be3.js.map"
+    ],
     "path---tags-entity-framework": [
       "path---tags-entity-framework-f8fac51a85e0dbfc78f4.js",
       "path---tags-entity-framework-f8fac51a85e0dbfc78f4.js.map"
     ],
     "path---tags": [
-      "path---tags-facfdbd0a5f8624d311f.js",
-      "path---tags-facfdbd0a5f8624d311f.js.map"
+      "path---tags-ae920f13fbd6c87de2ca.js",
+      "path---tags-ae920f13fbd6c87de2ca.js.map"
     ],
     "path---categories-net": [
       "path---categories-net-6976b4837a630a1903ff.js",
@@ -100,6 +104,10 @@
       "path---tags-angular-js-abf59859420417c28019.js",
       "path---tags-angular-js-abf59859420417c28019.js.map"
     ],
+    "path---categories-cloud": [
+      "path---categories-cloud-180c0791c6e7a9b15430.js",
+      "path---categories-cloud-180c0791c6e7a9b15430.js.map"
+    ],
     "path---projects": [
       "path---projects-35f8a60c823bc247086a.js",
       "path---projects-35f8a60c823bc247086a.js.map"
@@ -144,6 +152,10 @@
       "path---projects-vsdiagnostics-937f208b27cf78680f1b.js",
       "path---projects-vsdiagnostics-937f208b27cf78680f1b.js.map"
     ],
+    "path---tags-azure": [
+      "path---tags-azure-d05514dda57c8c946301.js",
+      "path---tags-azure-d05514dda57c8c946301.js.map"
+    ],
     "path---posts-properly-testing-entity-framework-with-effort": [
       "path---posts-properly-testing-entity-framework-with-effort-4f552f6c7f49b364f220.js",
       "path---posts-properly-testing-entity-framework-with-effort-4f552f6c7f49b364f220.js.map"
@@ -161,8 +173,8 @@
       "component---src-pages-categories-jsx-2da18a892adca87ae12e.js.map"
     ],
     "path---index": [
-      "path---index-940d9aaf20fe82063e4b.js",
-      "path---index-940d9aaf20fe82063e4b.js.map"
+      "path---index-2efac5bc3fbf8fb5c1a7.js",
+      "path---index-2efac5bc3fbf8fb5c1a7.js.map"
     ],
     "component---src-templates-project-template-jsx": [
       "component---src-templates-project-template-jsx-1cf79d1513af6bee36b2.js",
@@ -181,9 +193,9 @@
       "path---categories-testing-bb4310e2dfdbb7d9ce4c.js.map"
     ],
     "commons": [
-      "commons-955588bfb2a9fde5d830.js",
+      "commons-43af95a5f1acc5674dce.js",
       "build-js-styles.css",
-      "commons-955588bfb2a9fde5d830.js.map",
+      "commons-43af95a5f1acc5674dce.js.map",
       "build-js-styles.css.map"
     ],
     "path---tags-nu-get": [
@@ -255,8 +267,12 @@
       "path---posts-a-few-important-roslyn-api-helpers-d63d457cb4423d8b80c3.js.map"
     ],
     "app": [
-      "app-7e2a6d50f2b0f9316aaf.js",
-      "app-7e2a6d50f2b0f9316aaf.js.map"
+      "app-e3f9f5c51bd41af3aaa4.js",
+      "app-e3f9f5c51bd41af3aaa4.js.map"
+    ],
+    "path---tags-elastic-search": [
+      "path---tags-elastic-search-877c62a10945c0ec9b54.js",
+      "path---tags-elastic-search-877c62a10945c0ec9b54.js.map"
     ],
     "path---categories-ms-build": [
       "path---categories-ms-build-81da58c6e1eca6d8d9eb.js",
