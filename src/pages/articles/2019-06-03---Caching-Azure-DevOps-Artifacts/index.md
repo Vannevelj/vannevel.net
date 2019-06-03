@@ -21,6 +21,8 @@ If you run your pipeline somewhat regularly then you'll soon come to see this as
 
 Luckily for us, Microsoft has already released [a task](https://github.com/microsoft/azure-pipelines-artifact-caching-tasks) that can do exactly this. In order to get it to work we just need to add a single task. Note that you have to put your caching step _before_ the regular restore step.
 
+You'll need an Artifacts feed to publish the cached archives to. 
+
 ![Pipeline with the cache](./post.PNG)
 
 The "Key file" is what the task will use to validate your cache and generate a new entry in case the file changed. We key on `package.json` rather than `yarn.lock` because there can be dependencies that themselves don't depend on other packages -- in which case those builds wouldn't get cached. It does mean we will also invalidate the cache when other changes are made (e.g. the `scripts`) but that is a small price to pay.
@@ -34,3 +36,5 @@ The next time the pipeline runs, your caching step will resolve the caching entr
 ![Task timings](./post-timing.PNG)
 
 Looking at the execution times of my builds, you can see a clear difference between builds that had cached packages and those that had to restore it from scratch.
+
+![Build times](./updownupdownupdown.PNG)
