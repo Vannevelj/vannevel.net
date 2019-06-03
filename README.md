@@ -1,22 +1,10 @@
+[![Build Status](https://dev.azure.com/vannevelj/vannevel.net/_apis/build/status/vannevel.net%20-%20CI?branchName=master)](https://dev.azure.com/vannevelj/vannevel.net/_build/latest?definitionId=3&branchName=master)
+
 # Release Instructions
 
-1. Install gatsbyjs
+Push `master` branch. Done.
 
-```
-npm install -g gatsby
-```
 
-2. Generate build output
-
-```
-cd lumen
-npm install
-gatsby build
-```
-
-3. Copy build output into the master branch 
-
-Make sure not to remove the CNAME file!
 
 # Developing locally
 
