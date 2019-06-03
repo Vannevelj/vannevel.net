@@ -21,7 +21,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    rootFolderOrFile: 'public'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: 'Build.zip'
