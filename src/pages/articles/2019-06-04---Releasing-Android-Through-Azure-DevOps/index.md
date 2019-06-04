@@ -93,6 +93,8 @@ When you create the service connection inside Azure DevOps, make sure to use the
 
 That's it! You now have a fully integrated CI/CD pipeline for your Android apps. I have also provided integration with App Center in my own pipeline just to test out how it works but this is optional. I did search for a Fabric.io task but there isn't any -- this might be important in case you want to integrate with beta testers outside of the Google Play environment. App Center provides a fairly seemless integration with Azure DevOps which makes it easy for packaged Android builds to get picked up and distributed.
 
+The end result is 20 minutes in-between a push to `master` and a notification from the Play store that my update is live, without any action undertaken by me in the meantime.
+
 ## References
 
 * [Build, test, and deploy Android apps](https://docs.microsoft.com/en-gb/azure/devops/pipelines/languages/android?view=azure-devops)
