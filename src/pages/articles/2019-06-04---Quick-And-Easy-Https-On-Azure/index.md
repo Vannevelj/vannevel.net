@@ -32,7 +32,7 @@ Once in here, add the domain. You will notice it asks you to add a `TXT` and `A`
 
 ![DNS configuration](./dns-config.PNG)
 
-At this point, given some time for the DNS changes to propagate, your site will be available under your custom domain. HTTP itself won't work though, considering the certificate issued is for `*.azurewebsites.com` and not your own domain.
+At this point, given some time for the DNS changes to propagate, your site will be available under your custom domain. HTTPS itself won't work though, considering the certificate issued is for `*.azurewebsites.com` and not your own domain.
 
 At this point you sign up for a Cloudflare account. When created you can add a site under the Free plan which contains everything we need. 
 
