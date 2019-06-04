@@ -24,7 +24,7 @@ While you could ensure HTTPS through many different ways, using Cloudflare is a 
 An alternative I would recommend is using [Let's Encrypt](https://www.hanselman.com/blog/SecuringAnAzureAppServiceWebsiteUnderSSLInMinutesWithLetsEncrypt.aspx) though I was turned off by the amount of configuration it required.
 
 ## Configure the custom domain
-The first thing to do is to add the custom domain to your Web App.
+The first thing to do is to [add the custom domain](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain#map-your-domain) to your Web App.
 
 ![Config menu](./custom-domains.PNG)
 
