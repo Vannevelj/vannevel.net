@@ -9,11 +9,11 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+steps:
 - task: UseNode@1
   inputs:
     version: '10.15.3'
 
-steps:
 - task: Npm@1
   inputs:
     command: 'install'
