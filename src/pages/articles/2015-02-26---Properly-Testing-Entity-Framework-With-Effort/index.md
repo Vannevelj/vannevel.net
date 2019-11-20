@@ -16,7 +16,7 @@ description: "An introduction to testing your EF logic"
 
 If you have ever needed to use a database in C# then chances are you ended up with Entity Framework as an ORM layer. It allows you to query the database with LINQ rather than explicit SQL queries making for a much more comfortable data layer. However if you’re also the kind of person that likes (has?) to write tests then you might have noticed that the DbContext class is rather annoying to work around.
 
-Personally I am not a fan of mocking at all: it requires a lot of setup work which pollutes the test and it makes your code brittle (if the mock is configured to return X but you change the implementation to return Y, the tests will still work despite the discrepancy with the actual implementation).
+Personally I'm not a fan of mocking at all: it requires a lot of setup work which pollutes the test and it makes your code brittle (if the mock is configured to return X but you change the implementation to return Y, the tests will still work despite the discrepancy with the actual implementation).
 
 The idea behind what you will read is straightforward: instead of using an actual database hosted locally or on Azure, we’ll create one in-memory for each test. This allows us to test each layer of our project in a fast manner without having to resort to creating a fake implementation of our actual code. There is a thin line between unit testing and integration testing that we may cross here but I don’t consider this a problem: fast, reliable and clean tests get precedence over ideologism in any scenario.
 
