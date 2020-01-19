@@ -19,7 +19,7 @@ In this short walkthrough I'll lay out the general steps on how to setup your Az
 I will assume that you already have a working Android app released on the App Store and have the certificate available.
 
 ## Summary
-We will create a pipeline that executes the gradle task and signs it with our private key. We create a Google Developer service account and link it to our Google Play project. We then connect the Google Developer service account to an Azure DevOps service connection. We use that service connection to execute a deploy task to the Google Play store.
+We will create a pipeline that executes the gradle task and signs it with our private key. We create a Google Developer service account and link it to our Google Play project. We'll then connect the Google Developer service account to an Azure DevOps service connection. We use that service connection to execute a deploy task to the Google Play store.
 
 ## Setting up CI
 
