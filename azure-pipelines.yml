@@ -11,28 +11,32 @@ pool:
 
 steps:
 - task: UseNode@1
+  displayName: 'Set node version'
   inputs:
     version: '10.15.3'
 
 - task: Npm@1
+  displayName: 'Resolve dependencies'
   inputs:
     command: 'install'
 
 - task: Npm@1
+  displayName: 'Build'
   inputs:
     command: 'custom'
     customCommand: 'run build'
 
-- task: ArchiveFiles@2
+- task: CopyFiles@2
+  displayName: 'Copy Static Files'
   inputs:
-    rootFolderOrFile: 'public'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: 'Build.zip'
-    replaceExistingArchive: true
+    sourceFolder: '$(System.DefaultWorkingDirectory)'
+    contents: |
+      web/public/**/*
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    overwrite: true
 
 - task: PublishBuildArtifacts@1
+  displayName: Publish
   inputs:
-    PathtoPublish: 'Build.zip'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
