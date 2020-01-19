@@ -20,6 +20,9 @@
     "theme",
     "starter"
   ],
+  "engines": {
+    "node": "12.14.1"
+  },
   "author": "Alexander Shelepenok <alxshelepenok@gmail.com>",
   "license": "MIT",
   "dependencies": {
