@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     url: 'https://vannevel.net',
+    siteUrl: 'https://vannevel.net',
     title: 'To kill a mocking bug',
     subtitle: 'Unearthing curious .NET behaviour',
     copyright: '© All rights reserved.',
@@ -151,6 +152,7 @@ module.exports = {
           })
       }
     },
+    'gatsby-plugin-robots-txt',
     'gatsby-plugin-offline',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
