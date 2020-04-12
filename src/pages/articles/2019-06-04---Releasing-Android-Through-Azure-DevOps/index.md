@@ -9,6 +9,7 @@ tags:
   - "Azure"
   - "DevOps"
   - "Android"
+  - "CI/CD"
 description: "Configure CI/CD for Android on Azure DevOps"
 ---
 
