@@ -142,6 +142,7 @@ digraph {
     subgraph cluster_server {
         label = "Server"
         color = "hotpink"
+        {rank = same; X; Y}
         
         X [label = "Phase 1"]
         Y [label = "Phase 2"]
