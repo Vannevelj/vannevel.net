@@ -58,3 +58,5 @@ In order to grant these permissions, add the following to your info.plist:
 If you now trigger this behaviour again, you'll be prompted with the following popup:
 
 ![Permission request for Terminal interaction](./permissions.png)
+
+Note that this will only work if you don't have Sandbox enabled. In order to disable the Sandbox, delete your .entitlements file.
