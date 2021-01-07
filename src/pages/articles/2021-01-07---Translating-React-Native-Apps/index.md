@@ -60,6 +60,6 @@ Note how I've opted to group the translations by key rather than language. This 
 
 An additional benefit is that I can use Typescript to provide intellisense suggestions:
 
-![Intellisense expanded to show the json keys](./intellisense.png)
+![Intellisense expanded to show the json keys](./intellisense.PNG)
 
 Note that you need to have `resolveJsonModule` enabled in your .tsconfig to import .json files like this.
