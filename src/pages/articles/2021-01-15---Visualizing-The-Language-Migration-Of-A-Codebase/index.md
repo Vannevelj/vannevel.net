@@ -21,7 +21,7 @@ Github has this very useful feature where it shows the language distribution of 
 
 So I've done exactly that with the following bash script:
 
-```sh
+```bash
 #!/usr/local/bin/bash
 repo=~/Documents/source/my-repo
 branch="master"
