@@ -15,7 +15,7 @@ description: "Migrating a codebase from one language to another is a long journe
 
 If you've ever gone through the trouble of incrementally migrating a codebase from one language to another then you know this is not something that gets done in a few weeks. You can mark all the milestones you want but in the end nothing beats a nice graph that shows continuous improvements to your stakeholders.
 
-Github has this very useful feature where it shows the language distribution of your repo at that point in time. What we want is this, but then for each day -- and ideally, we won't be taking notes manually each day.
+Github has this very useful feature where it shows the language distribution of your repo at that point in time. What we want is this, but then for each day -- and ideally, we won't be taking notes manually every time.
 
 ![Repo language distribution on Github](./github.PNG)
 
@@ -99,15 +99,15 @@ Date           , TypeScript     ,JavaScript     ,Objective-C    ,Swift          
 
 The commas make it look a little bit off but they exist for a reason: now we use the power of [Google Sheets](https://support.google.com/a/users/answer/9308645?hl=en). Using this format, we can simply copy-paste our console output into a sheet. 
 
-![Pasting the raw data into Google Sheets](./pasting.PNG)
+![Pasting the raw data into Google Sheets](./pasting.png)
 
 When doing so, Google Sheets will suggest to split it into columns and produce a nicely separated table:
 
-![Splitting the columns using the separator](./splitting.PNG)
+![Splitting the columns using the separator](./splitting.png)
 
 Creating a chart is now trivial and gives you something like this:
 
-![The eventual chart](./viewing.PNG)
+![The eventual chart](./viewing.png)
 
 Of course this is only looking at a very short period of time. The longer the timespan, the more useful your charts will be, e.g.
 
