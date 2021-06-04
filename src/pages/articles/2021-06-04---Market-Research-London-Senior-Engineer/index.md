@@ -7,7 +7,7 @@ path: "/posts/market-research-senior-engineer-in-london"
 category: "Career"
 tags:
   - "Career"
-description: "What makes an expert?"
+description: "Working as a Senior Engineer in London: what's the market rate?"
 ---
 
 I wanted to get a sense of the market out there so I changed my LinkedIn status to "Open to work". Initially I had the intention to chat to a few recruiters but it became quickly evident that I had invited a deluge of messages that overwhelmed me. To regain some control and oversight, I've tried to categorise the data that came in. In this post I'll provide a brief overview of these results to share the knowledge. I will note that this is intentionally a low-fidelity approach at evaluating the market so you should expect variation. It might, however, be a reasonable indicator of where the talent market is at this time.
