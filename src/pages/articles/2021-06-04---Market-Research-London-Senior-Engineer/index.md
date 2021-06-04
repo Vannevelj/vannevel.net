@@ -21,6 +21,7 @@ I evaluated this under the following constraints:
 * I only looked at messages that were about a specific position, general introductions were not counted
 * Everything is evaluated pessimistically: if no remote work is mentioned, it's a NO. If it says "salary £80k" then that's considered the maximum
 * Remote work is considered a "YES" if it would allow you to live anywhere in the UK. "2days/month" in London is considered "YES". "2 days/week in the office" is considered "PART".
+* Only full-time positions, no contract or part-time work
 
 Due to the big difference in messages that mention both min & max salary, I'll provide their data separately.
 
