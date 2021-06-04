@@ -16,8 +16,8 @@ For context, my own background can be found [here](https://www.linkedin.com/in/v
 
 I evaluated this under the following constraints:
 * Messages were received between May 20 and June 4, a period of **15 days**.
-* **74** were messages considered in this analysis
-* The data is gathered from every initial message, I did not respond to ask for more info
+* **74** messages were considered in this analysis
+* The data is gathered from the initial message, I did not respond to ask for more info
 * I only looked at messages that were about a specific position, general introductions were not counted
 * Everything is evaluated pessimistically: if no remote work is mentioned, it's a NO. If it says "salary £80k" then that's considered the maximum
 * Remote work is considered a "YES" if it would allow you to live anywhere in the UK. "2days/month" in London is considered "YES". "2 days/week in the office" is considered "PART".
@@ -29,20 +29,20 @@ Due to the big difference in messages that mention both min & max salary, I'll p
 ## Minimum Salary
 |       |  |
 | ----------- | ----------- |
-| N      | 13       |
-| Average   | £71,923.08        |
-| Median   | £75,000.00        |
-| 75th pct   | £80,000.00        |
+| N      | **13**      |
+| Average   | **£71,923.08**        |
+| Median   | **£75,000.00**        |
+| 75th pct   | **£80,000.00**        |
 
 ![Distribution of minimum salary](./minimum.PNG)
 
 ## Maximum Salary
 |       |  |
 | ----------- | ----------- |
-| N      | 32       |
-| Average   | £80,625.00        |
-| Median   | £85,000.00        |
-| 75th pct   | £86,250.00        |
+| N      | **32**       |
+| Average   | **£80,625.00**        |
+| Median   | **£85,000.00**        |
+| 75th pct   | **£86,250.00**        |
 
 ![Distribution of minimum salary](./maximum.PNG)
 
@@ -52,10 +52,10 @@ It's worth re-iterating that for many of these "NO" responses it was first and f
 
 |       |  |
 | ----------- | ----------- |
-| Total      | 74       |
-| Yes   | 27        |
-| No   | 36        |
-| Partly   | 10        |
-| Temporarily   | 1        |
+| Total      | **74**       |
+| Yes   | **27**        |
+| No   | **36**        |
+| Partly   | **10**        |
+| Temporarily   | **1**        |
 
 ![Distribution of minimum salary](./remote.PNG)
