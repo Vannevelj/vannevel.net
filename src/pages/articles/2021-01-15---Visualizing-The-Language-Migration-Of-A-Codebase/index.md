@@ -113,6 +113,6 @@ Of course this is only looking at a very short period of time. The longer the ti
 
 ![The eventual chart](./bigchart.PNG)
 
-> **⚠️ _NOTE:_**  Getting an error like `dlopen(/Library/Ruby/Gems/2.3.0/gems/charlock_holmes-0.7.6/lib/charlock_holmes/charlock_holmes.bundle, 0x0009): dependent dylib '/usr/local/opt/icu4c/lib/libicudata.64.dylib' not found for '/Library/Ruby/Gems/2.3.0/gems/charlock_holmes-0.7.6/lib/charlock_holmes/charlock_holmes.bundle' - /Library/Ruby/Gems/2.3.0/gems/charlock_holmes-0.7.6/lib/charlock_holmes/charlock_holmes.bundle (LoadError)`?  
+> **⚠️ NOTE:**  Getting an error like `dlopen(/Library/Ruby/Gems/2.3.0/gems/charlock_holmes-0.7.6/lib/charlock_holmes/charlock_holmes.bundle, 0x0009): dependent dylib '/usr/local/opt/icu4c/lib/libicudata.64.dylib' not found for '/Library/Ruby/Gems/2.3.0/gems/charlock_holmes-0.7.6/lib/charlock_holmes/charlock_holmes.bundle' - /Library/Ruby/Gems/2.3.0/gems/charlock_holmes-0.7.6/lib/charlock_holmes/charlock_holmes.bundle (LoadError)`?  
 
-Reinstall charlock_holmes, you've probably [updated a dependency](https://github.com/github/linguist/issues/4879#issuecomment-640455585)! I've reinstalled it using `sudo gem install charlock_holmes -- --with-icu-dir=/usr/local/opt/icu4c --with-cxxflags='-Wno-reserved-user-defined-literal -std=c++11'`
+Reinstall charlock\_holmes, you've probably [updated a dependency](https://github.com/github/linguist/issues/4879#issuecomment-640455585)! I've reinstalled it using `sudo gem install charlock_holmes -- --with-icu-dir=/usr/local/opt/icu4c --with-cxxflags='-Wno-reserved-user-defined-literal -std=c++11'`
