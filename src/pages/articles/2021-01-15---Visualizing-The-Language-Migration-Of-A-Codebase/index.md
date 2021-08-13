@@ -57,7 +57,7 @@ done
 ```
 
 First, some prerequisites:
-* Follow the install instructions for github-linguist [here](https://github.com/github/linguist). If you use a recent MacOS version like me then you're likely to bump into some issues getting it running. I've documented them [here](https://github.com/github/linguist/issues/5147#issuecomment-761017609).
+* Follow the install instructions for github-linguist [here](https://github.com/github/linguist). If you use a recent MacOS version like me then you're likely to bump into some issues getting it running. I've documented them [here](https://github.com/github/linguist/issues/5147#issuecomment-761017609). The latest version of github-linguist is incompatible so you'll need a specific version like [7.11](https://github.com/github/linguist/packages/18032?version=7.11.0). Later versions change the console output which is incompatible with this script.
 * I ran `sudo gem pristine curb --version 0.9.10` to remove some unwanted console output
 * You'll need Bash 4 to support hash tables so run `brew install bash` to get the latest version
 
