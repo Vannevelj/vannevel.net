@@ -96,7 +96,7 @@ fn main() {
 }
 ```
 
-This will give us a few days worth of data. Our next step is to provide plotters-rs with an output file and some basic chart setup:
+This will give us a few days worth of data, grouped in three series with a hardcoded color each. Our next step is to provide plotters-rs with an output file and some basic chart setup:
 
 ```rs
 let root = BitMapBackend::new("output.png", (800, 640)).into_drawing_area();
@@ -131,7 +131,7 @@ At this point we can run our code and we see it generated an empty chart with Y-
 The next step is to draw some series through the `chart.draw_series()` API:
 
 ```rs
-for (index, summary) in data_for_graph.iter().enumerate() {
+for summary in data_for_graph.iter() {
   let color = summary.1;
 
   chart
@@ -139,22 +139,7 @@ for (index, summary) in data_for_graph.iter().enumerate() {
           let x0 = Utc.from_utc_date(&entry.date);
           let x1 = Utc.from_utc_date(&entry.date.add(Duration::days(1)));
 
-          let mut entries_for_day: Vec<&Entry> = data_for_graph
-              .iter()
-              .flat_map(|m| &m.2)
-              .filter(|f| f.date == entry.date)
-              .collect();
-          entries_for_day.sort_by(|a, b| a.date.cmp(&b.date));
-          let absolute_start: f64 = entries_for_day[0..index].iter().map(|m| m.value).sum();
-          let total: f64 = entries_for_day.iter().map(|m| m.value).sum();
-
-          let relative_start = absolute_start / total * 100.0;
-          let relative_length = entry.value / total * 100.0;
-
-          let mut bar = Rectangle::new(
-              [(x0, relative_start), (x1, relative_start + relative_length)],
-              color.filled(),
-          );
+          let mut bar = Rectangle::new([(x0, 0.0), (x1, entry.value)], color.filled());
           bar.set_margin(0, 0, 5, 5);
           bar
       }))
@@ -166,7 +151,9 @@ for (index, summary) in data_for_graph.iter().enumerate() {
 }
 ```
 
-However if now print this out, we can see that only the blue graph is displayed:
+For each series we draw the entry. The entry is drawn for a particular date (i.e. the horizontal axis) and we return a `Rectangle` with the height of our value.
+
+However if we now print this out, we can see that only the blue graph is displayed:
 
 ![Chart with only one series](./output-intermediate.png)
 
@@ -192,6 +179,8 @@ let mut bar = Rectangle::new(
     color.filled(),
 );
 ```
+
+For each entry we will now calculate all the other entries for that same day. Based on this total, an index and a deterministic ordering of the elements, we can now calculate a vertical axis offset to avoid overlapping.
 
 And that's it! If you now add the `#[derive(Clone)]` directives and run your code, you will generate the following image:
 
