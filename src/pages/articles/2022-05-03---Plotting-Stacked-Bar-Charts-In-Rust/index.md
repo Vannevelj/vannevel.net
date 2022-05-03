@@ -49,7 +49,10 @@ Let's start by creating a bit of test data:
 use chrono::NaiveDate;
 use plotters::style::RGBColor;
 
-struct Entry(NaiveDate, f64);
+struct Entry {
+    date: NaiveDate,
+    value: f64,
+}
 struct Summary(String, RGBColor, Vec<Entry>);
 
 fn create_date(date: &str) -> NaiveDate {
@@ -58,9 +61,33 @@ fn create_date(date: &str) -> NaiveDate {
 
 fn create_summary() -> Vec<Summary> {
     vec![
-        Summary(String::from("Option 1"), RGBColor(255, 0, 0), vec![Entry(create_date("2022-05-01"), 20.0), Entry(create_date("2022-05-02"), 50.0), Entry(create_date("2022-05-03"), 15.0)]),
-        Summary(String::from("Option 2"), RGBColor(0, 255, 0), vec![Entry(create_date("2022-05-01"), 25.0), Entry(create_date("2022-05-02"), 30.0), Entry(create_date("2022-05-03"), 0.0)]),
-        Summary(String::from("Option 3"), RGBColor(0, 0, 255), vec![Entry(create_date("2022-05-01"), 80.0), Entry(create_date("2022-05-02"), 80.0), Entry(create_date("2022-05-03"), 40.0)])
+        Summary(
+            String::from("Option 1"),
+            RGBColor(255, 0, 0),
+            vec![
+                Entry { date: create_date("2022-05-01"), value: 20.0 },
+                Entry { date: create_date("2022-05-02"), value: 50.0 },
+                Entry { date: create_date("2022-05-03"), value: 15.0 },
+            ],
+        ),
+        Summary(
+            String::from("Option 2"),
+            RGBColor(0, 255, 0),
+            vec![
+                Entry { date: create_date("2022-05-01"), value: 25.0 },
+                Entry { date: create_date("2022-05-02"), value: 30.0 },
+                Entry { date: create_date("2022-05-03"), value: 0.0 },
+            ],
+        ),
+        Summary(
+            String::from("Option 3"),
+            RGBColor(0, 0, 255),
+            vec![
+                Entry { date: create_date("2022-05-01"), value: 80.0 },
+                Entry { date: create_date("2022-05-02"), value: 80.0 },
+                Entry { date: create_date("2022-05-03"), value: 40.0 },
+            ],
+        ),
     ]
 }
 
@@ -104,23 +131,38 @@ At this point we can run our code and we see it generated an empty chart with Y-
 The next step is to draw some series through the `chart.draw_series()` API:
 
 ```rs
-for summary in data_for_graph.iter() {
-    let color = summary.1;
+for (index, summary) in data_for_graph.iter().enumerate() {
+  let color = summary.1;
 
-    chart
-        .draw_series(summary.2.iter().map(|entry| {
-            let x0 = Utc.from_utc_date(&entry.0);
-            let x1 = Utc.from_utc_date(&entry.0.add(Duration::days(1)));
+  chart
+      .draw_series(summary.2.iter().map(|entry| {
+          let x0 = Utc.from_utc_date(&entry.date);
+          let x1 = Utc.from_utc_date(&entry.date.add(Duration::days(1)));
 
-            let mut bar = Rectangle::new([(x0, 0.0), (x1, entry.1)], color.filled());
-            bar.set_margin(0, 0, 5, 5);
-            bar
-        }))
-        .expect("Failed to draw series")
-        .legend(move |(x, y)| {
-            PathElement::new(vec![(x, y), (x + 20, y)], color.stroke_width(3))
-        })
-        .label(&summary.0);
+          let mut entries_for_day: Vec<&Entry> = data_for_graph
+              .iter()
+              .flat_map(|m| &m.2)
+              .filter(|f| f.date == entry.date)
+              .collect();
+          entries_for_day.sort_by(|a, b| a.date.cmp(&b.date));
+          let absolute_start: f64 = entries_for_day[0..index].iter().map(|m| m.value).sum();
+          let total: f64 = entries_for_day.iter().map(|m| m.value).sum();
+
+          let relative_start = absolute_start / total * 100.0;
+          let relative_length = entry.value / total * 100.0;
+
+          let mut bar = Rectangle::new(
+              [(x0, relative_start), (x1, relative_start + relative_length)],
+              color.filled(),
+          );
+          bar.set_margin(0, 0, 5, 5);
+          bar
+      }))
+      .expect("Failed to draw series")
+      .legend(move |(x, y)| {
+          PathElement::new(vec![(x, y), (x + 20, y)], color.stroke_width(3))
+      })
+      .label(&summary.0);
 }
 ```
 
@@ -169,7 +211,10 @@ use plotters::{
 };
 
 #[derive(Clone)]
-struct Entry(NaiveDate, f64);
+struct Entry {
+    date: NaiveDate,
+    value: f64,
+}
 #[derive(Clone)]
 struct Summary(String, RGBColor, Vec<Entry>);
 
@@ -183,27 +228,27 @@ fn create_summary() -> Vec<Summary> {
             String::from("Option 1"),
             RGBColor(255, 0, 0),
             vec![
-                Entry(create_date("2022-05-01"), 20.0),
-                Entry(create_date("2022-05-02"), 50.0),
-                Entry(create_date("2022-05-03"), 15.0),
+                Entry { date: create_date("2022-05-01"), value: 20.0 },
+                Entry { date: create_date("2022-05-02"), value: 50.0 },
+                Entry { date: create_date("2022-05-03"), value: 15.0 },
             ],
         ),
         Summary(
             String::from("Option 2"),
             RGBColor(0, 255, 0),
             vec![
-                Entry(create_date("2022-05-01"), 25.0),
-                Entry(create_date("2022-05-02"), 30.0),
-                Entry(create_date("2022-05-03"), 0.0),
+                Entry { date: create_date("2022-05-01"), value: 25.0 },
+                Entry { date: create_date("2022-05-02"), value: 30.0 },
+                Entry { date: create_date("2022-05-03"), value: 0.0 },
             ],
         ),
         Summary(
             String::from("Option 3"),
             RGBColor(0, 0, 255),
             vec![
-                Entry(create_date("2022-05-01"), 80.0),
-                Entry(create_date("2022-05-02"), 80.0),
-                Entry(create_date("2022-05-03"), 40.0),
+                Entry { date: create_date("2022-05-01"), value: 80.0 },
+                Entry { date: create_date("2022-05-02"), value: 80.0 },
+                Entry { date: create_date("2022-05-03"), value: 40.0 },
             ],
         ),
     ]
@@ -240,20 +285,20 @@ fn main() {
 
         chart
             .draw_series(summary.2.iter().map(|entry| {
-                let x0 = Utc.from_utc_date(&entry.0);
-                let x1 = Utc.from_utc_date(&entry.0.add(Duration::days(1)));
+                let x0 = Utc.from_utc_date(&entry.date);
+                let x1 = Utc.from_utc_date(&entry.date.add(Duration::days(1)));
 
                 let mut entries_for_day: Vec<&Entry> = data_for_graph
                     .iter()
                     .flat_map(|m| &m.2)
-                    .filter(|f| f.0 == entry.0)
+                    .filter(|f| f.date == entry.date)
                     .collect();
-                entries_for_day.sort_by(|a, b| a.0.cmp(&b.0));
-                let absolute_start: f64 = entries_for_day[0..index].iter().map(|m| m.1).sum();
-                let total: f64 = entries_for_day.iter().map(|m| m.1).sum();
+                entries_for_day.sort_by(|a, b| a.date.cmp(&b.date));
+                let absolute_start: f64 = entries_for_day[0..index].iter().map(|m| m.value).sum();
+                let total: f64 = entries_for_day.iter().map(|m| m.value).sum();
 
                 let relative_start = absolute_start / total * 100.0;
-                let relative_length = entry.1 / total * 100.0;
+                let relative_length = entry.value / total * 100.0;
 
                 let mut bar = Rectangle::new(
                     [(x0, relative_start), (x1, relative_start + relative_length)],
