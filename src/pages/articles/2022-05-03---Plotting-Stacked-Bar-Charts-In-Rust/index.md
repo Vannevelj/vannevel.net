@@ -45,7 +45,7 @@ plotters = "0.3.1"
 
 Let's start by creating a bit of test data:
 
-```rs
+```rust
 use chrono::NaiveDate;
 use plotters::style::RGBColor;
 
@@ -98,7 +98,7 @@ fn main() {
 
 This will give us a few days worth of data, grouped in three series with a hardcoded color each. Our next step is to provide plotters-rs with an output file and some basic chart setup:
 
-```rs
+```rust
 let root = BitMapBackend::new("output.png", (800, 640)).into_drawing_area();
 root.fill(&WHITE).expect("Failed to set chart background");
 
@@ -130,7 +130,7 @@ At this point we can run our code and we see it generated an empty chart with Y-
 
 The next step is to draw some series through the `chart.draw_series()` API:
 
-```rs
+```rust
 for summary in data_for_graph.iter() {
   let color = summary.1;
 
@@ -161,7 +161,7 @@ This happens because all three charts are rendered right on top of each other st
 
 The solution here is to calculate the cumulative percentage of each series for a given day and then use that to offset the series we render. There are a lot of ways to calculate this but for brevity purposes I've included a very crude way of doing so. In a production scenario with more data you should take a less wasteful approach.
 
-```rs
+```rust
 let mut entries_for_day: Vec<&Entry> = data_for_graph
     .iter()
     .flat_map(|m| &m.2)
@@ -188,7 +188,7 @@ And that's it! If you now add the `#[derive(Clone)]` directives and run your cod
 
 For completeness' sake, this is the full code:
 
-```rs
+```rust
 use std::ops::Add;
 
 use chrono::{Duration, NaiveDate, TimeZone, Utc};
