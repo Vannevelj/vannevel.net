@@ -70,9 +70,9 @@ export const conponentQuery = graphql`
     }
     author {
       name
-      email
       twitter
       github
+      linkedin
     }
   }
 `;

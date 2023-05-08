@@ -14,13 +14,13 @@ module.exports = {
       {
         label: 'Projects',
         path: '/projects/'
-      },
+      }
     ],
     author: {
       name: 'Jeroen Vannevel',
-      email: 'jer_vannevel@outlook.com',
       twitter: 'VannevelJeroen',
       github: 'Vannevelj',
+      linkedin: 'vannevelj'
     }
   },
   plugins: [
