@@ -77,15 +77,15 @@ At this point we can look for our previously-created `Ping` objects with somethi
 
 Immediately we can see that both `Ping` and `Ping2` have one instance each. Crucially, both show up as having a total size of 80 bytes. This aligns with our BenchmarkDotNet findings that no allocation reduction was realised.
 
-To investigate deeper we can click on the link for the `7ffcb254c7b8` Method Table which will execute `!dumpheap -mt 7ffcb254c7b8`. This then tell us that the memory address for that object is located at `01c0e5cc6ed0`. 
+To investigate deeper we can click on the link for the `7ffc8b4d9bc8` Method Table which will execute `!dumpheap -mt 7ffc8b4d9bc8`. This then tell us that the memory address for that object is located at `2258d00a648`. 
 
-Clicking that link then executes `!dumpobj /d 1c0e5cc6ed0` which gives us this nice overview of the object:
+Clicking that link then executes `!dumpobj /d 2258d00a648` which gives us this nice overview of the object:
 
 ```log
-0:000> !dumpobj /d 1c0e5cc6ed0
-Name:        Ping2
-MethodTable: 00007ffcb254c7b8
-EEClass:     00007ffcb2561b28
+0:000> !dumpobj /d 2258d00a648
+Name:        Ping
+MethodTable: 00007ffc8b4d9bc8
+EEClass:     00007ffc8b4e33f8
 Tracked Type: false
 Size:        80(0x50) bytes
 File:        C:\Users\jer_v\source\repos\pingsize\pingsize\bin\Release\net8.0\pingsize.dll
@@ -93,13 +93,15 @@ Fields:
               MT    Field   Offset                 Type VT     Attr            Value Name
 0000000000000000  4000019        8 ...ponentModel.ISite  0 instance 0000000000000000 _site
 0000000000000000  400001a       10 ....EventHandlerList  0 instance 0000000000000000 _events
-00007ffcb2265fa0  4000018       98        System.Object  0   static 0000000000000000 s_eventDisposed
-00007ffcb254d520  4000009       18 ...ualResetEventSlim  0 instance 000001c0e5cc6f20 _lockObject
-00007ffcb22a92d0  400000a       20          System.Void  0 instance 0000000000000000 _onPingCompletedDelegate
-00007ffcb2431f88  400000b       28        System.Byte[]  0 instance 0000000000000000 _defaultSendBuffer
-00007ffcb22a92d0  400000c       30          System.Void  0 instance 0000000000000000 _timeoutOrCancellationSource
-00007ffcb22c2158  400000d       40          System.Byte  1 instance                0 _status
-00007ffcb22a92d0  400000e       38          System.Void  0 instance 0000000000000000 PingCompleted
+00007ffc8b355fa0  4000018       98        System.Object  0   static 0000000000000000 s_eventDisposed
+00007ffc8b4daa90  4000001       18 ...ualResetEventSlim  0 instance 000002258d00a698 _lockObject
+00007ffc8b3992d0  4000002       20          System.Void  0 instance 0000000000000000 _onPingCompletedDelegate
+00007ffc8b35d068  4000003       44       System.Boolean  1 instance                0 _disposeRequested
+0000000000000000  4000004       28              SZARRAY  0 instance 0000000000000000 _defaultSendBuffer
+00007ffc8b3992d0  4000005       30          System.Void  0 instance 0000000000000000 _timeoutOrCancellationSource
+00007ffc8b35d068  4000006       45       System.Boolean  1 instance                0 _canceled
+00007ffc8b391188  4000007       40         System.Int32  1 instance                0 _status
+00007ffc8b3992d0  4000008       38          System.Void  0 instance 0000000000000000 PingCompleted
 ```
 
 Excellent! Now we see the exact layout of our fields in the object. Worth noting here that the object is 80 bytes -- in decimal. In hexadecimal, that corresponds to 0x50. This is particularly relevant because the `Offset` column specifies its values in hexadecimal as well.
