@@ -90,6 +90,9 @@
 <url> <loc>https://vannevel.net/posts/plotting-stacked-bar-charts-in-rust</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/rust/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/categories/rust/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/posts/exploring-object-layouts</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/tags/clr/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/tags/win-dbg/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/categories/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/projects/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>

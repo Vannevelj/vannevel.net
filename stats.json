@@ -37,8 +37,8 @@
       "path---categories-architecture-ecf3a436dbc65517005a.js.map"
     ],
     "path---categories": [
-      "path---categories-fa1d820503d64ac4435a.js",
-      "path---categories-fa1d820503d64ac4435a.js.map"
+      "path---categories-30db25348389116085cb.js",
+      "path---categories-30db25348389116085cb.js.map"
     ],
     "path---tags-dependency-injection": [
       "path---tags-dependency-injection-868075ff78c11ab474d9.js",
@@ -93,8 +93,8 @@
       "path---posts-better-diagrams-through-dot-8b034c3acba63576e367.js.map"
     ],
     "path---tags": [
-      "path---tags-e76cd7152b9193cda559.js",
-      "path---tags-e76cd7152b9193cda559.js.map"
+      "path---tags-30ea7919dec75e34c6ac.js",
+      "path---tags-30ea7919dec75e34c6ac.js.map"
     ],
     "path---categories-net": [
       "path---categories-net-462e661d6aa41e76591a.js",
@@ -185,8 +185,8 @@
       "component---node-modules-gatsby-plugin-offline-app-shell-js-5c4c5a0f7af9dc69d6d7.js.map"
     ],
     "path---tags-c": [
-      "path---tags-c-1d126e92ea76dcc2c9d7.js",
-      "path---tags-c-1d126e92ea76dcc2c9d7.js.map"
+      "path---tags-c-66691279197684019e00.js",
+      "path---tags-c-66691279197684019e00.js.map"
     ],
     "path---categories-dev-tools": [
       "path---categories-dev-tools-4e0b9f63dabac71cc588.js",
@@ -240,6 +240,14 @@
       "path---posts-properly-testing-entity-framework-with-effort-2b3f74bfdc45c88a2113.js",
       "path---posts-properly-testing-entity-framework-with-effort-2b3f74bfdc45c88a2113.js.map"
     ],
+    "path---tags-win-dbg": [
+      "path---tags-win-dbg-c7259ef0979e3d87ca03.js",
+      "path---tags-win-dbg-c7259ef0979e3d87ca03.js.map"
+    ],
+    "path---posts-exploring-object-layouts": [
+      "path---posts-exploring-object-layouts-9d75d548f3d8e8da5e76.js",
+      "path---posts-exploring-object-layouts-9d75d548f3d8e8da5e76.js.map"
+    ],
     "path---categories-roslyn": [
       "path---categories-roslyn-38d382f730c85cc60998.js",
       "path---categories-roslyn-38d382f730c85cc60998.js.map"
@@ -261,8 +269,8 @@
       "component---src-pages-categories-jsx-2da18a892adca87ae12e.js.map"
     ],
     "path---index": [
-      "path---index-b9fa7c0de03a9c9a8e29.js",
-      "path---index-b9fa7c0de03a9c9a8e29.js.map"
+      "path---index-84a17ee537ed284731fa.js",
+      "path---index-84a17ee537ed284731fa.js.map"
     ],
     "path---tags-terminal": [
       "path---tags-terminal-b7fef55222bc3619dd99.js",
@@ -342,6 +350,10 @@
       "path---posts-market-research-senior-engineer-in-london-961088195ad71c15a7fd.js",
       "path---posts-market-research-senior-engineer-in-london-961088195ad71c15a7fd.js.map"
     ],
+    "path---tags-clr": [
+      "path---tags-clr-c9f69febe8beaba514a8.js",
+      "path---tags-clr-c9f69febe8beaba514a8.js.map"
+    ],
     "path---tags-unit-testing": [
       "path---tags-unit-testing-5de56445271aa258a418.js",
       "path---tags-unit-testing-5de56445271aa258a418.js.map"
@@ -391,8 +403,8 @@
       "path---posts-executing-commands-in-terminal-from-swift-438599b03a6ce8de42fe.js.map"
     ],
     "app": [
-      "app-fe91dcbb27c184f502e4.js",
-      "app-fe91dcbb27c184f502e4.js.map"
+      "app-8152c1b9f5b7f0ef77b9.js",
+      "app-8152c1b9f5b7f0ef77b9.js.map"
     ],
     "path---tags-elastic-search": [
       "path---tags-elastic-search-6c3a5e3c179019493122.js",
@@ -439,8 +451,8 @@
       "path---categories-mac-os-99b3ad38c0a97df19e67.js.map"
     ],
     "path---categories-performance": [
-      "path---categories-performance-346ee2ca04a4f1a3a13a.js",
-      "path---categories-performance-346ee2ca04a4f1a3a13a.js.map"
+      "path---categories-performance-fbd33f180f3c858c788c.js",
+      "path---categories-performance-fbd33f180f3c858c788c.js.map"
     ],
     "path---posts-visualizing-the-language-migration-of-a-codebase": [
       "path---posts-visualizing-the-language-migration-of-a-codebase-e8543bdeea0cb33ce3d4.js",

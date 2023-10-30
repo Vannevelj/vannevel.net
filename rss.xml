@@ -1,4 +1,291 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Sun, 21 May 2023 16:20:56 GMT</lastBuildDate><item><title><![CDATA[Plotting stacked bar charts in Rust]]></title><description><![CDATA[Using Plotters, a Rust-based data plotting library, to generate bar charts.]]></description><link>https://vannevel.net/posts/plotting-stacked-bar-charts-in-rust</link><guid isPermaLink="false">https://vannevel.net/posts/plotting-stacked-bar-charts-in-rust</guid><pubDate>Tue, 03 May 2022 23:00:00 GMT</pubDate><content:encoded>&lt;p&gt;A while ago I wrote a post on how I generated &lt;a href=&quot;https://vannevel.net/posts/visualizing-the-language-migration-of-a-codebase&quot;&gt;a visualization of the language migration in a codebase&lt;/a&gt;. As time passed I referred back to it on several occassions but it quickly started to frustrate me: the poor dependency management experience required a bunch of manual setup steps which I don’t want to do every time I setup a new laptop. On top of that, the dependencies themselves sometimes broke because something else on the system changed (see my note at the bottom) and I’ve always felt a bit uneasy that there’s a manual step involved to actually create the graph.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[Unearthing curious .NET behaviour]]></description><link>https://vannevel.net</link><generator>RSS for Node</generator><lastBuildDate>Mon, 30 Oct 2023 00:31:46 GMT</lastBuildDate><item><title><![CDATA[Exploring Object Layouts]]></title><description><![CDATA[Removing fields from an object should reduce that object's size. Why am I not seeing any difference?]]></description><link>https://vannevel.net/posts/exploring-object-layouts</link><guid isPermaLink="false">https://vannevel.net/posts/exploring-object-layouts</guid><pubDate>Mon, 30 Oct 2023 00:30:00 GMT</pubDate><content:encoded>&lt;h1&gt;Background&lt;/h1&gt;
+&lt;p&gt;The yearly &lt;a href=&quot;https://devblogs.microsoft.com/dotnet/performance-improvements-in-net-8&quot;&gt;“Performance improvements in .NET” blog post&lt;/a&gt; is always a treasure trove of low-level knowledge on performance. This latest edition had several examples of significant improvements as a result of allocating smaller objects, rather than allocating less frequently. Of course no allocations are even better but at the same time allocations are part of life so they are unavoidable to some degree.&lt;br&gt;
+Take &lt;a href=&quot;https://github.com/dotnet/runtime/pull/81251&quot;&gt;PR #81251&lt;/a&gt; for example: by replacing a couple of fields with a well-known value on an existing &lt;code class=&quot;language-text&quot;&gt;int&lt;/code&gt; field, we can reduce the overall size of each object. After a bit of browsing I spotted &lt;a href=&quot;https://github.com/dotnet/runtime/blob/b6b00ec9f606eca0c47e01b30e74ee0d37d561ab/src/libraries/System.Net.Ping/src/System/Net/NetworkInformation/Ping.cs#L21-L31&quot;&gt;a similar pattern&lt;/a&gt; in &lt;code class=&quot;language-text&quot;&gt;Ping&lt;/code&gt; where it seemed I would be able to apply the same idea: &lt;code class=&quot;language-text&quot;&gt;bool _canceled&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;bool _disposeRequested&lt;/code&gt; could just as easily be flags for the existing &lt;code class=&quot;language-text&quot;&gt;int _status&lt;/code&gt; field. The &lt;code class=&quot;language-text&quot;&gt;_status&lt;/code&gt; field only supports a few values right now so we can easily tack more on.&lt;/p&gt;
+&lt;p&gt;After a bit of playing around to figure out how to build the runtime locally and run a comparison benchmark, I ended up with this PR: &lt;a href=&quot;https://github.com/dotnet/runtime/pull/94151&quot;&gt;https://github.com/dotnet/runtime/pull/94151&lt;/a&gt;. Lo and behold, BenchmarkDotNet claims we allocated the same amount after my changes. How is that possible when it literally stores less data?&lt;/p&gt;
+&lt;h1&gt;Diagnosis&lt;/h1&gt;
+&lt;p&gt;At first I looked at the issue through &lt;a href=&quot;https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-tools&quot;&gt;WinDbg&lt;/a&gt;. To make things easy for ourselves we’ll create two class definitions with the fields of the &lt;code class=&quot;language-text&quot;&gt;Ping&lt;/code&gt; class with and without the two booleans:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-cs&quot;&gt;&lt;code class=&quot;language-cs&quot;&gt;using System.ComponentModel;
+using System.Net.NetworkInformation;
+using System.Diagnostics;
+
+var a = new Ping();
+var b = new Ping2();
+
+Debugger.Break();
+public partial class Ping : Component
+{
+    private readonly ManualResetEventSlim _lockObject = new ManualResetEventSlim(initialState: true); // doubles as the ability to wait on the current operation
+    private SendOrPostCallback? _onPingCompletedDelegate;
+    private bool _disposeRequested;
+    private byte[]? _defaultSendBuffer;
+    private CancellationTokenSource? _timeoutOrCancellationSource;
+    private bool _canceled;
+    private int _status = 0;
+    public event PingCompletedEventHandler? PingCompleted;
+}
+
+public partial class Ping2 : Component
+{
+    private readonly ManualResetEventSlim _lockObject = new ManualResetEventSlim(initialState: true); // doubles as the ability to wait on the current operation
+    private SendOrPostCallback? _onPingCompletedDelegate;
+    private byte[]? _defaultSendBuffer;
+    private CancellationTokenSource? _timeoutOrCancellationSource;
+    private int _status = 0;
+    public event PingCompletedEventHandler? PingCompleted;
+}&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;Compile this in release mode (&lt;code class=&quot;language-text&quot;&gt;dotnet build -c Release&lt;/code&gt;) and load the .exe in WinDbg, you’ll see something along these lines:&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-fb2e5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 960px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 54.392815306520895%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABm0lEQVQoz32S63LbIBCF9f6v1Z+dps0kzji+xEboZl1BSAghy6cLjh3H05qZb0AsnD27Ivix2CNODuA8AeMpFtsY+7hEXjQoK4nqHzS1hBDqStMo1LWLCQRP6wjLXUwfDUTbo5Y9ZDdAGws9WPTDSJxnt1fLDvxQUUJKmpcoaC7LCsaMUKpHoKREliYUKND3HY7HCdNkiQmn0wn3Q5HoMinAGCP22LMdsizxMXcnkK2iDC5b7pGUwBhDwkcveIsXJKfrtEQURQjDkGDIDqmPWWsROMtCCI9Syl+c5/nq6CJ0FaTS1tlZ8AxHkkRfgoyF2G63vgTn0Lm9CN6KXdYtOVwmuXfHCVd2ksZfgh8fO7y+vuBt8YbNZoPVauV7cSt0X/I79ZBz7nEOv5VcVbUvt+97aK19/x6NbpzwnhbenesfI9LbnyKkgp2OGOmg+WSgPunB+Nm456ONfxJaDyhFC5bXVGZGQgdPWVUY7YSu0whmO17a/8DXDDuQoJJom+r/Z2dy+HNX4zlW+BM95hdr8JvLu7PtFbf/FAr8BafiSDqW/C5cAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;WinDbg loaded&quot;
+        title=&quot;&quot;
+        src=&quot;/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-c83f1.png&quot;
+        srcset=&quot;/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-569e3.png 240w,
+/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-93400.png 480w,
+/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-c83f1.png 960w,
+/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-23e13.png 1440w,
+/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-10d8f.png 1920w,
+/static/windbg-load-90d85e6794c14cb07409b794b5c15b71-fb2e5.png 2561w&quot;
+        sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;Next, run the program so it hits the breakpoint we set via &lt;code class=&quot;language-text&quot;&gt;Debugger.Break()&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;g&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-fb2e5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 960px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 54.392815306520895%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAByklEQVQoz4WS6Y6bMBSFef+n6iL1Ryt1U5s0URLAxmAwmMVsYTu9diaNZqZVLR2BfK+/u3rvfgaIhATnCXgksTvHCEQOlVfIixrFX1TqGlVlHioNtLa2Ct53P8UlyiBThVgqSKVR1i26fkQ/TOiGK+n2HcYZOT3mKQVUVgWyLEemFMZxgjEdPJ3nFEFTBI2mrrFtK7Z1xb9ORYF2IkMUcaqKIQgDiJg52zzP8BiPcD6fwRijiIrS1lgWgm4gbc9kT9n2OMQKSZJACOGgiRTONk0TARnHfr/H4XCAf7k4+LIsrzJ7CYzjmLKMCBohTZMH0PcDXAhijVJKMqbUj9HJlmDhK7XABSFo0XTYU8k2O/smZAEY9x/AIAhddlYsDOH7Pk23QE39tLJONrv1qa/a3DK8AxkLX5QcMhyPR5xOJ+d076XWBfWzQNd1f2BuKN2AX3HmYJxzN5xExo+hxEkKXVaoagPTdrQuA63HFb1bm5vsnaHeDfSvygYs0zQUSaCU1i2lnc1xnWa05ONtRP3v2Rb0pkFVKOR2APPVXr72W6jkT36Br5EhNU/f5/omDL7wGh+OEm93Ed78YHi/F/ho34n7u4b8WnwOS/wGosBCfIEQMccAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Breakpoint is hit and stacktrace is visible&quot;
+        title=&quot;&quot;
+        src=&quot;/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-c83f1.png&quot;
+        srcset=&quot;/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-569e3.png 240w,
+/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-93400.png 480w,
+/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-c83f1.png 960w,
+/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-23e13.png 1440w,
+/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-10d8f.png 1920w,
+/static/windbg-breakpoint-443f60871aad5056ca7ce68b8a0299d0-fb2e5.png 2561w&quot;
+        sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;At this point we can look for our previously-created &lt;code class=&quot;language-text&quot;&gt;Ping&lt;/code&gt; objects with something like this:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;dumpheap -stat -type Ping&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/windbg-dumpheap-f6340caba0e8adbcd9ad16c9ffb61756-7f9db.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block; ; max-width: 342px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 35.96491228070175%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABkklEQVQozzVRa2/aQBDk//+bVkpVpcmHhFDUBNsUHBswftuxjevnYRsIaDpnKR9Od7s7Nzs7OynLBm9vr5jNZrB2Fuz9HouFAlVVoWkaHNfFnrksO6BtW6RpgrIskSQJDoccH3GElLXT+YyuO2JSlDX+Lpd4fp5itdJ5VlgoGizLwt62kec5fM9DEIQoigKmacJl7HsuDMNE0wr0fY+6rlGw0aRpjohCH3Ec8Mjbg21v4fs+PH6U6qIoGpVvNhu4VHzIMtZ8hGEA13GwXq8REiNJSdhxLEFgQ1UtHEdw5BBr3cN2a0JRlJFY13XGuzFWVQVLTcV8PifeZW4xWtM0JKyqDk9PPR5+Dfj+rcOPnx3u7i7YWQOunwO9SlE3DYaB8fXK0YOR9F1fYTp9QZJmOJ0GtMRIb0kouBALj48bzH+HeJm5uL838efV4Ej+OLL0dceFvRsGVW5HCz7ieHzLhpJI+jsSCtFDiApVlbOTwPFY41+REpAzV7MmUBIsP2T0ruUSpNLL5RO32433BWdu+Ov8B73y/gOhfkVhAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Two results for classes Ping and Ping2&quot;
+        title=&quot;&quot;
+        src=&quot;/static/windbg-dumpheap-f6340caba0e8adbcd9ad16c9ffb61756-7f9db.png&quot;
+        srcset=&quot;/static/windbg-dumpheap-f6340caba0e8adbcd9ad16c9ffb61756-d14e5.png 240w,
+/static/windbg-dumpheap-f6340caba0e8adbcd9ad16c9ffb61756-7f9db.png 342w&quot;
+        sizes=&quot;(max-width: 342px) 100vw, 342px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;Immediately we can see that both &lt;code class=&quot;language-text&quot;&gt;Ping&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;Ping2&lt;/code&gt; have one instance each. Crucially, both show up as having a total size of 80 bytes. This aligns with our BenchmarkDotNet findings that no allocation reduction was realised.&lt;/p&gt;
+&lt;p&gt;To investigate deeper we can click on the link for the &lt;code class=&quot;language-text&quot;&gt;7ffcb254c7b8&lt;/code&gt; Method Table which will execute &lt;code class=&quot;language-text&quot;&gt;!dumpheap -mt 7ffcb254c7b8&lt;/code&gt;. This then tell us that the memory address for that object is located at &lt;code class=&quot;language-text&quot;&gt;01c0e5cc6ed0&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;Clicking that link then executes &lt;code class=&quot;language-text&quot;&gt;!dumpobj /d 1c0e5cc6ed0&lt;/code&gt; which gives us this nice overview of the object:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-log&quot;&gt;&lt;code class=&quot;language-log&quot;&gt;0:000&amp;gt; !dumpobj /d 1c0e5cc6ed0
+Name:        Ping2
+MethodTable: 00007ffcb254c7b8
+EEClass:     00007ffcb2561b28
+Tracked Type: false
+Size:        80(0x50) bytes
+File:        C:\Users\jer_v\source\repos\pingsize\pingsize\bin\Release\net8.0\pingsize.dll
+Fields:
+              MT    Field   Offset                 Type VT     Attr            Value Name
+0000000000000000  4000019        8 ...ponentModel.ISite  0 instance 0000000000000000 _site
+0000000000000000  400001a       10 ....EventHandlerList  0 instance 0000000000000000 _events
+00007ffcb2265fa0  4000018       98        System.Object  0   static 0000000000000000 s_eventDisposed
+00007ffcb254d520  4000009       18 ...ualResetEventSlim  0 instance 000001c0e5cc6f20 _lockObject
+00007ffcb22a92d0  400000a       20          System.Void  0 instance 0000000000000000 _onPingCompletedDelegate
+00007ffcb2431f88  400000b       28        System.Byte[]  0 instance 0000000000000000 _defaultSendBuffer
+00007ffcb22a92d0  400000c       30          System.Void  0 instance 0000000000000000 _timeoutOrCancellationSource
+00007ffcb22c2158  400000d       40          System.Byte  1 instance                0 _status
+00007ffcb22a92d0  400000e       38          System.Void  0 instance 0000000000000000 PingCompleted&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;Excellent! Now we see the exact layout of our fields in the object. Worth noting here that the object is 80 bytes — in decimal. In hexadecimal, that corresponds to 0x50. This is particularly relevant because the &lt;code class=&quot;language-text&quot;&gt;Offset&lt;/code&gt; column specifies its values in hexadecimal as well.&lt;/p&gt;
+&lt;p&gt;Note that the CLR chooses the most optimal layout for us. We can override this behaviour in structs so beware when using &lt;code class=&quot;language-text&quot;&gt;LayoutKind.Sequential&lt;/code&gt;!&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Object Layout&lt;/strong&gt;  &lt;/p&gt;
+&lt;p&gt;At this point we’ll take a step back and revise some CLR fundamentals: what does an object look like? For simplicity we’ll focus on 64-bit systems here. That means we can assume references are 8 bytes and objects (as a whole) are padded to an 8-byte boundary. Furthermore, every object contains two references by default: the Object Header and a reference to the Method Table. Both are 8 bytes so we know that the resulting object will be at least 16 bytes in size before we’ve even started counting our fields.&lt;/p&gt;
+&lt;p&gt;Interestingly, the Method Header is actually defined with a negative offset (i.e. &lt;code class=&quot;language-text&quot;&gt;-8 bytes&lt;/code&gt;). So our actual object at offset &lt;code class=&quot;language-text&quot;&gt;0&lt;/code&gt; is the Method Table reference.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;With this knowledge in mind we can now use the offsets in the above output to show how the object is laid out. To simplify our life, we write a small console script to help with translating hexadecimal to decimal:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-csharp&quot;&gt;&lt;code class=&quot;language-csharp&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; i &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; i &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; i&lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;WriteLine&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;$&lt;span class=&quot;token string&quot;&gt;&quot;{i}: {i:x}&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+Console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;This outputs:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-log&quot;&gt;&lt;code class=&quot;language-log&quot;&gt;0: 0
+8: 8
+16: 10
+24: 18
+32: 20
+40: 28
+48: 30
+56: 38
+64: 40
+72: 48
+80: 50
+88: 58
+96: 60&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;Armed with this information we can deduce the following object layout:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-log&quot;&gt;&lt;code class=&quot;language-log&quot;&gt;Field                        Offset (hex)  Offset (dec)    Size (bytes)
+&amp;lt;Object Header&amp;gt;             -0x08         -8               8
+&amp;lt;Method Table Pointer&amp;gt;       0x00          0               8
+_site                        0x08          8               8
+_events                      0x10          16              8
+_lockObject                  0x18          24              8
+_onPingCompletedDelegate     0x20          32              8
+_defaultSendBuffer           0x28          40              8
+_timeoutOrCancellationSource 0x30          48              8
+PingCompleted                0x38          56              8
+_status                      0x40          64              4
+_disposeRequested            0x44          68              1
+_canceled                    0x45          69              1&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Object sizes&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;References are 8 bytes, but &lt;code class=&quot;language-text&quot;&gt;int&lt;/code&gt; is a 32-bit integer (i.e. 4 bytes) while booleans are defined as a single byte.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This gives us a total range of &lt;code class=&quot;language-text&quot;&gt;-0x08&lt;/code&gt; to &lt;code class=&quot;language-text&quot;&gt;0x46&lt;/code&gt;, which equates to &lt;code class=&quot;language-text&quot;&gt;0x4e&lt;/code&gt; or 78 bytes. What gives? &lt;/p&gt;
+&lt;p&gt;Remember the &lt;em&gt;Object Layout&lt;/em&gt; section from above:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;(..) are padded to an 8-byte boundary&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;78 is not a multiple of 8 so we need to add padding for that. Specifically, we need to add two bytes worth of padding (rounding up to the nearest multiple) so our object actually becomes&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-log&quot;&gt;&lt;code class=&quot;language-log&quot;&gt;Field                        Offset (hex)  Offset (dec)    Size (bytes)
+&amp;lt;Object Header&amp;gt;             -0x08         -8               8
+&amp;lt;Method Table Pointer&amp;gt;       0x00          0               8
+_site                        0x08          8               8
+_events                      0x10          16              8
+_lockObject                  0x18          24              8
+_onPingCompletedDelegate     0x20          32              8
+_defaultSendBuffer           0x28          40              8
+_timeoutOrCancellationSource 0x30          48              8
+PingCompleted                0x38          56              8
+_status                      0x40          64              4
+_disposeRequested            0x44          68              1
+_canceled                    0x45          69              1
+&amp;lt;Padding&amp;gt;                    0x46          70              2&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;This now gives us a valid object of 80 bytes. It also immediately makes it clear why our optimisation didn’t work: if you remove &lt;code class=&quot;language-text&quot;&gt;_disposeRequested&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;_canceled&lt;/code&gt; from the object definition then we end up with 76 bytes which is also not a multiple of 8. As a result, the CLR will introduce four bytes of padding and end up with an 80-byte object once again.&lt;/p&gt;
+&lt;h1&gt;Simplified Diagnosis&lt;/h1&gt;
+&lt;p&gt;Spelunking through WinDbg is certainly not trivial! Fortunately, there are projects out there that will help us a long way here. Using the &lt;a href=&quot;https://github.com/SergeyTeplyakov/ObjectLayoutInspector&quot;&gt;ObjectLayoutInspector&lt;/a&gt; we can inspect the object size at runtime and print out a helpful overview. Add a reference to its NuGet package (&lt;code class=&quot;language-text&quot;&gt;&amp;lt;PackageReference Include=&amp;quot;ObjectLayoutInspector&amp;quot; Version=&amp;quot;0.1.4&amp;quot; /&amp;gt;&lt;/code&gt;) and add the following to our application:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-csharp&quot;&gt;&lt;code class=&quot;language-csharp&quot;&gt;ObjectLayoutInspector&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;TypeLayout&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token generic-method&quot;&gt;&lt;span class=&quot;token function&quot;&gt;PrintLayout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Ping2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;Run the console application and we can see the following output:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot;&gt;
+      &lt;pre class=&quot;language-log&quot;&gt;&lt;code class=&quot;language-log&quot;&gt;Type layout for &amp;#39;Ping&amp;#39;
+Size: 64 bytes. Paddings: 2 bytes (%3 of empty space)
+|=======================================================================|
+| Object Header (8 bytes)                                               |
+|-----------------------------------------------------------------------|
+| Method Table Ptr (8 bytes)                                            |
+|=======================================================================|
+|   0-7: ISite _site (8 bytes)                                          |
+|-----------------------------------------------------------------------|
+|  8-15: EventHandlerList _events (8 bytes)                             |
+|-----------------------------------------------------------------------|
+| 16-23: ManualResetEventSlim _lockObject (8 bytes)                     |
+|-----------------------------------------------------------------------|
+| 24-31: SendOrPostCallback _onPingCompletedDelegate (8 bytes)          |
+|-----------------------------------------------------------------------|
+| 32-39: Byte[] _defaultSendBuffer (8 bytes)                            |
+|-----------------------------------------------------------------------|
+| 40-47: CancellationTokenSource _timeoutOrCancellationSource (8 bytes) |
+|-----------------------------------------------------------------------|
+| 48-55: PingCompletedEventHandler PingCompleted (8 bytes)              |
+|-----------------------------------------------------------------------|
+| 56-59: Int32 _status (4 bytes)                                        |
+|-----------------------------------------------------------------------|
+|    60: Boolean _disposeRequested (1 byte)                             |
+|-----------------------------------------------------------------------|
+|    61: Boolean _canceled (1 byte)                                     |
+|-----------------------------------------------------------------------|
+| 62-63: padding (2 bytes)                                              |
+|=======================================================================|&lt;/code&gt;&lt;/pre&gt;
+      &lt;/div&gt;
+&lt;p&gt;This confirms out WinDbg findings: padding is applied to the end of the object and we’re seeing 16 bytes of overhead.&lt;/p&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;In this case, padding is inevitable. Even if we were to replace the &lt;code class=&quot;language-text&quot;&gt;int _status&lt;/code&gt; with a &lt;code class=&quot;language-text&quot;&gt;byte _status&lt;/code&gt;, we’d still use a single &lt;code class=&quot;language-text&quot;&gt;byte&lt;/code&gt; on top of the previous boundary and thus incur seven bytes of padding. As a result, moving these fields into the status enum will gain no benefit from an object size perspective. &lt;/p&gt;
+&lt;p&gt;This type of optimization shows most promise when used in a type that has multiple fields smaller than the pointer size — we only see effects if we’re able to go down to a lower multiple of our byte boundary. Of course, removing a reference field entirely will always yield results!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Plotting stacked bar charts in Rust]]></title><description><![CDATA[Using Plotters, a Rust-based data plotting library, to generate bar charts.]]></description><link>https://vannevel.net/posts/plotting-stacked-bar-charts-in-rust</link><guid isPermaLink="false">https://vannevel.net/posts/plotting-stacked-bar-charts-in-rust</guid><pubDate>Tue, 03 May 2022 23:00:00 GMT</pubDate><content:encoded>&lt;p&gt;A while ago I wrote a post on how I generated &lt;a href=&quot;https://vannevel.net/posts/visualizing-the-language-migration-of-a-codebase&quot;&gt;a visualization of the language migration in a codebase&lt;/a&gt;. As time passed I referred back to it on several occassions but it quickly started to frustrate me: the poor dependency management experience required a bunch of manual setup steps which I don’t want to do every time I setup a new laptop. On top of that, the dependencies themselves sometimes broke because something else on the system changed (see my note at the bottom) and I’ve always felt a bit uneasy that there’s a manual step involved to actually create the graph.&lt;/p&gt;
 &lt;p&gt;As I am diving into Rust, this felt like a great opportunity to get rid of some dependencies and get it all contained in a single binary. This brings me to &lt;a href=&quot;https://github.com/Vannevelj/lingo-rs&quot;&gt;lingo-rs&lt;/a&gt;: a self-contained Rust application available on Windows, Mac &amp;#x26; Linux which will generate a graph of a repo’s language distribution over time.&lt;/p&gt;
 &lt;p&gt;It consists of three main aspects:&lt;/p&gt;
 &lt;ul&gt;
