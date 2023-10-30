@@ -23,7 +23,7 @@ After a bit of playing around to figure out how to build the runtime locally and
 
 At first I looked at the issue through [WinDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-tools). To make things easy for ourselves we'll create two class definitions with the fields of the `Ping` class with and without the two booleans:
 
-```cs
+```csharp
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 using System.Diagnostics;
