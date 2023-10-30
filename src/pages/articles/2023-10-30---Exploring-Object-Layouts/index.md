@@ -194,7 +194,7 @@ This now gives us a valid object of 80 bytes. It also immediately makes it clear
 Spelunking through WinDbg is certainly not trivial! Fortunately, there are projects out there that will help us a long way here. Using the [ObjectLayoutInspector](https://github.com/SergeyTeplyakov/ObjectLayoutInspector) we can inspect the object size at runtime and print out a helpful overview. Add a reference to its NuGet package (`<PackageReference Include="ObjectLayoutInspector" Version="0.1.4" />`) and add the following to our application:
 
 ```csharp
-ObjectLayoutInspector.TypeLayout.PrintLayout<Ping2>();
+ObjectLayoutInspector.TypeLayout.PrintLayout<Ping>();
 ```
 
 Run the console application and we can see the following output:
