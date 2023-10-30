@@ -112,7 +112,7 @@ Note that the CLR chooses the most optimal layout for us. We can override this b
 > 
 > At this point we'll take a step back and revise some CLR fundamentals: what does an object look like? For simplicity we'll focus on 64-bit systems here. That means we can assume references are 8 bytes and objects (as a whole) are padded to an 8-byte boundary. Furthermore, every object contains two references by default: the Object Header and a reference to the Method Table. Both are 8 bytes so we know that the resulting object will be at least 16 bytes in size before we've even started counting our fields.
 > 
-> Interestingly, the Method Header is actually defined with a negative offset (i.e. `-8 bytes`). So our actual object at offset `0` is the Method Table reference.
+> Interestingly, the Object Header is actually defined with a negative offset (i.e. `-8 bytes`). So our actual object at offset `0` is the Method Table reference.
 
 With this knowledge in mind we can now use the offsets in the above output to show how the object is laid out. To simplify our life, we write a small console script to help with translating hexadecimal to decimal:
 
