@@ -50,9 +50,6 @@
 <url> <loc>https://vannevel.net/tags/dot/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/diagrams/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/categories/architecture/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://vannevel.net/posts/unit-testing-redux-persist-migrations-with-typescript</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://vannevel.net/tags/typescript/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://vannevel.net/tags/react/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/posts/executing-commands-in-terminal-from-swift</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/swift/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/apple-script/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -60,7 +57,10 @@
 <url> <loc>https://vannevel.net/categories/mac-os/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/posts/translating-react-native-apps</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/react-native/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/tags/typescript/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/categories/react-native/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/posts/unit-testing-redux-persist-migrations-with-typescript</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/tags/react/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/posts/visualizing-the-language-migration-of-a-codebase</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/javascript/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/bash/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -77,11 +77,11 @@
 <url> <loc>https://vannevel.net/categories/dev-tools/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/projects/vsdiagnostics/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/posts/properly-testing-entity-framework-with-effort/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://vannevel.net/posts/unit-testing-web-api-routes-and-parameter-validation/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://vannevel.net/tags/routing/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/posts/unit-testing-your-owin-configured-oauth2-implementation/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/dependency-injection/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/authentication/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/posts/unit-testing-web-api-routes-and-parameter-validation/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://vannevel.net/tags/routing/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/posts/getting-started-with-your-first-diagnostic/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/posts/here-be-dragons-string-concatenation/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://vannevel.net/tags/performance/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
