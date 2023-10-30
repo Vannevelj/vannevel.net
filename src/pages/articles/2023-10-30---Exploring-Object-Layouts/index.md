@@ -160,7 +160,7 @@ _canceled                    0x45          69              1
 
 > **Object sizes**
 >
-> References are 8 bytes, but `int` is a 32-bit integer (i.e. 4 bytes) while booleans are defined as a single byte.
+> References are 8 bytes, but `int` is a 32-bit integer (i.e. four bytes) while booleans are defined as a single byte.
 
 This gives us a total range of `-0x08` to `0x46`, which equates to `0x4e` or 78 bytes. What gives? 
 
@@ -231,7 +231,7 @@ Size: 64 bytes. Paddings: 2 bytes (%3 of empty space)
 |=======================================================================|
 ```
 
-This confirms out WinDbg findings: padding is applied to the end of the object and we're seeing 16 bytes of overhead.
+This confirms our WinDbg findings: padding is applied to the end of the object and we're seeing 16 bytes of overhead.
 
 # Conclusion
 
