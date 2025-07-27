@@ -6,7 +6,7 @@ import './style.scss';
 
 class ProjectTemplateDetails extends React.Component {
   render() {
-    const { subtitle, author, disqusShortname, url } = this.props.siteMetadata;
+    const { subtitle, author, url } = this.props.siteMetadata;
     const project = this.props.project;
     const tagSlugs = project.fields.tagSlugs;
 
@@ -27,12 +27,6 @@ class ProjectTemplateDetails extends React.Component {
             </li>
           ))}
         </ul>
-      </div>
-    );
-
-    const commentsBlock = (
-      <div>
-        <Disqus projectNode={project} shortName={disqusShortname} url={url} />
       </div>
     );
 
@@ -67,7 +61,6 @@ class ProjectTemplateDetails extends React.Component {
                 <br /> <strong>{author.name}</strong> on Twitter
               </a>
             </p>
-            {disqusShortname && commentsBlock}
           </div>
         </div>
       </div>

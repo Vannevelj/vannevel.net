@@ -5,7 +5,6 @@ module.exports = {
     title: 'To kill a mocking bug',
     subtitle: 'Unearthing curious .NET behaviour',
     copyright: '© All rights reserved.',
-    disqusShortname: '',
     menu: [
       {
         label: 'Articles',

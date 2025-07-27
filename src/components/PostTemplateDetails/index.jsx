@@ -6,7 +6,7 @@ import './style.scss';
 
 class PostTemplateDetails extends React.Component {
   render() {
-    const { subtitle, author, disqusShortname, url } = this.props.siteMetadata;
+    const { subtitle, author, url } = this.props.siteMetadata;
     const post = this.props.post;
     const tags = post.fields.tagSlugs;
 
@@ -27,12 +27,6 @@ class PostTemplateDetails extends React.Component {
             </li>
           ))}
         </ul>
-      </div>
-    );
-
-    const commentsBlock = (
-      <div>
-        <Disqus postNode={post} shortName={disqusShortname} url={url} />
       </div>
     );
 
@@ -57,7 +51,6 @@ class PostTemplateDetails extends React.Component {
                 <br /> <strong>{author.name}</strong> on Twitter
               </a>
             </p>
-            {disqusShortname && commentsBlock}
           </div>
         </div>
       </div>
