@@ -12,7 +12,6 @@ class Sidebar extends React.Component {
     const { author, subtitle, copyright, menu } = this.props.siteMetadata;
     const isHomePage = get(location, 'pathname', '/') === '/';
 
-    /* eslint-disable jsx-a11y/img-redundant-alt */
     const authorBlock = (
       <div>
         <Link to="/">
@@ -36,7 +35,6 @@ class Sidebar extends React.Component {
         <p className="sidebar__author-subtitle">{subtitle}</p>
       </div>
     );
-    /* eslint-enable jsx-a11y/img-redundant-alt */
 
     return (
       <div className="sidebar">
