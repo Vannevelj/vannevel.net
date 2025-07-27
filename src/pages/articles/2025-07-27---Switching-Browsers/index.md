@@ -63,7 +63,7 @@ Save this as `setup.reg` and execute the file to load these values into the Regi
 
 Excellent, Windows recognises our application! Of course right now it's pointing to a path that doesn't exist yet so we'll create a new rust project and print the first argument it receives. Windows uses the `\shell\open\command` paths to execute an application and pass it a single argument: the URL to be opened.
 
-```rs
+```rust
 fn main() {
     let args: Vec<String> = std::env::args().collect();
 
@@ -93,7 +93,7 @@ Now that this is hooked up the rest is straightforward because we know we can sp
 
 This is all nice and solves a frustration but I realised I could solve another one of my problems here. For years now I have the [Bing Wallpaper](https://www.bing.com/apps/wallpaper) application running to automatically receive a new desktop background each day. A few weeks ago an update came out which meant that once a day when I click on my background, it would open a Bing search for that wallpaper. I looked through all settings and couldn't find anything to turn this behaviour off. Now, I definitely don't use Bing search so with this Browser Switcher solution in place I have an easy entry point to hook into this behaviour and avoid it altogether:
 
-```rs
+```rust
 if input.starts_with("https://www.bing.com/search") {
   std::process::exit(0);
 }
