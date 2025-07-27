@@ -3,6 +3,7 @@ import Link from 'gatsby-link';
 import Helmet from 'react-helmet';
 import kebabCase from 'lodash/kebabCase';
 import Sidebar from '../components/Sidebar';
+import { graphql } from 'gatsby';
 
 class TagsRoute extends React.Component {
   render() {

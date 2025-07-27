@@ -2,6 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import Sidebar from '../components/Sidebar';
 import Project from '../components/Project';
+import { graphql } from 'gatsby';
 
 class ProjectsRoute extends React.Component {
   render() {

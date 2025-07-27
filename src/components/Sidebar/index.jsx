@@ -5,6 +5,7 @@ import Menu from '../Menu';
 import Links from '../Links';
 import profilePic from '../../pages/photo.jpg';
 import './style.scss';
+import { graphql } from 'gatsby';
 
 class Sidebar extends React.Component {
   render() {
@@ -58,7 +59,7 @@ class Sidebar extends React.Component {
 export default Sidebar;
 
 export const conponentQuery = graphql`
-  fragment sidebarFragment on siteMetadata_2{
+  fragment sidebarFragment on SiteSiteMetadata{
     title
     subtitle
     copyright

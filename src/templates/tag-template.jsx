@@ -2,6 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import Sidebar from '../components/Sidebar';
 import TagTemplateDetails from '../components/TagTemplateDetails';
+import { graphql } from 'gatsby';
 
 class TagTemplate extends React.Component {
   render() {

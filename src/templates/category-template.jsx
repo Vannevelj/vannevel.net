@@ -2,6 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import Sidebar from '../components/Sidebar';
 import CategoryTemplateDetails from '../components/CategoryTemplateDetails';
+import { graphql } from 'gatsby';
 
 class CategoryTemplate extends React.Component {
   render() {

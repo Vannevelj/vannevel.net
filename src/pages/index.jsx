@@ -2,6 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import Post from '../components/Post';
 import Sidebar from '../components/Sidebar';
+import { graphql } from 'gatsby';
 
 class IndexRoute extends React.Component {
   render() {

@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import ProjectTemplateDetails from '../components/ProjectTemplateDetails';
+import { graphql } from 'gatsby';
 
 class ProjectTemplate extends React.Component {
   render() {

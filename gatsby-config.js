@@ -81,7 +81,8 @@ module.exports = {
                 }
               }
             `,
-            output: '/rss.xml'
+            output: '/rss.xml',
+            title: 'To kill a mocking bug - RSS Feed',
           }
         ]
       }
@@ -144,6 +145,7 @@ module.exports = {
     'gatsby-plugin-robots-txt',
     'gatsby-plugin-offline',
     'gatsby-plugin-catch-links',
-    'gatsby-plugin-react-helmet'
+    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-sass'
   ]
 };

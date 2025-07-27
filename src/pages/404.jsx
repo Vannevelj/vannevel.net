@@ -1,5 +1,6 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
+import { graphql } from 'gatsby';
 
 class NotFoundRoute extends React.Component {
   render() {
