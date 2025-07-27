@@ -46,7 +46,7 @@ jobs:
         run: bun run release
 
       - name: Deploy changes
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: public
