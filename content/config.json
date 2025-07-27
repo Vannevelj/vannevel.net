@@ -1,0 +1,29 @@
+{
+  "title": "To kill a mocking bug",
+  "url": "https://vannevel.net",
+  "description": "Unearthing curious .NET behaviour",
+  "copyright": "© All rights reserved.",
+  "pathPrefix": "/",
+  "feedLimit": 18,
+  "menu": [
+    {
+      "title": "Articles",
+      "url": "/"
+    }
+  ],
+  "author": {
+    "title": "Jeroen Vannevel",
+    "photo": "/photo.png",
+    "description": "Staff Software Engineer at Hudl",
+    "contacts": [
+      {
+        "name": "github",
+        "contact": "vannevelj"
+      },
+      {
+        "name": "linkedin",
+        "contact": "vannevelj"
+      }
+    ]
+  }
+}
