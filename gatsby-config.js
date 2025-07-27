@@ -109,12 +109,6 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
-      resolve: `gatsby-plugin-google-fonts`,
-      options: {
-        fonts: [`roboto\:400,400i,500,700`]
-      }
-    },
-    {
       resolve: 'gatsby-plugin-sitemap',
       options: {
         query: `
@@ -150,7 +144,6 @@ module.exports = {
     'gatsby-plugin-robots-txt',
     'gatsby-plugin-offline',
     'gatsby-plugin-catch-links',
-    'gatsby-plugin-react-helmet',
-    'gatsby-plugin-postcss-sass'
+    'gatsby-plugin-react-helmet'
   ]
 };
