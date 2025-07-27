@@ -1,11 +1,10 @@
 import React from 'react';
 import get from 'lodash/get';
-import Link from 'gatsby-link';
 import Menu from '../Menu';
 import Links from '../Links';
 import profilePic from '../../pages/photo.jpg';
 import './style.scss';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 
 class Sidebar extends React.Component {
   render() {
