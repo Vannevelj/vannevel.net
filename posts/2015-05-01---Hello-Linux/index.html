@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 5.14.1"/><meta name="theme-color" content="hsl(31, 92%, 62%)"/><meta name="description" content="Like many other .NET developers I have been following the Build conference that’s going on right now. One of its biggest announcements (so far) was the release of Visual Studio Code and the accompanying CoreCLR for Linux and Mac. It sounds nice and all but I wanted to try this out myself. I have decided to get a Console Application working in Ubuntu 14.04 since we’ve all seen by now how to deploy an ASP.NET web application." data-gatsby-head="true"/><meta name="twitter:card" content="summary_large_image" data-gatsby-head="true"/><meta name="twitter:title" content="Hello Linux! - To kill a mocking bug" data-gatsby-head="true"/><meta name="twitter:description" content="Like many other .NET developers I have been following the Build conference that’s going on right now. One of its biggest announcements (so far) was the release of Visual Studio Code and the accompanying CoreCLR for Linux and Mac. It sounds nice and all but I wanted to try this out myself. I have decided to get a Console Application working in Ubuntu 14.04 since we’ve all seen by now how to deploy an ASP.NET web application." data-gatsby-head="true"/><meta name="og:title" content="Hello Linux! - To kill a mocking bug" data-gatsby-head="true"/><meta name="og:type" content="website" data-gatsby-head="true"/><meta name="og:description" content="Like many other .NET developers I have been following the Build conference that’s going on right now. One of its biggest announcements (so far) was the release of Visual Studio Code and the accompanying CoreCLR for Linux and Mac. It sounds nice and all but I wanted to try this out myself. I have decided to get a Console Application working in Ubuntu 14.04 since we’ve all seen by now how to deploy an ASP.NET web application." data-gatsby-head="true"/><style data-href="/styles.aabeecdf386b227d2154.css" data-identity="gatsby-global-css">html{font-size:100}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background:hsl(var(--color-background));color:hsl(var(--color-foreground));font-size:16px;line-height:1.625;margin:0 0 0 calc(100vw - 100%);text-rendering:optimizelegibility}body,h1,h2,h3,h4,h5,h6{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif}h1,h2,h3,h4,h5,h6{font-weight:600}h1{font-size:40px;line-height:52px;margin-bottom:26px;margin-top:104px}h2{font-size:27px;line-height:39px}h2,h3{margin-bottom:13px;margin-top:52px}h3{font-size:22px;line-height:26px}h4{font-size:19.2px;margin-top:39px}h4,h5{line-height:26px;margin-bottom:13px}h5,h6{font-size:16px;margin-top:65px}h6{line-height:26px;margin-bottom:13px}img{max-width:100%}hr,img{border:0;display:block}hr{background-image:linear-gradient(to bottom,transparent 1px,transparent 11px,hsl(var(--color-foreground)) 11px,hsl(var(--color-foreground)) 15px,transparent 15px,transparent 26px);background-size:100% 26px;height:26px;margin:52px auto;width:100px}a,hr{color:hsl(var(--color-foreground))}a{text-decoration:none}a:active,a:focus,a:hover{color:hsl(var(--color-primary))}b,strong{font-weight:600}ul{list-style:square;margin-bottom:26px}ul li{margin-bottom:10px;padding:0 5px}p{line-height:26px;margin-bottom:26px}blockquote{font-style:italic;padding:0;text-align:center}figure{display:block;height:auto;width:100%}figcaption{color:hsl(var(--color-foreground));font-size:14px;font-style:italic;line-height:19.5px;margin-bottom:0;margin-top:6.5px;text-align:center}@media screen and (min-width:685px){figure.float-left,figure.float-right{max-width:310px;padding:0 26px}.float-right{float:right}.float-left{float:left}}code[class*=language-],pre[class*=language-]{word-wrap:normal;color:#657b83;font-family:ui-monospace,Cascadia Code,Source Code Pro,Menlo,Consolas,DejaVu Sans Mono,monospace;font-size:16px;-webkit-hyphens:none;hyphens:none;line-height:1.5;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{border-radius:.3em;margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background-color:hsl(var(--color-muted))}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#073642}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#93a1a1}.token.punctuation{color:#586e75}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#268bd2}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string,.token.url{color:#2aa198}.token.entity{background:#eee8d5;color:#657b83;cursor:help}.token.atrule,.token.attr-value,.token.keyword{color:#859900}.token.class-name,.token.function{color:#b58900}.token.important,.token.regex,.token.variable{color:#cb4b16}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}:root{--color-background:0 0% 100%;--color-foreground:240 7% 11%;--color-muted:240 6% 96%;--color-muted-foreground:240 6% 46.1%;--color-border:240 2% 89%;--color-primary:342 100% 47%;--color-primary-foreground:240 4% 98%;--color-secondary:240 6% 96%;--color-secondary-foreground:240 2% 17%;--color-accent:240 6% 96%;--color-accent-foreground:240 2% 17%;--color-destructive:342 100% 47%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:light}.dark{--color-background:240 7% 11%;--color-foreground:240 4% 98%;--color-muted:240 4% 17%;--color-muted-foreground:240 4% 66%;--color-border:240 4% 17%;--color-primary:342 100% 74%;--color-primary-foreground:240 4% 98%;--color-secondary:240 4% 17%;--color-secondary-foreground:240 4% 98%;--color-accent:240 4% 17%;--color-accent-foreground:240 4% 98%;--color-destructive:342 100% 74%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:dark}.feed-module--feed--be542 .feed-module--item--093ea{margin-bottom:32.5px}.feed-module--feed--be542 .feed-module--item--093ea:last-child{margin-bottom:13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13{font-size:27px;line-height:39px;margin-bottom:13px;margin-top:0}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef{color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:hover{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--description--25c4d{color:hsl(var(--color-muted-foreground));font-size:16px;line-height:26px;margin-bottom:19.5px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--time--1da0e{color:hsl(var(--color-foreground));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--divider--dc8bf{margin:0 13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--category--588f4 .feed-module--link--797ef{color:hsl(var(--color-primary));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839{color:hsl(var(--color-foreground));font-size:16px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.page-module--page--aeaf7{grid-column:span 12;margin-bottom:52px}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:26px 19.5px 0}.page-module--page--aeaf7 .page-module--title--3f843{font-size:40px;font-weight:600;line-height:52px;margin-bottom:37.7px;margin-top:0}.page-module--page--aeaf7 .page-module--body--91ea2{font-size:16px;line-height:26px;margin:0 0 26px}@media screen and (min-width:685px){.page-module--page--aeaf7{grid-column:span 7}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:32.5px 19.5px 0}}@media screen and (min-width:1100px){.page-module--page--aeaf7{grid-column:span 8}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:39px 26px 0}}.button-module--button--5ffa9{border:1px solid hsl(var(--color-border));border-radius:20px;color:hsl(var(--color-foreground));display:inline-block;font-size:16px;font-weight:400;height:40px;line-height:40px;margin-left:auto;margin-right:auto;padding:0 26px;text-align:center;text-decoration:none}.button-module--button--5ffa9:focus,.button-module--button--5ffa9:hover{background:hsl(var(--color-accent));color:hsl(var(--color-accent-foreground))}.post-tags-module--post-tags--6c235{list-style:none;margin-bottom:13px;padding:0}.post-tags-module--post-tags--6c235 .post-tags-module--item--53595{display:inline-block;margin:6.5px 0}@media screen and (min-width:685px){.post-tags-module--post-tags--6c235 .post-tags-module--item--53595:first-child{margin-left:0;padding-left:0}}.post-author-module--post-author--2247e{border-top:1px solid hsl(var(--color-border));line-height:26px;margin-bottom:52px;margin-top:26px;max-width:100%;padding-top:26px}.post-author-module--post-author--2247e .post-author-module--description--78aeb .post-author-module--x--f2941{display:block;text-decoration:underline}@media screen and (min-width:685px){.post-author-module--post-author--2247e{margin-left:auto;margin-right:auto}}.post-footer-module--post-footer--9c13c .post-footer-module--date--abfe9{font-style:italic}.post-content-module--postContent--5129c{margin:0 auto;max-width:100%;padding:0 13px}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:32px;font-weight:600;line-height:42.9px;margin:26px auto 0;max-width:100%;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure{margin-bottom:26px}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote{font-style:italic;margin-top:0;padding:26px 0;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote p{font-size:26.9072px;line-height:39px;margin-bottom:26px;margin-top:0;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 a{text-decoration:underline}.post-content-module--postContent--5129c .post-content-module--body--3be78 *{margin-left:auto;margin-right:auto;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{visibility:hidden}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a>svg{fill:hsl(var(--color-foreground))}.post-content-module--postContent--5129c .post-content-module--body--3be78 img{max-width:100%}@media screen and (min-width:1100px){.post-content-module--postContent--5129c{padding:0}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:48px;line-height:58.5px;margin-bottom:39px;margin-top:58.5px}.post-content-module--postContent--5129c .post-content-module--body--3be78,.post-content-module--postContent--5129c .post-content-module--body--3be78 p{font-size:18px;line-height:29.25px;margin-bottom:29.25px}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{padding-right:13px;visibility:unset}}.layout-module--layout--e08e0{display:grid;gap:30px;grid-template-columns:repeat(12,1fr);margin:0 auto;max-width:1070px}.sidebar-menu-module--sidebar-menu--a1f76{margin-bottom:26px}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39{list-style:none;margin:0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667{margin:13px 0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc{border:0;color:hsl(var(--color-foreground));font-size:16px;font-weight:400}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:focus,.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc.sidebar-menu-module--active--0ae28{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4{--theme-switcher-color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0{align-items:center;background:transparent;border:0;cursor:pointer;display:flex;justify-content:center;outline:0}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0 svg{stroke:var(--theme-switcher-color);pointer-events:none;transition:stroke .4s}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0:hover{--theme-switcher-color:hsl(var(--color-primary))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--moon--f9082{stroke-dasharray:0 1px;opacity:0;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--sun--65dc4{stroke-dasharray:1px 1px;opacity:1;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--moon--f9082{stroke-dasharray:1px 1px;opacity:1}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--sun--65dc4{stroke-dasharray:0 1px;opacity:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f{background-clip:padding-box;border:1px solid hsl(var(--color-muted));border-radius:50%;display:inline-block;height:75px;margin-bottom:0;width:75px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f img{border-radius:50%}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921{font-size:18px;font-weight:600;line-height:29.25px;margin:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:focus,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:hover{color:hsl(var(--color-foreground))}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--description--05f75{color:hsl(var(--color-muted-foreground));line-height:26px;margin-bottom:26px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--titleContainer--335a3{align-items:center;display:flex;justify-content:space-between;margin:13px 0}.icon-module--icon--1a7c5{fill:currentcolor;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;speak:none;stroke:currentcolor;stroke-width:0;display:inline-block;font-style:normal;font-variant:normal;font-weight:400;height:1em;line-height:1em;text-align:center;text-transform:none;width:1em}.sidebar-contacts-module--sidebar-contacts--bbb62{margin-bottom:26px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4{display:flex;flex-flow:row wrap;flex-grow:0;flex-shrink:0;list-style:none;margin:13px 0;max-width:165px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2{border:1px solid hsl(var(--color-muted));border-radius:50%;margin:6.5px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2:nth-child(3n+1){margin-left:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a{align-items:center;border:0;color:hsl(var(--color-foreground));cursor:pointer;display:flex;height:40px;justify-content:center;width:40px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:focus,.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:hover{color:hsl(var(--color-primary))}.sidebar-copyright-module--sidebar-copyright--97d08{color:hsl(var(--color-muted-foreground));font-size:14px}.sidebar-module--sidebar--58428{grid-column:span 12;width:100%}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:26px 19.5px 0;position:relative}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{background:hsl(var(--color-border));background:linear-gradient(to bottom,hsl(var(--color-border)) 0,hsl(var(--color-border)) 48%,hsl(var(--color-background)) 100%)}@media screen and (min-width:685px){.sidebar-module--sidebar--58428{grid-column:span 5}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:32.5px 19.5px 0}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{bottom:0;content:"";height:540px;position:absolute;right:-10px;top:30px;width:1px}}@media screen and (min-width:960px){.sidebar-module--sidebar--58428{grid-column:span 4}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:39px}}.pagination-module--pagination--e5305{display:flex;margin-top:52px}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8{text-align:left;width:50%}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:focus,.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.pagination-module--pagination--e5305 .pagination-module--next--92e1f{text-align:right;width:50%}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:focus,.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.post-module--post--cd62a{grid-column:span 12}.post-module--post--cd62a .post-module--content--49372{margin:0 auto}.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{margin:0 auto;max-width:100%;padding:0 13px}.post-module--post--cd62a .post-module--buttons--26059{align-items:center;display:flex;justify-content:center;margin:26px 0 0;text-align:center}.post-module--post--cd62a .post-module--buttons--26059 .post-module--buttonArticles--8a265{margin:0 13px 0 0}@media screen and (min-width:1100px){.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{padding:0}.post-module--post--cd62a .post-module--buttons--26059{left:30px;margin:0 13px 0 0;max-width:none;position:fixed;top:30px}}</style><link rel="alternate" type="application/rss+xml" title="To kill a mocking bug" href="/rss.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="sitemap" type="application/xml" href="/sitemap-index.xml"/><link rel="icon" href="/favicon-32x32.png?v=8be6cb7f3a020ee89583d44994892d92" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=8be6cb7f3a020ee89583d44994892d92"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><title data-gatsby-head="true">Hello Linux! - To kill a mocking bug</title></head><body><script>
+          void function() {
+            var cachedMode;
+
+            try {
+              var preferredTheme = JSON.parse(localStorage.getItem("diesel:theme-atom"));
+
+              if (preferredTheme && preferredTheme.mode) {
+                cachedMode = preferredTheme.mode;
+              }
+            } catch (err) { }
+
+            function setTheme(newTheme) {
+              document.documentElement.className = newTheme;
+            }
+
+            var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+            setTheme(cachedMode || (darkQuery.matches ? "dark" : "light"));
+          }()
+        </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="layout-module--layout--e08e0"><div class="post-module--post--cd62a"><div class="post-module--buttons--26059"><a class="button-module--button--5ffa9 post-module--buttonArticles--8a265" href="/">All Articles</a></div><div class="post-module--content--49372"><div class="post-content-module--postContent--5129c"><h1 class="post-content-module--title--b7e5d">Hello Linux!</h1><div class="post-content-module--body--3be78"><h1 id="introduction" style="position:relative;"><a href="#introduction" aria-label="introduction permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduction</h1>
+<p>Like many other .NET developers I have been following the Build conference that’s going on right now. One of its biggest announcements (so far) was the release of Visual Studio Code and the accompanying CoreCLR for Linux and Mac. It sounds nice and all but I wanted to try this out myself. I have decided to get a Console Application working in Ubuntu 14.04 since we’ve all seen by now how to deploy an ASP.NET web application. While reading this post, keep in mind that I have basically never used Linux so it’s possible I took hoops that shouldn’t have been taken. In case I did, leave me a comment so I can learn from it. Note that in this blogpost I will be using the Mono runtime and not the .NET Core one. At the time of writing there was only documentation available for the former however you can always get started with .NET Core here.</p>
+<p>One of the things I am pleasantly surprised with is that there are several Yeoman templates available to create a solution structure. Whereas Visual Studio does that for you, it would have been a serious pain to have to do this yourself each time you create a new project in Visual Studio Code.</p>
+<p>Without further ado, let’s get to it!</p>
+<h1 id="the-setup" style="position:relative;"><a href="#the-setup" aria-label="the setup permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The setup</h1>
+<p>I installed Ubuntu 14.04 on an old laptop, which means it’s an entirely fresh installation. If you have already been using Linux and/or Mono then you probably know what steps you can skip.</p>
+<p>We start by following the instructions <a href="http://docs.asp.net/en/latest/getting-started/installing-on-linux.html" target="_blank" rel="nofollow noopener noreferrer">here</a>. You can see that we follow the ASP.NET documentation even though we’re building a Console Application: the setup for either is very, very similar with just about two commands differently.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF</code></pre></div>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list</code></pre></div>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo apt-get update</code></pre></div>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo apt-get install Mono-Complete</code></pre></div>
+<p>Afterwards it’s time to install the DNVM. For more information about the .NET Version Manager you can take a look <a href="https://github.com/aspnet/home" target="_blank" rel="nofollow noopener noreferrer">here (Github)</a> and <a href="http://blogs.msdn.com/b/dotnet/archive/2015/04/29/net-announcements-at-build-2015.aspx" target="_blank" rel="nofollow noopener noreferrer">here (MSDN)</a>.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh &amp;&amp; source ~/.dnx/dnvm/dnvm.sh</code></pre></div>
+<p>Next up is NodeJS. This will allow us to install Yeoman and in turn generate the project templates.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo apt-get install nodejs</code></pre></div>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo apt-get install npm</code></pre></div>
+<p>One problem I had here was that there was <a href="https://stackoverflow.com/q/21168141/1864167" target="_blank" rel="nofollow noopener noreferrer">a naming conflict between node and nodejs</a> which are apparently different packages. This is solved by executing</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo apt-get install nodejs-legacy</code></pre></div>
+<h1 id="creating-the-solution" style="position:relative;"><a href="#creating-the-solution" aria-label="creating the solution permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating the solution</h1>
+<p>Afterwards create your own directory where we store our project. I did this in <code class="language-text">$HOME/Documents/code/yo-aspnet</code>.</p>
+<p>Now that we have this we can generate our project structure by first installing yo:</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo npm install -g yo</code></pre></div>
+<p>and subsequently the generator:</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo npm install -g generator-aspnet</code></pre></div>
+<p>When this is done, it’s time to pick the kind of project template we want to generate. Start yo</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">yo</code></pre></div>
+<p>and you will be prompted to select the kind of application you’re interested in. You should see a screen like this:</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/353315b90d74426ccc52d4b8909fbf2a/d56b5/choose-solution-template.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 63.74999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB80lEQVR42pWTW2/aQBCF/dZcIITQJARSkpr4FhvfL4BtcGwgQEPSVGr6/3/J6ezQIFVq1fJwNLMr7bezM2elF2eOV3+JjVVibUwh1i/2DA+9GHnHR37lI2t7mHQD5KSwocOvqfDrGoK6iuBE265rGu9JX4wCz4MKSzVn6MYsGVbeJihvYs6rz0PMSO+XDD8OkF46GFHM2i7GFzavsysP0lLLubJHJWOoyBd3Ka+FypsExacIM3mEohdh3h9vL7sd8kWLfkqv8BiWElz66j7im7/CSi8IMCGYgFKuTuhwhooO5p2AwQ8ELnsJVxqf3iM80RGdGtwGkYsorYwhNgOqSI1Ya2NEoBBrLaGqfLqVntJxMG7TMy8cxM17DFsWvGMFzmF/J/dXlF5dB99DDz9iH28URS7iszXAk2lhLhvUJxVxS4UtDh1s5R7d/VFS3rVpgg6m1y71iqZ57dA0HYSXFqIzBQnJoym6QjTVv4F2wKihImooNPY+/GOZ5Ym8LvZk3v8X5DdgTI1MhLfqOlUZ0vRG7LuAmuweKXvBtsCmRk3WucnCT9NuiKRlsln3hTFwfG4hOzcxJpMmZyYrbppsXuF8nuA+wEqYmr5aoaQ7YETWENB9q/RqCqQF/ZQnu8KMfkBC/nq3hX0g/z+M2mV/kLllPwF7BX+cPep8XAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/353315b90d74426ccc52d4b8909fbf2a/8ac56/choose-solution-template.webp 240w,
+/static/353315b90d74426ccc52d4b8909fbf2a/d3be9/choose-solution-template.webp 480w,
+/static/353315b90d74426ccc52d4b8909fbf2a/e46b2/choose-solution-template.webp 960w,
+/static/353315b90d74426ccc52d4b8909fbf2a/34ce3/choose-solution-template.webp 1215w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/353315b90d74426ccc52d4b8909fbf2a/8ff5a/choose-solution-template.png 240w,
+/static/353315b90d74426ccc52d4b8909fbf2a/e85cb/choose-solution-template.png 480w,
+/static/353315b90d74426ccc52d4b8909fbf2a/d9199/choose-solution-template.png 960w,
+/static/353315b90d74426ccc52d4b8909fbf2a/d56b5/choose-solution-template.png 1215w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/353315b90d74426ccc52d4b8909fbf2a/d9199/choose-solution-template.png"
+            alt="Choosing the solution template"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span>
+Use the arrows keys to select “Console Application” and press enter. Give your project a name (in my case: “HelloWorld”) and everything should now have been created:</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a9e53ff433e7448bf77f25765dc204f0/d56b5/console-solution-generated.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 63.74999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAABgklEQVR42p2TyW7CMBRF2bWEMWFQoQwthCQMiZ05BMpYdZLopv//LbfPhlbqpgQWV/Fb5Ojax86tui42PR/bfiCz7nlYdz0ELQe+ZiKoGPDKIiZYyQBX9H+TSxsm0oaFpGYi0QzEqo6QvgHBwspAhuf1Y5TzyflFakFxCwaSuoN5gxF4Bq9ogBGEKdlAv8BYNTGvj+GXLWy7IV5HSyzvOAKa+YUwCUzUCRLVgksDyw/BCzq1HcEvUWtqyYsjipEd+GzEODg7fPnv+LT3OFBe9AWeBykYNbW1KZzq+AjOAuTaA3bDCB/WBm/GE9b3/qnpCSDWIlkbpu0Z4paFUB0jpjYRHcG8bpP1Gdl3sGiSJJpTkiXOlZ2B57waXY32EIs2o9hYdVz5s4C4hSukcEVsbSRF8JOYn/VVluOqhbk2hkdWd/1YChHb9i4w+wcYVcULseQVWXcC7B8TRGRVNGW3g4tgLt0Eeno2FvWZlBASKKpOqOFUChGSWBbDdETOzQBp08E3G1lt/39F8v0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/a9e53ff433e7448bf77f25765dc204f0/8ac56/console-solution-generated.webp 240w,
+/static/a9e53ff433e7448bf77f25765dc204f0/d3be9/console-solution-generated.webp 480w,
+/static/a9e53ff433e7448bf77f25765dc204f0/e46b2/console-solution-generated.webp 960w,
+/static/a9e53ff433e7448bf77f25765dc204f0/34ce3/console-solution-generated.webp 1215w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/a9e53ff433e7448bf77f25765dc204f0/8ff5a/console-solution-generated.png 240w,
+/static/a9e53ff433e7448bf77f25765dc204f0/e85cb/console-solution-generated.png 480w,
+/static/a9e53ff433e7448bf77f25765dc204f0/d9199/console-solution-generated.png 960w,
+/static/a9e53ff433e7448bf77f25765dc204f0/d56b5/console-solution-generated.png 1215w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/a9e53ff433e7448bf77f25765dc204f0/d9199/console-solution-generated.png"
+            alt="Console solution is generated"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span>
+Notice how it’s a very minimal template and only consists of a gitignore, a main class and the project configuration file. There is no <code class="language-text">AssemblyInfo</code>, no <code class="language-text">bin</code>/<code class="language-text">obj</code> folders, no <code class="language-text">app.config</code>, etc.</p>
+<p>More information about the generator can be found <a href="https://www.npmjs.com/package/generator-aspnet" target="_blank" rel="nofollow noopener noreferrer">here</a>.</p>
+<h1 id="installing-visual-studio-code" style="position:relative;"><a href="#installing-visual-studio-code" aria-label="installing visual studio code permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installing Visual Studio Code</h1>
+<p>Time to get that new editor up and running!</p>
+<p>Go to <a href="https://code.visualstudio.com" target="_blank" rel="nofollow noopener noreferrer">https://code.visualstudio.com</a> and download the zip file. Navigate to your Downloads folder and create a folder which will hold the unzipped content. I just left this in Downloads, you might as well put this elsewhere (which you probably should if you use Linux properly).</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">mkdir VSCode</code></pre></div>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">unzip VSCode-linux-x64.zip -d VSCode</code></pre></div>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">cd VSCode</code></pre></div>
+<p>And start the editor with</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">./Code</code></pre></div>
+<p>Here’s one tricky thing: if you now look at Visual Code, there’s a good chance you’re seeing something like</p>
+<blockquote>
+<p>Cannot start Omnisharp because Mono version >=3.10.0 is required</p>
+</blockquote>
+<p>When you look at your own installed Mono version (<code class="language-text">mono --version</code>) you’ll notice that you have 3.2.8 installed. Likewise if you now try to execute the HelloWorld app, you will receive <code class="language-text">TypeLoadException</code> errors.</p>
+<p>Luckily this can be easily solved: install the <code class="language-text">mono-devel</code> package. This will overwrite your installed Mono with version 4.0.1 which is released just yesterday and everything will work flawlessly.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">sudo apt-get install mono-devel</code></pre></div>
+<h1 id="executing-the-console-application" style="position:relative;"><a href="#executing-the-console-application" aria-label="executing the console application permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Executing the Console application</h1>
+<p>There’s just one last thing left to do: create a .NET execution environment and execute our app.</p>
+<p>First create a default execution environment:</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">dnvm upgrade</code></pre></div>
+<p>and execute the app (from the directory where <code class="language-text">Program.cs</code> is contained):</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">dnx . run</code></pre></div>
+<p>You should now see Hello World printed out!</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/e853b1075bc016c5082fe1754cf11080/f058b/helloworld.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 5.833333333333333%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAIAAABR8BlyAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAPklEQVR42mMIMHADokADN2cFc2cFCwdZUxtJQyd5c0dZM3sZEyDDVtLISd7MESgiZwZEdtLGQHFTAS0rMT0AgSML3NHNPd0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/e853b1075bc016c5082fe1754cf11080/8ac56/helloworld.webp 240w,
+/static/e853b1075bc016c5082fe1754cf11080/d3be9/helloworld.webp 480w,
+/static/e853b1075bc016c5082fe1754cf11080/8aab1/helloworld.webp 630w"
+              sizes="(max-width: 630px) 100vw, 630px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/e853b1075bc016c5082fe1754cf11080/8ff5a/helloworld.png 240w,
+/static/e853b1075bc016c5082fe1754cf11080/e85cb/helloworld.png 480w,
+/static/e853b1075bc016c5082fe1754cf11080/f058b/helloworld.png 630w"
+            sizes="(max-width: 630px) 100vw, 630px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/e853b1075bc016c5082fe1754cf11080/f058b/helloworld.png"
+            alt="Hello World!"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p></div></div></div><div class="post-module--footer--87cff"><div class="post-footer-module--post-footer--9c13c"><p class="post-footer-module--date--abfe9">Published<!-- --> <!-- -->May 1, 2015</p></div><ul class="post-tags-module--post-tags--6c235"><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/c/">C#</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/net/">.NET</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/linux/">Linux</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/visual-studio-code/">Visual Studio Code</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/dnx/">DNX</a></li></ul><div class="post-author-module--post-author--2247e"><p class="post-author-module--description--78aeb">Staff Software Engineer at Hudl</p></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/2015-05-01---Hello-Linux/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+          <script
+            id="gatsby-chunk-mapping"
+          >
+            window.___chunkMapping="{\"app\":[\"/app-4d8a82dee2f49f449ca4.js\"],\"component---src-templates-categories-template-tsx\":[\"/component---src-templates-categories-template-tsx-e2aa74820d54d99fe3ca.js\"],\"component---src-templates-category-template-tsx\":[\"/component---src-templates-category-template-tsx-91198c0b28f43cf82e8c.js\"],\"component---src-templates-index-template-tsx\":[\"/component---src-templates-index-template-tsx-6b97cc63597a8b556989.js\"],\"component---src-templates-not-found-template-tsx\":[\"/component---src-templates-not-found-template-tsx-6f0b5a8af258d13412fd.js\"],\"component---src-templates-page-template-tsx\":[\"/component---src-templates-page-template-tsx-6f8a5c2cb19885f5a79c.js\"],\"component---src-templates-post-template-tsx\":[\"/component---src-templates-post-template-tsx-e0b96475de7444f8a312.js\"],\"component---src-templates-tag-template-tsx\":[\"/component---src-templates-tag-template-tsx-c3b1637f418d40c0666c.js\"],\"component---src-templates-tags-template-tsx\":[\"/component---src-templates-tags-template-tsx-b6e43fd8f2cfc2b12379.js\"]}";
+          </script>
+        <script>window.___webpackCompilationHash="c6936d1474492ffb553e";</script><script src="/webpack-runtime-ca386f5d5815a2ea1286.js" async></script><script src="/framework-6a5f65edcb7bd3065229.js" async></script><script src="/d904c7bf-5cdda61f968d23d0029b.js" async></script><script src="/app-4d8a82dee2f49f449ca4.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

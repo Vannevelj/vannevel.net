@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 5.14.1"/><meta name="theme-color" content="hsl(31, 92%, 62%)"/><meta name="description" content="With the release of Visual Studio 2015 RC, we also received the pretty much final implementation of the Diagnostics implementation. This SDK allows us to create our own diagnostics to help us write proper code that’s being verified against those rules in real-time: you don’t have to perform the verification at a separate build-step. What’s more is that we can combine that with a code fix: a shortcut integrated in Visual Studio that provides us a solution to what we determine to be a problem." data-gatsby-head="true"/><meta name="twitter:card" content="summary_large_image" data-gatsby-head="true"/><meta name="twitter:title" content="Getting started with your first diagnostic - To kill a mocking bug" data-gatsby-head="true"/><meta name="twitter:description" content="With the release of Visual Studio 2015 RC, we also received the pretty much final implementation of the Diagnostics implementation. This SDK allows us to create our own diagnostics to help us write proper code that’s being verified against those rules in real-time: you don’t have to perform the verification at a separate build-step. What’s more is that we can combine that with a code fix: a shortcut integrated in Visual Studio that provides us a solution to what we determine to be a problem." data-gatsby-head="true"/><meta name="og:title" content="Getting started with your first diagnostic - To kill a mocking bug" data-gatsby-head="true"/><meta name="og:type" content="website" data-gatsby-head="true"/><meta name="og:description" content="With the release of Visual Studio 2015 RC, we also received the pretty much final implementation of the Diagnostics implementation. This SDK allows us to create our own diagnostics to help us write proper code that’s being verified against those rules in real-time: you don’t have to perform the verification at a separate build-step. What’s more is that we can combine that with a code fix: a shortcut integrated in Visual Studio that provides us a solution to what we determine to be a problem." data-gatsby-head="true"/><style data-href="/styles.aabeecdf386b227d2154.css" data-identity="gatsby-global-css">html{font-size:100}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background:hsl(var(--color-background));color:hsl(var(--color-foreground));font-size:16px;line-height:1.625;margin:0 0 0 calc(100vw - 100%);text-rendering:optimizelegibility}body,h1,h2,h3,h4,h5,h6{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif}h1,h2,h3,h4,h5,h6{font-weight:600}h1{font-size:40px;line-height:52px;margin-bottom:26px;margin-top:104px}h2{font-size:27px;line-height:39px}h2,h3{margin-bottom:13px;margin-top:52px}h3{font-size:22px;line-height:26px}h4{font-size:19.2px;margin-top:39px}h4,h5{line-height:26px;margin-bottom:13px}h5,h6{font-size:16px;margin-top:65px}h6{line-height:26px;margin-bottom:13px}img{max-width:100%}hr,img{border:0;display:block}hr{background-image:linear-gradient(to bottom,transparent 1px,transparent 11px,hsl(var(--color-foreground)) 11px,hsl(var(--color-foreground)) 15px,transparent 15px,transparent 26px);background-size:100% 26px;height:26px;margin:52px auto;width:100px}a,hr{color:hsl(var(--color-foreground))}a{text-decoration:none}a:active,a:focus,a:hover{color:hsl(var(--color-primary))}b,strong{font-weight:600}ul{list-style:square;margin-bottom:26px}ul li{margin-bottom:10px;padding:0 5px}p{line-height:26px;margin-bottom:26px}blockquote{font-style:italic;padding:0;text-align:center}figure{display:block;height:auto;width:100%}figcaption{color:hsl(var(--color-foreground));font-size:14px;font-style:italic;line-height:19.5px;margin-bottom:0;margin-top:6.5px;text-align:center}@media screen and (min-width:685px){figure.float-left,figure.float-right{max-width:310px;padding:0 26px}.float-right{float:right}.float-left{float:left}}code[class*=language-],pre[class*=language-]{word-wrap:normal;color:#657b83;font-family:ui-monospace,Cascadia Code,Source Code Pro,Menlo,Consolas,DejaVu Sans Mono,monospace;font-size:16px;-webkit-hyphens:none;hyphens:none;line-height:1.5;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{border-radius:.3em;margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background-color:hsl(var(--color-muted))}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#073642}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#93a1a1}.token.punctuation{color:#586e75}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#268bd2}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string,.token.url{color:#2aa198}.token.entity{background:#eee8d5;color:#657b83;cursor:help}.token.atrule,.token.attr-value,.token.keyword{color:#859900}.token.class-name,.token.function{color:#b58900}.token.important,.token.regex,.token.variable{color:#cb4b16}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}:root{--color-background:0 0% 100%;--color-foreground:240 7% 11%;--color-muted:240 6% 96%;--color-muted-foreground:240 6% 46.1%;--color-border:240 2% 89%;--color-primary:342 100% 47%;--color-primary-foreground:240 4% 98%;--color-secondary:240 6% 96%;--color-secondary-foreground:240 2% 17%;--color-accent:240 6% 96%;--color-accent-foreground:240 2% 17%;--color-destructive:342 100% 47%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:light}.dark{--color-background:240 7% 11%;--color-foreground:240 4% 98%;--color-muted:240 4% 17%;--color-muted-foreground:240 4% 66%;--color-border:240 4% 17%;--color-primary:342 100% 74%;--color-primary-foreground:240 4% 98%;--color-secondary:240 4% 17%;--color-secondary-foreground:240 4% 98%;--color-accent:240 4% 17%;--color-accent-foreground:240 4% 98%;--color-destructive:342 100% 74%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:dark}.feed-module--feed--be542 .feed-module--item--093ea{margin-bottom:32.5px}.feed-module--feed--be542 .feed-module--item--093ea:last-child{margin-bottom:13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13{font-size:27px;line-height:39px;margin-bottom:13px;margin-top:0}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef{color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:hover{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--description--25c4d{color:hsl(var(--color-muted-foreground));font-size:16px;line-height:26px;margin-bottom:19.5px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--time--1da0e{color:hsl(var(--color-foreground));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--divider--dc8bf{margin:0 13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--category--588f4 .feed-module--link--797ef{color:hsl(var(--color-primary));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839{color:hsl(var(--color-foreground));font-size:16px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.page-module--page--aeaf7{grid-column:span 12;margin-bottom:52px}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:26px 19.5px 0}.page-module--page--aeaf7 .page-module--title--3f843{font-size:40px;font-weight:600;line-height:52px;margin-bottom:37.7px;margin-top:0}.page-module--page--aeaf7 .page-module--body--91ea2{font-size:16px;line-height:26px;margin:0 0 26px}@media screen and (min-width:685px){.page-module--page--aeaf7{grid-column:span 7}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:32.5px 19.5px 0}}@media screen and (min-width:1100px){.page-module--page--aeaf7{grid-column:span 8}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:39px 26px 0}}.button-module--button--5ffa9{border:1px solid hsl(var(--color-border));border-radius:20px;color:hsl(var(--color-foreground));display:inline-block;font-size:16px;font-weight:400;height:40px;line-height:40px;margin-left:auto;margin-right:auto;padding:0 26px;text-align:center;text-decoration:none}.button-module--button--5ffa9:focus,.button-module--button--5ffa9:hover{background:hsl(var(--color-accent));color:hsl(var(--color-accent-foreground))}.post-tags-module--post-tags--6c235{list-style:none;margin-bottom:13px;padding:0}.post-tags-module--post-tags--6c235 .post-tags-module--item--53595{display:inline-block;margin:6.5px 0}@media screen and (min-width:685px){.post-tags-module--post-tags--6c235 .post-tags-module--item--53595:first-child{margin-left:0;padding-left:0}}.post-author-module--post-author--2247e{border-top:1px solid hsl(var(--color-border));line-height:26px;margin-bottom:52px;margin-top:26px;max-width:100%;padding-top:26px}.post-author-module--post-author--2247e .post-author-module--description--78aeb .post-author-module--x--f2941{display:block;text-decoration:underline}@media screen and (min-width:685px){.post-author-module--post-author--2247e{margin-left:auto;margin-right:auto}}.post-footer-module--post-footer--9c13c .post-footer-module--date--abfe9{font-style:italic}.post-content-module--postContent--5129c{margin:0 auto;max-width:100%;padding:0 13px}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:32px;font-weight:600;line-height:42.9px;margin:26px auto 0;max-width:100%;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure{margin-bottom:26px}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote{font-style:italic;margin-top:0;padding:26px 0;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote p{font-size:26.9072px;line-height:39px;margin-bottom:26px;margin-top:0;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 a{text-decoration:underline}.post-content-module--postContent--5129c .post-content-module--body--3be78 *{margin-left:auto;margin-right:auto;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{visibility:hidden}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a>svg{fill:hsl(var(--color-foreground))}.post-content-module--postContent--5129c .post-content-module--body--3be78 img{max-width:100%}@media screen and (min-width:1100px){.post-content-module--postContent--5129c{padding:0}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:48px;line-height:58.5px;margin-bottom:39px;margin-top:58.5px}.post-content-module--postContent--5129c .post-content-module--body--3be78,.post-content-module--postContent--5129c .post-content-module--body--3be78 p{font-size:18px;line-height:29.25px;margin-bottom:29.25px}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{padding-right:13px;visibility:unset}}.layout-module--layout--e08e0{display:grid;gap:30px;grid-template-columns:repeat(12,1fr);margin:0 auto;max-width:1070px}.sidebar-menu-module--sidebar-menu--a1f76{margin-bottom:26px}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39{list-style:none;margin:0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667{margin:13px 0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc{border:0;color:hsl(var(--color-foreground));font-size:16px;font-weight:400}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:focus,.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc.sidebar-menu-module--active--0ae28{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4{--theme-switcher-color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0{align-items:center;background:transparent;border:0;cursor:pointer;display:flex;justify-content:center;outline:0}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0 svg{stroke:var(--theme-switcher-color);pointer-events:none;transition:stroke .4s}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0:hover{--theme-switcher-color:hsl(var(--color-primary))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--moon--f9082{stroke-dasharray:0 1px;opacity:0;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--sun--65dc4{stroke-dasharray:1px 1px;opacity:1;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--moon--f9082{stroke-dasharray:1px 1px;opacity:1}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--sun--65dc4{stroke-dasharray:0 1px;opacity:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f{background-clip:padding-box;border:1px solid hsl(var(--color-muted));border-radius:50%;display:inline-block;height:75px;margin-bottom:0;width:75px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f img{border-radius:50%}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921{font-size:18px;font-weight:600;line-height:29.25px;margin:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:focus,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:hover{color:hsl(var(--color-foreground))}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--description--05f75{color:hsl(var(--color-muted-foreground));line-height:26px;margin-bottom:26px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--titleContainer--335a3{align-items:center;display:flex;justify-content:space-between;margin:13px 0}.icon-module--icon--1a7c5{fill:currentcolor;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;speak:none;stroke:currentcolor;stroke-width:0;display:inline-block;font-style:normal;font-variant:normal;font-weight:400;height:1em;line-height:1em;text-align:center;text-transform:none;width:1em}.sidebar-contacts-module--sidebar-contacts--bbb62{margin-bottom:26px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4{display:flex;flex-flow:row wrap;flex-grow:0;flex-shrink:0;list-style:none;margin:13px 0;max-width:165px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2{border:1px solid hsl(var(--color-muted));border-radius:50%;margin:6.5px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2:nth-child(3n+1){margin-left:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a{align-items:center;border:0;color:hsl(var(--color-foreground));cursor:pointer;display:flex;height:40px;justify-content:center;width:40px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:focus,.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:hover{color:hsl(var(--color-primary))}.sidebar-copyright-module--sidebar-copyright--97d08{color:hsl(var(--color-muted-foreground));font-size:14px}.sidebar-module--sidebar--58428{grid-column:span 12;width:100%}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:26px 19.5px 0;position:relative}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{background:hsl(var(--color-border));background:linear-gradient(to bottom,hsl(var(--color-border)) 0,hsl(var(--color-border)) 48%,hsl(var(--color-background)) 100%)}@media screen and (min-width:685px){.sidebar-module--sidebar--58428{grid-column:span 5}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:32.5px 19.5px 0}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{bottom:0;content:"";height:540px;position:absolute;right:-10px;top:30px;width:1px}}@media screen and (min-width:960px){.sidebar-module--sidebar--58428{grid-column:span 4}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:39px}}.pagination-module--pagination--e5305{display:flex;margin-top:52px}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8{text-align:left;width:50%}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:focus,.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.pagination-module--pagination--e5305 .pagination-module--next--92e1f{text-align:right;width:50%}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:focus,.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.post-module--post--cd62a{grid-column:span 12}.post-module--post--cd62a .post-module--content--49372{margin:0 auto}.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{margin:0 auto;max-width:100%;padding:0 13px}.post-module--post--cd62a .post-module--buttons--26059{align-items:center;display:flex;justify-content:center;margin:26px 0 0;text-align:center}.post-module--post--cd62a .post-module--buttons--26059 .post-module--buttonArticles--8a265{margin:0 13px 0 0}@media screen and (min-width:1100px){.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{padding:0}.post-module--post--cd62a .post-module--buttons--26059{left:30px;margin:0 13px 0 0;max-width:none;position:fixed;top:30px}}</style><link rel="alternate" type="application/rss+xml" title="To kill a mocking bug" href="/rss.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="sitemap" type="application/xml" href="/sitemap-index.xml"/><link rel="icon" href="/favicon-32x32.png?v=8be6cb7f3a020ee89583d44994892d92" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=8be6cb7f3a020ee89583d44994892d92"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><title data-gatsby-head="true">Getting started with your first diagnostic - To kill a mocking bug</title></head><body><script>
+          void function() {
+            var cachedMode;
+
+            try {
+              var preferredTheme = JSON.parse(localStorage.getItem("diesel:theme-atom"));
+
+              if (preferredTheme && preferredTheme.mode) {
+                cachedMode = preferredTheme.mode;
+              }
+            } catch (err) { }
+
+            function setTheme(newTheme) {
+              document.documentElement.className = newTheme;
+            }
+
+            var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+            setTheme(cachedMode || (darkQuery.matches ? "dark" : "light"));
+          }()
+        </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="layout-module--layout--e08e0"><div class="post-module--post--cd62a"><div class="post-module--buttons--26059"><a class="button-module--button--5ffa9 post-module--buttonArticles--8a265" href="/">All Articles</a></div><div class="post-module--content--49372"><div class="post-content-module--postContent--5129c"><h1 class="post-content-module--title--b7e5d">Getting started with your first diagnostic</h1><div class="post-content-module--body--3be78"><h1 id="introduction" style="position:relative;"><a href="#introduction" aria-label="introduction permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduction</h1>
+<p>With the release of Visual Studio 2015 RC, we also received the pretty much final implementation of the Diagnostics implementation. This SDK allows us to create our own diagnostics to help us write proper code that’s being verified against those rules in real-time: you don’t have to perform the verification at a separate build-step. What’s more is that we can combine that with a code fix: a shortcut integrated in Visual Studio that provides us a solution to what we determine to be a problem.</p>
+<p>This might sound a little abstract but if you’ve been using Visual Studio (and/or Resharper) then you know what I mean: have you ever written your classname as <code class="language-text">myClass</code> rather than <code class="language-text">MyClass</code>? This is a violation of the C# naming conventions and visual studio will warn you about it and provide you a quick-fix to turn it into a proper capitalized word. This is exactly the behaviour we can create and which is integrated seemlessly in Visual Studio.</p>
+<p>I gave this a go exactly 1 year ago but decided against continuing because there wasn’t a final version of it yet and it was really cumbersome to test. That combined with the fact that it was hardly usable (not many people had Visual Studio 2015 yet) made me wait until it had matured and was properly supported. Luckily, it seems that time has finally come.</p>
+<h1 id="the-setup" style="position:relative;"><a href="#the-setup" aria-label="the setup permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The setup</h1>
+<p>In order to get started you need a few things installed:</p>
+<ul>
+<li><a href="https://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx" target="_blank" rel="nofollow noopener noreferrer">Visual Studio 2015 RC</a></li>
+<li><a href="https://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx" target="_blank" rel="nofollow noopener noreferrer">Visual Studio 2015 RC SDK</a> (Same link as above but at the bottom of the page, go to Additional Tools -> Visual Studio 2015 SDK RC)</li>
+<li><a href="https://visualstudiogallery.msdn.microsoft.com/e2e07e91-9d0b-4944-ba40-e86bcbec1599" target="_blank" rel="nofollow noopener noreferrer">.NET Compiler Platform SDK Templates for RC</a></li>
+</ul>
+<p>You will notice that each of these downloads are specific for the RC version, which is what I’m using at the time of writing. Make sure that you don’t mix up CTP-X, RC and RTM versions since that is bound to create issues.</p>
+<h1 id="creating-an-analyzer" style="position:relative;"><a href="#creating-an-analyzer" aria-label="creating an analyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating an Analyzer</h1>
+<p>Even though the official template says “Diagnostic and CodeFix”, the term “Analyzer” is used equally, if not more, as “diagnostic”. I don’t believe there are hard conventions on this yet so use what you feel more natural. I personally prefer to append “Analyzer” to my.. diagnostics.</p>
+<p>In Visual Studio, create a new project (and a solution if needed) using the “Diagnostic with Code Fix (NuGet + VSIX)” template, found under “Extensibility”. This immediately indicates a very useful feature: you will be able to distribute your analyzers using NuGet and/or you can choose to distribute them as an installable extension instead. This makes it very easy to deploy in your environment and share it with others should you want to.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 955px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/18efddcd67357ae81282c003729762f1/a0b80/createproject.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 69.16666666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACRElEQVR42n1Ti3KbMBDk/7+sM2ndxrED2A7B2LwE4v00hu1KrpMm0/Rmdk66O61uOWGczhH8MEUYyXfECYJIIE4kcwkOL684Hs8Q3AdhDD/wEYlM72ORIopTxmKY1g7Gs/kK0z7heJJwPQnHjeCdfBInkFlBAhb7Ebp+xDQtKMoaUqaomoGXRZq0ZKxpe9RNB6MqS4RBiHG8QFmW5bzJwjgMaOoayzzfsCw6P00T+n7A5XLByfPguq72UkrUVQ1jZnGaJGiaRh+oGHQch2SNJlcHld0J1V7Vqv31OhNXjXvOUAklyffjN8IgCJDnOYQQJM3Qti276vUBtc7yguvpdhHeTXVvzMuMMAy1bGVFUcC2bU2k1lVZaa+6GsdRe8ncwPW8qM4/E1JyVZXouk4H27bDfr9nrOLhVsfHP7K1LBLV/Lb/Mk2oZMhUvhW13QDv7GsiRaqGpT7LDfeh9B86+0CoJhlHIdI01R93po7p+j7Vz7bgD/l8k7v8JVt9V8PnQ47TGlU7Ia8u2t9tHGe+vxn9cPNtP78d/rLDgytw8HI4Xgb3LHEKMiRpwUnyAec9L+sgZKd9lHR8vBxMOyKRNf+WAoLNCNkQLfMljG8PJlZPR5j7EI9rE08bG/bOhUUIEucl32NxQ06kWUOyBhvziIcV620f212MjR3RBzBWawffH18ZCPFz62JtnmC+RBqWI75AwjofP9ZHrNYefm3PeN4LNhXD2L2EsA7EPtBedfrMmxTM/4Kd2Wc8bQ9UZVGdhfXGxm9Bvib6w+mc6QAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/18efddcd67357ae81282c003729762f1/8ac56/createproject.webp 240w,
+/static/18efddcd67357ae81282c003729762f1/d3be9/createproject.webp 480w,
+/static/18efddcd67357ae81282c003729762f1/1a389/createproject.webp 955w"
+              sizes="(max-width: 955px) 100vw, 955px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/18efddcd67357ae81282c003729762f1/8ff5a/createproject.png 240w,
+/static/18efddcd67357ae81282c003729762f1/e85cb/createproject.png 480w,
+/static/18efddcd67357ae81282c003729762f1/a0b80/createproject.png 955w"
+            sizes="(max-width: 955px) 100vw, 955px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/18efddcd67357ae81282c003729762f1/a0b80/createproject.png"
+            alt="Create the project"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>Now on to the real work: we will create an analyzer that shows a warning when we throw an <code class="language-text">ArgumentException</code> without passing a parameter to it. The use of this is that we will make sure that we’re never just going to throw such an exception without specifying what argument is being annoying in the first place.</p>
+<p>After your template is created you will notice 3 projects in the solution: a portable class library which contains your analyzers and code fix providers, a test project and an extension project. You can ignore the latter one and we’ll focus on the first two.</p>
+<p>When you look at your analyzer you see an entire example for you to start from. The nature of the diagnostic we will create however is such that we will analyze a syntax node, not a symbol. The code we implement is very straightforward:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">DiagnosticAnalyzer</span><span class="token attribute-arguments"><span class="token punctuation">(</span>LanguageNames<span class="token punctuation">.</span>CSharp<span class="token punctuation">)</span></span></span><span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EmptyArgumentExceptionAnalyzer</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">DiagnosticAnalyzer</span></span>
+<span class="token punctuation">{</span>
+   <span class="token keyword">public</span> <span class="token keyword">const</span> <span class="token class-name"><span class="token keyword">string</span></span> DiagnosticId <span class="token operator">=</span> <span class="token string">"EmptyArgumentExceptionAnalyzer"</span><span class="token punctuation">;</span>
+   <span class="token keyword">internal</span> <span class="token keyword">const</span> <span class="token class-name"><span class="token keyword">string</span></span> Title <span class="token operator">=</span> <span class="token string">"Verifies whether an ArgumentException is thrown with a message."</span><span class="token punctuation">;</span>
+   <span class="token keyword">internal</span> <span class="token keyword">const</span> <span class="token class-name"><span class="token keyword">string</span></span> MessageFormat <span class="token operator">=</span> <span class="token string">"ArgumentException is thrown without a message."</span><span class="token punctuation">;</span>
+   <span class="token keyword">internal</span> <span class="token keyword">const</span> <span class="token class-name"><span class="token keyword">string</span></span> Category <span class="token operator">=</span> <span class="token string">"Exceptions"</span><span class="token punctuation">;</span>
+   <span class="token keyword">internal</span> <span class="token keyword">const</span> <span class="token class-name">DiagnosticSeverity</span> Severity <span class="token operator">=</span> DiagnosticSeverity<span class="token punctuation">.</span>Warning<span class="token punctuation">;</span>
+   <span class="token keyword">internal</span> <span class="token keyword">static</span> <span class="token class-name">DiagnosticDescriptor</span> Rule <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DiagnosticDescriptor</span><span class="token punctuation">(</span>DiagnosticId<span class="token punctuation">,</span> Title<span class="token punctuation">,</span> MessageFormat<span class="token punctuation">,</span> Category<span class="token punctuation">,</span> Severity<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name">ImmutableArray<span class="token punctuation">&lt;</span>DiagnosticDescriptor<span class="token punctuation">></span></span> SupportedDiagnostics <span class="token operator">=></span> ImmutableArray<span class="token punctuation">.</span><span class="token function">Create</span><span class="token punctuation">(</span>Rule<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Initialize</span><span class="token punctuation">(</span><span class="token class-name">AnalysisContext</span> context<span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+       context<span class="token punctuation">.</span><span class="token function">RegisterSyntaxNodeAction</span><span class="token punctuation">(</span>AnalyzeSyntaxNode<span class="token punctuation">,</span> SyntaxKind<span class="token punctuation">.</span>ThrowStatement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">AnalyzeSyntaxNode</span><span class="token punctuation">(</span><span class="token class-name">SyntaxNodeAnalysisContext</span> context<span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+       <span class="token class-name"><span class="token keyword">var</span></span> throwStatement <span class="token operator">=</span> context<span class="token punctuation">.</span>Node <span class="token keyword">as</span> <span class="token class-name">ThrowStatementSyntax</span><span class="token punctuation">;</span>
+       <span class="token keyword">if</span> <span class="token punctuation">(</span>throwStatement <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+       <span class="token punctuation">{</span>
+           <span class="token keyword">return</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+
+       <span class="token class-name"><span class="token keyword">var</span></span> expression <span class="token operator">=</span> throwStatement<span class="token punctuation">.</span>Expression <span class="token keyword">as</span> <span class="token class-name">ObjectCreationExpressionSyntax</span><span class="token punctuation">;</span>
+       <span class="token keyword">if</span> <span class="token punctuation">(</span>expression <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+       <span class="token punctuation">{</span>
+           <span class="token keyword">return</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+
+       <span class="token class-name"><span class="token keyword">var</span></span> symbolInformation <span class="token operator">=</span> context<span class="token punctuation">.</span>SemanticModel<span class="token punctuation">.</span><span class="token function">GetSymbolInfo</span><span class="token punctuation">(</span>expression<span class="token punctuation">.</span>Type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">if</span> <span class="token punctuation">(</span>symbolInformation<span class="token punctuation">.</span>Symbol<span class="token punctuation">.</span>MetadataName <span class="token operator">!=</span> <span class="token string">"ArgumentException"</span><span class="token punctuation">)</span>
+       <span class="token punctuation">{</span>
+           <span class="token keyword">return</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+
+       <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>expression<span class="token punctuation">.</span>ArgumentList<span class="token punctuation">.</span><span class="token function">ChildNodes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Any</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">{</span>
+           context<span class="token punctuation">.</span><span class="token function">ReportDiagnostic</span><span class="token punctuation">(</span>Diagnostic<span class="token punctuation">.</span><span class="token function">Create</span><span class="token punctuation">(</span>Rule<span class="token punctuation">,</span> expression<span class="token punctuation">.</span><span class="token function">GetLocation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>I’ve disregarded globalization because it is an extra hurdle to readability and I don’t expect my project to ever become popular enough that it warrants different languages to be supported. Aside from that you’ll notice that I also used a lovely expression Body for the <code class="language-text">SupportedDiagnostics</code> method.</p>
+<p>The first thing I did was register my analyzer on a a syntax node, a <code class="language-text">throw</code> statement to be precise. This evidentely means that each time a <code class="language-text">throw</code> statement is encountered when the tree is walked through, my analyzer will execute.</p>
+<p>The actual implementation is very straightforward:</p>
+<ul>
+<li>Verify the node is a throw statement</li>
+<li>Verify the expression creates a new object</li>
+<li>Verify the new object is of type ArgumentException</li>
+<li>Verify there are no arguments passed to the constructor</li>
+</ul>
+<p>And that’s it. If these 4 conditions are true, I believe there to be an empty <code class="language-text">ArgumentException</code> call and I report a warning on that location.</p>
+<h1 id="testing-the-analyzer" style="position:relative;"><a href="#testing-the-analyzer" aria-label="testing the analyzer permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing the analyzer</h1>
+<p>If you now set the Vsix project as your startup project and press the big green “Start” button, a new Visual Studio instance will be launched. Use it to create a new project and you will notice that your analyzer is included. You can now let yourself loose on all sorts of scenarios involving <code class="language-text">ArgumentExceptions</code>!</p>
+<p>However I wouldn’t be me if I didn’t look into unit testing instead. Luckily, this is very easily done with this release. In fact, it’s so easy that there’s really not much looking into: you create a test class that inherits from <code class="language-text">CodeFixVerifier</code>, override the <code class="language-text">GetCSharpDiagnosticAnalyzer</code> and <code class="language-text">GetCSharpCodeFixProvider</code> as needed, you write source code in plain text and you use the helper functions <code class="language-text">VerifyCSharpDiagnostic</code> and <code class="language-text">VerifyCSharpCodeFix</code> to assert whether or not a diagnostic/code fix should occur at the given position. If nothing should occur you just pass in the source code as a string and if you do expect something, you pass in a <code class="language-text">DiagnosticResult</code>.</p>
+<p>In code:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">TestClass</span></span><span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UnitTest</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">CodeFixVerifier</span></span>
+<span class="token punctuation">{</span>
+   <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">TestMethod</span></span><span class="token punctuation">]</span>
+   <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">EmptyArgumentExceptionAnalyzer_WithEmptyArgument_InvokesWarning</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+       <span class="token class-name"><span class="token keyword">var</span></span> test <span class="token operator">=</span> <span class="token string">@"
+using System;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+   class MyClass
+   {
+       void Method(string input)
+       {
+           throw new ArgumentException();
+       }
+   }
+}"</span><span class="token punctuation">;</span>
+
+       <span class="token class-name"><span class="token keyword">var</span></span> expected <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DiagnosticResult</span>
+       <span class="token punctuation">{</span>
+           Id <span class="token operator">=</span> EmptyArgumentExceptionAnalyzerAnalyzer<span class="token punctuation">.</span>DiagnosticId<span class="token punctuation">,</span>
+           Message <span class="token operator">=</span> EmptyArgumentExceptionAnalyzerAnalyzer<span class="token punctuation">.</span>MessageFormat<span class="token punctuation">,</span>
+           Severity <span class="token operator">=</span> EmptyArgumentExceptionAnalyzerAnalyzer<span class="token punctuation">.</span>Severity<span class="token punctuation">,</span>
+           Locations <span class="token operator">=</span>
+               <span class="token keyword">new</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+               <span class="token punctuation">{</span>
+                   <span class="token keyword">new</span> <span class="token constructor-invocation class-name">DiagnosticResultLocation</span><span class="token punctuation">(</span><span class="token string">"Test0.cs"</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">23</span><span class="token punctuation">)</span>
+               <span class="token punctuation">}</span>
+       <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+       <span class="token function">VerifyCSharpDiagnostic</span><span class="token punctuation">(</span>test<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">TestMethod</span></span><span class="token punctuation">]</span>
+   <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">EmptyArgumentExceptionAnalyzer_WithArgument_DoesNotInvokeWarning</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+       <span class="token class-name"><span class="token keyword">var</span></span> test <span class="token operator">=</span> <span class="token string">@"
+using System;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+   class MyClass
+   {
+       void Method(string input)
+       {
+           throw new ArgumentException(input);
+       }
+   }
+}"</span><span class="token punctuation">;</span>
+       <span class="token function">VerifyCSharpDiagnostic</span><span class="token punctuation">(</span>test<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">TestMethod</span></span><span class="token punctuation">]</span>
+   <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">EmptyArgumentExceptionAnalyzer_WithDumbRethrowStatement_DoesNotInvokeWarning</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+       <span class="token class-name"><span class="token keyword">var</span></span> test <span class="token operator">=</span> <span class="token string">@"
+using System;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+   class MyClass
+   {
+       void Method(string input)
+       {
+           try { }
+           catch (ArgumentException e) { throw e; }
+       }
+   }
+}"</span><span class="token punctuation">;</span>
+
+       <span class="token function">VerifyCSharpDiagnostic</span><span class="token punctuation">(</span>test<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">TestMethod</span></span><span class="token punctuation">]</span>
+   <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">EmptyArgumentExceptionAnalyzer_WithRethrowStatement_DoesNotInvokeWarning</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+       <span class="token class-name"><span class="token keyword">var</span></span> test <span class="token operator">=</span> <span class="token string">@"
+using System;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+   class MyClass
+   {
+       void Method(string input)
+       {
+           try { }
+           catch (ArgumentException e) { throw; }
+       }
+   }
+}"</span><span class="token punctuation">;</span>
+
+       <span class="token function">VerifyCSharpDiagnostic</span><span class="token punctuation">(</span>test<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name">DiagnosticAnalyzer</span> <span class="token function">GetCSharpDiagnosticAnalyzer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+       <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">EmptyArgumentExceptionAnalyzer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>That’s how easy it now is to create your own slim ReSharper. Your code is evaluated against your rules as you type, you can write them yourself very easily and you can export them as needed. I will definitely port the few analyzers I created as a test last year and expand it with many others I can think of and I encourage you to do the same (or contribute).</p>
+<p>For more information on how to get started with these analyzers I recommend a couple of resources:</p>
+<ul>
+<li><a href="http://channel9.msdn.com/Series/ConnectOn-Demand/225" target="_blank" rel="nofollow noopener noreferrer">http://channel9.msdn.com/Series/ConnectOn-Demand/225</a></li>
+<li><a href="https://www.wintellectnow.com/videos/watch?videoid=writing-roslyn-analyzers-and-code-fixes" target="_blank" rel="nofollow noopener noreferrer">https://www.wintellectnow.com/videos/watch?videoid=writing-roslyn-analyzers-and-code-fixes</a></li>
+</ul></div></div></div><div class="post-module--footer--87cff"><div class="post-footer-module--post-footer--9c13c"><p class="post-footer-module--date--abfe9">Published<!-- --> <!-- -->May 3, 2015</p></div><ul class="post-tags-module--post-tags--6c235"><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/c/">C#</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/roslyn/">Roslyn</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/visual-studio/">Visual Studio</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/diagnostics/">Diagnostics</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/unit-testing/">Unit Testing</a></li></ul><div class="post-author-module--post-author--2247e"><p class="post-author-module--description--78aeb">Staff Software Engineer at Hudl</p></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/2015-05-03---Getting-Started-With-Your-First-Diagnostic/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+          <script
+            id="gatsby-chunk-mapping"
+          >
+            window.___chunkMapping="{\"app\":[\"/app-4d8a82dee2f49f449ca4.js\"],\"component---src-templates-categories-template-tsx\":[\"/component---src-templates-categories-template-tsx-e2aa74820d54d99fe3ca.js\"],\"component---src-templates-category-template-tsx\":[\"/component---src-templates-category-template-tsx-91198c0b28f43cf82e8c.js\"],\"component---src-templates-index-template-tsx\":[\"/component---src-templates-index-template-tsx-6b97cc63597a8b556989.js\"],\"component---src-templates-not-found-template-tsx\":[\"/component---src-templates-not-found-template-tsx-6f0b5a8af258d13412fd.js\"],\"component---src-templates-page-template-tsx\":[\"/component---src-templates-page-template-tsx-6f8a5c2cb19885f5a79c.js\"],\"component---src-templates-post-template-tsx\":[\"/component---src-templates-post-template-tsx-e0b96475de7444f8a312.js\"],\"component---src-templates-tag-template-tsx\":[\"/component---src-templates-tag-template-tsx-c3b1637f418d40c0666c.js\"],\"component---src-templates-tags-template-tsx\":[\"/component---src-templates-tags-template-tsx-b6e43fd8f2cfc2b12379.js\"]}";
+          </script>
+        <script>window.___webpackCompilationHash="c6936d1474492ffb553e";</script><script src="/webpack-runtime-ca386f5d5815a2ea1286.js" async></script><script src="/framework-6a5f65edcb7bd3065229.js" async></script><script src="/d904c7bf-5cdda61f968d23d0029b.js" async></script><script src="/app-4d8a82dee2f49f449ca4.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

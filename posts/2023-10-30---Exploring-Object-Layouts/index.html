@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 5.14.1"/><meta name="theme-color" content="hsl(31, 92%, 62%)"/><meta name="description" content="Removing fields from an object should reduce that object&#x27;s size. Why am I not seeing any difference?" data-gatsby-head="true"/><meta name="twitter:card" content="summary_large_image" data-gatsby-head="true"/><meta name="twitter:title" content="Exploring Object Layouts - To kill a mocking bug" data-gatsby-head="true"/><meta name="twitter:description" content="Removing fields from an object should reduce that object&#x27;s size. Why am I not seeing any difference?" data-gatsby-head="true"/><meta name="og:title" content="Exploring Object Layouts - To kill a mocking bug" data-gatsby-head="true"/><meta name="og:type" content="website" data-gatsby-head="true"/><meta name="og:description" content="Removing fields from an object should reduce that object&#x27;s size. Why am I not seeing any difference?" data-gatsby-head="true"/><style data-href="/styles.aabeecdf386b227d2154.css" data-identity="gatsby-global-css">html{font-size:100}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background:hsl(var(--color-background));color:hsl(var(--color-foreground));font-size:16px;line-height:1.625;margin:0 0 0 calc(100vw - 100%);text-rendering:optimizelegibility}body,h1,h2,h3,h4,h5,h6{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif}h1,h2,h3,h4,h5,h6{font-weight:600}h1{font-size:40px;line-height:52px;margin-bottom:26px;margin-top:104px}h2{font-size:27px;line-height:39px}h2,h3{margin-bottom:13px;margin-top:52px}h3{font-size:22px;line-height:26px}h4{font-size:19.2px;margin-top:39px}h4,h5{line-height:26px;margin-bottom:13px}h5,h6{font-size:16px;margin-top:65px}h6{line-height:26px;margin-bottom:13px}img{max-width:100%}hr,img{border:0;display:block}hr{background-image:linear-gradient(to bottom,transparent 1px,transparent 11px,hsl(var(--color-foreground)) 11px,hsl(var(--color-foreground)) 15px,transparent 15px,transparent 26px);background-size:100% 26px;height:26px;margin:52px auto;width:100px}a,hr{color:hsl(var(--color-foreground))}a{text-decoration:none}a:active,a:focus,a:hover{color:hsl(var(--color-primary))}b,strong{font-weight:600}ul{list-style:square;margin-bottom:26px}ul li{margin-bottom:10px;padding:0 5px}p{line-height:26px;margin-bottom:26px}blockquote{font-style:italic;padding:0;text-align:center}figure{display:block;height:auto;width:100%}figcaption{color:hsl(var(--color-foreground));font-size:14px;font-style:italic;line-height:19.5px;margin-bottom:0;margin-top:6.5px;text-align:center}@media screen and (min-width:685px){figure.float-left,figure.float-right{max-width:310px;padding:0 26px}.float-right{float:right}.float-left{float:left}}code[class*=language-],pre[class*=language-]{word-wrap:normal;color:#657b83;font-family:ui-monospace,Cascadia Code,Source Code Pro,Menlo,Consolas,DejaVu Sans Mono,monospace;font-size:16px;-webkit-hyphens:none;hyphens:none;line-height:1.5;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{border-radius:.3em;margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background-color:hsl(var(--color-muted))}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#073642}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#93a1a1}.token.punctuation{color:#586e75}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#268bd2}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string,.token.url{color:#2aa198}.token.entity{background:#eee8d5;color:#657b83;cursor:help}.token.atrule,.token.attr-value,.token.keyword{color:#859900}.token.class-name,.token.function{color:#b58900}.token.important,.token.regex,.token.variable{color:#cb4b16}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}:root{--color-background:0 0% 100%;--color-foreground:240 7% 11%;--color-muted:240 6% 96%;--color-muted-foreground:240 6% 46.1%;--color-border:240 2% 89%;--color-primary:342 100% 47%;--color-primary-foreground:240 4% 98%;--color-secondary:240 6% 96%;--color-secondary-foreground:240 2% 17%;--color-accent:240 6% 96%;--color-accent-foreground:240 2% 17%;--color-destructive:342 100% 47%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:light}.dark{--color-background:240 7% 11%;--color-foreground:240 4% 98%;--color-muted:240 4% 17%;--color-muted-foreground:240 4% 66%;--color-border:240 4% 17%;--color-primary:342 100% 74%;--color-primary-foreground:240 4% 98%;--color-secondary:240 4% 17%;--color-secondary-foreground:240 4% 98%;--color-accent:240 4% 17%;--color-accent-foreground:240 4% 98%;--color-destructive:342 100% 74%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:dark}.feed-module--feed--be542 .feed-module--item--093ea{margin-bottom:32.5px}.feed-module--feed--be542 .feed-module--item--093ea:last-child{margin-bottom:13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13{font-size:27px;line-height:39px;margin-bottom:13px;margin-top:0}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef{color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:hover{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--description--25c4d{color:hsl(var(--color-muted-foreground));font-size:16px;line-height:26px;margin-bottom:19.5px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--time--1da0e{color:hsl(var(--color-foreground));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--divider--dc8bf{margin:0 13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--category--588f4 .feed-module--link--797ef{color:hsl(var(--color-primary));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839{color:hsl(var(--color-foreground));font-size:16px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.page-module--page--aeaf7{grid-column:span 12;margin-bottom:52px}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:26px 19.5px 0}.page-module--page--aeaf7 .page-module--title--3f843{font-size:40px;font-weight:600;line-height:52px;margin-bottom:37.7px;margin-top:0}.page-module--page--aeaf7 .page-module--body--91ea2{font-size:16px;line-height:26px;margin:0 0 26px}@media screen and (min-width:685px){.page-module--page--aeaf7{grid-column:span 7}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:32.5px 19.5px 0}}@media screen and (min-width:1100px){.page-module--page--aeaf7{grid-column:span 8}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:39px 26px 0}}.button-module--button--5ffa9{border:1px solid hsl(var(--color-border));border-radius:20px;color:hsl(var(--color-foreground));display:inline-block;font-size:16px;font-weight:400;height:40px;line-height:40px;margin-left:auto;margin-right:auto;padding:0 26px;text-align:center;text-decoration:none}.button-module--button--5ffa9:focus,.button-module--button--5ffa9:hover{background:hsl(var(--color-accent));color:hsl(var(--color-accent-foreground))}.post-tags-module--post-tags--6c235{list-style:none;margin-bottom:13px;padding:0}.post-tags-module--post-tags--6c235 .post-tags-module--item--53595{display:inline-block;margin:6.5px 0}@media screen and (min-width:685px){.post-tags-module--post-tags--6c235 .post-tags-module--item--53595:first-child{margin-left:0;padding-left:0}}.post-author-module--post-author--2247e{border-top:1px solid hsl(var(--color-border));line-height:26px;margin-bottom:52px;margin-top:26px;max-width:100%;padding-top:26px}.post-author-module--post-author--2247e .post-author-module--description--78aeb .post-author-module--x--f2941{display:block;text-decoration:underline}@media screen and (min-width:685px){.post-author-module--post-author--2247e{margin-left:auto;margin-right:auto}}.post-footer-module--post-footer--9c13c .post-footer-module--date--abfe9{font-style:italic}.post-content-module--postContent--5129c{margin:0 auto;max-width:100%;padding:0 13px}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:32px;font-weight:600;line-height:42.9px;margin:26px auto 0;max-width:100%;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure{margin-bottom:26px}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote{font-style:italic;margin-top:0;padding:26px 0;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote p{font-size:26.9072px;line-height:39px;margin-bottom:26px;margin-top:0;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 a{text-decoration:underline}.post-content-module--postContent--5129c .post-content-module--body--3be78 *{margin-left:auto;margin-right:auto;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{visibility:hidden}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a>svg{fill:hsl(var(--color-foreground))}.post-content-module--postContent--5129c .post-content-module--body--3be78 img{max-width:100%}@media screen and (min-width:1100px){.post-content-module--postContent--5129c{padding:0}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:48px;line-height:58.5px;margin-bottom:39px;margin-top:58.5px}.post-content-module--postContent--5129c .post-content-module--body--3be78,.post-content-module--postContent--5129c .post-content-module--body--3be78 p{font-size:18px;line-height:29.25px;margin-bottom:29.25px}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{padding-right:13px;visibility:unset}}.layout-module--layout--e08e0{display:grid;gap:30px;grid-template-columns:repeat(12,1fr);margin:0 auto;max-width:1070px}.sidebar-menu-module--sidebar-menu--a1f76{margin-bottom:26px}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39{list-style:none;margin:0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667{margin:13px 0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc{border:0;color:hsl(var(--color-foreground));font-size:16px;font-weight:400}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:focus,.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc.sidebar-menu-module--active--0ae28{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4{--theme-switcher-color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0{align-items:center;background:transparent;border:0;cursor:pointer;display:flex;justify-content:center;outline:0}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0 svg{stroke:var(--theme-switcher-color);pointer-events:none;transition:stroke .4s}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0:hover{--theme-switcher-color:hsl(var(--color-primary))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--moon--f9082{stroke-dasharray:0 1px;opacity:0;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--sun--65dc4{stroke-dasharray:1px 1px;opacity:1;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--moon--f9082{stroke-dasharray:1px 1px;opacity:1}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--sun--65dc4{stroke-dasharray:0 1px;opacity:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f{background-clip:padding-box;border:1px solid hsl(var(--color-muted));border-radius:50%;display:inline-block;height:75px;margin-bottom:0;width:75px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f img{border-radius:50%}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921{font-size:18px;font-weight:600;line-height:29.25px;margin:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:focus,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:hover{color:hsl(var(--color-foreground))}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--description--05f75{color:hsl(var(--color-muted-foreground));line-height:26px;margin-bottom:26px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--titleContainer--335a3{align-items:center;display:flex;justify-content:space-between;margin:13px 0}.icon-module--icon--1a7c5{fill:currentcolor;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;speak:none;stroke:currentcolor;stroke-width:0;display:inline-block;font-style:normal;font-variant:normal;font-weight:400;height:1em;line-height:1em;text-align:center;text-transform:none;width:1em}.sidebar-contacts-module--sidebar-contacts--bbb62{margin-bottom:26px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4{display:flex;flex-flow:row wrap;flex-grow:0;flex-shrink:0;list-style:none;margin:13px 0;max-width:165px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2{border:1px solid hsl(var(--color-muted));border-radius:50%;margin:6.5px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2:nth-child(3n+1){margin-left:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a{align-items:center;border:0;color:hsl(var(--color-foreground));cursor:pointer;display:flex;height:40px;justify-content:center;width:40px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:focus,.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:hover{color:hsl(var(--color-primary))}.sidebar-copyright-module--sidebar-copyright--97d08{color:hsl(var(--color-muted-foreground));font-size:14px}.sidebar-module--sidebar--58428{grid-column:span 12;width:100%}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:26px 19.5px 0;position:relative}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{background:hsl(var(--color-border));background:linear-gradient(to bottom,hsl(var(--color-border)) 0,hsl(var(--color-border)) 48%,hsl(var(--color-background)) 100%)}@media screen and (min-width:685px){.sidebar-module--sidebar--58428{grid-column:span 5}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:32.5px 19.5px 0}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{bottom:0;content:"";height:540px;position:absolute;right:-10px;top:30px;width:1px}}@media screen and (min-width:960px){.sidebar-module--sidebar--58428{grid-column:span 4}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:39px}}.pagination-module--pagination--e5305{display:flex;margin-top:52px}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8{text-align:left;width:50%}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:focus,.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.pagination-module--pagination--e5305 .pagination-module--next--92e1f{text-align:right;width:50%}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:focus,.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.post-module--post--cd62a{grid-column:span 12}.post-module--post--cd62a .post-module--content--49372{margin:0 auto}.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{margin:0 auto;max-width:100%;padding:0 13px}.post-module--post--cd62a .post-module--buttons--26059{align-items:center;display:flex;justify-content:center;margin:26px 0 0;text-align:center}.post-module--post--cd62a .post-module--buttons--26059 .post-module--buttonArticles--8a265{margin:0 13px 0 0}@media screen and (min-width:1100px){.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{padding:0}.post-module--post--cd62a .post-module--buttons--26059{left:30px;margin:0 13px 0 0;max-width:none;position:fixed;top:30px}}</style><link rel="alternate" type="application/rss+xml" title="To kill a mocking bug" href="/rss.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="sitemap" type="application/xml" href="/sitemap-index.xml"/><link rel="icon" href="/favicon-32x32.png?v=8be6cb7f3a020ee89583d44994892d92" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=8be6cb7f3a020ee89583d44994892d92"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><title data-gatsby-head="true">Exploring Object Layouts - To kill a mocking bug</title></head><body><script>
+          void function() {
+            var cachedMode;
+
+            try {
+              var preferredTheme = JSON.parse(localStorage.getItem("diesel:theme-atom"));
+
+              if (preferredTheme && preferredTheme.mode) {
+                cachedMode = preferredTheme.mode;
+              }
+            } catch (err) { }
+
+            function setTheme(newTheme) {
+              document.documentElement.className = newTheme;
+            }
+
+            var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+            setTheme(cachedMode || (darkQuery.matches ? "dark" : "light"));
+          }()
+        </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="layout-module--layout--e08e0"><div class="post-module--post--cd62a"><div class="post-module--buttons--26059"><a class="button-module--button--5ffa9 post-module--buttonArticles--8a265" href="/">All Articles</a></div><div class="post-module--content--49372"><div class="post-content-module--postContent--5129c"><h1 class="post-content-module--title--b7e5d">Exploring Object Layouts</h1><div class="post-content-module--body--3be78"><h1 id="background" style="position:relative;"><a href="#background" aria-label="background permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Background</h1>
+<p>The yearly <a href="https://devblogs.microsoft.com/dotnet/performance-improvements-in-net-8" target="_blank" rel="nofollow noopener noreferrer">“Performance improvements in .NET” blog post</a> is always a treasure trove of low-level knowledge on performance. This latest edition had several examples of significant improvements as a result of allocating smaller objects, rather than allocating less frequently. Of course no allocations are even better but at the same time allocations are part of life so they are unavoidable to some degree.<br>
+Take <a href="https://github.com/dotnet/runtime/pull/81251" target="_blank" rel="nofollow noopener noreferrer">PR #81251</a> for example: by replacing a couple of fields with a well-known value on an existing <code class="language-text">int</code> field, we can reduce the overall size of each object. After a bit of browsing I spotted <a href="https://github.com/dotnet/runtime/blob/b6b00ec9f606eca0c47e01b30e74ee0d37d561ab/src/libraries/System.Net.Ping/src/System/Net/NetworkInformation/Ping.cs#L21-L31" target="_blank" rel="nofollow noopener noreferrer">a similar pattern</a> in <code class="language-text">Ping</code> where it seemed I would be able to apply the same idea: <code class="language-text">bool _canceled</code> and <code class="language-text">bool _disposeRequested</code> could just as easily be flags for the existing <code class="language-text">int _status</code> field. The <code class="language-text">_status</code> field only supports a few values right now so we can easily tack more on.</p>
+<p>After a bit of playing around to figure out how to build the runtime locally and run a comparison benchmark, I ended up with this PR: <a href="https://github.com/dotnet/runtime/pull/94151" target="_blank" rel="nofollow noopener noreferrer">https://github.com/dotnet/runtime/pull/94151</a>. Lo and behold, BenchmarkDotNet claims we allocated the same amount after my changes. How is that possible when it literally stores less data?</p>
+<h1 id="diagnosis" style="position:relative;"><a href="#diagnosis" aria-label="diagnosis permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Diagnosis</h1>
+<p>At first I looked at the issue through <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debugger-download-tools" target="_blank" rel="nofollow noopener noreferrer">WinDbg</a>. To make things easy for ourselves we’ll create two class definitions with the fields of the <code class="language-text">Ping</code> class with and without the two booleans:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>ComponentModel</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Net<span class="token punctuation">.</span>NetworkInformation</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Diagnostics</span><span class="token punctuation">;</span>
+
+<span class="token class-name"><span class="token keyword">var</span></span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Ping</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name"><span class="token keyword">var</span></span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Ping2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Debugger<span class="token punctuation">.</span><span class="token function">Break</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">partial</span> <span class="token keyword">class</span> <span class="token class-name">Ping</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">Component</span></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name">ManualResetEventSlim</span> _lockObject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">ManualResetEventSlim</span><span class="token punctuation">(</span><span class="token named-parameter punctuation">initialState</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// doubles as the ability to wait on the current operation</span>
+    <span class="token keyword">private</span> <span class="token class-name">SendOrPostCallback<span class="token punctuation">?</span></span> _onPingCompletedDelegate<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">bool</span></span> _disposeRequested<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">?</span></span> _defaultSendBuffer<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">CancellationTokenSource<span class="token punctuation">?</span></span> _timeoutOrCancellationSource<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">bool</span></span> _canceled<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _status <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">event</span> <span class="token class-name">PingCompletedEventHandler<span class="token punctuation">?</span></span> PingCompleted<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">partial</span> <span class="token keyword">class</span> <span class="token class-name">Ping2</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">Component</span></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name">ManualResetEventSlim</span> _lockObject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">ManualResetEventSlim</span><span class="token punctuation">(</span><span class="token named-parameter punctuation">initialState</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// doubles as the ability to wait on the current operation</span>
+    <span class="token keyword">private</span> <span class="token class-name">SendOrPostCallback<span class="token punctuation">?</span></span> _onPingCompletedDelegate<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">?</span></span> _defaultSendBuffer<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">CancellationTokenSource<span class="token punctuation">?</span></span> _timeoutOrCancellationSource<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name"><span class="token keyword">int</span></span> _status <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">event</span> <span class="token class-name">PingCompletedEventHandler<span class="token punctuation">?</span></span> PingCompleted<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>Compile this in release mode (<code class="language-text">dotnet build -c Release</code>) and load the .exe in WinDbg, you’ll see something along these lines:</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/90d85e6794c14cb07409b794b5c15b71/db19e/windbg-load.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 54.58333333333334%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABnUlEQVR42oWS2Y6jMBBF+f//6plkpHnKQxDZALPaBpwQm53bhVskvanb0lEBVb61UM7GDZCkHIyl8In9OUGQFBBSoSivXyhLBVXdoFT9oKL3cvEXCs5/L8IxTOwHVWtUN43bvUXTDjBN/0ATLX2T6g6WSwhRgHNJCEpUkY9idAPnWlVI0wRSCBhjMA4DBmIcB8zzhPXM82xtqVu4cQ4WBAiIy+UEKbn1TdNEgreaSl2ycXJI1HWNruus8/1ZBSvT4kAjiqMIIWPwfZ8qlE9BKQuoK7WrFJWs7cXPYl8FBZI4RkSEYQAucusbxxGO7wc4nU42W57nNMvycfk7waXlfZQjonhGXC5nmid/Ch6PZ+x2O7iuC8/zSPz8s6B5m+HSMmORrfBDy0VR4kotLz+kaRo7v+/OR8HMVhiGoa1QFuIpWNcGwzih64cHbdfT2nTWLpimRX3XMNqA084FeUGbkSHLOdIsQ0mb0tO9huKccRjx25koYd/Rbuo7WqN/jHVe9gzbQ4oNsdr1eeWvl+CPG2NDdnvIyD7j3vPPS/AKOh1HFs7w6NgAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/90d85e6794c14cb07409b794b5c15b71/8ac56/windbg-load.webp 240w,
+/static/90d85e6794c14cb07409b794b5c15b71/d3be9/windbg-load.webp 480w,
+/static/90d85e6794c14cb07409b794b5c15b71/e46b2/windbg-load.webp 960w,
+/static/90d85e6794c14cb07409b794b5c15b71/f992d/windbg-load.webp 1440w,
+/static/90d85e6794c14cb07409b794b5c15b71/882b9/windbg-load.webp 1920w,
+/static/90d85e6794c14cb07409b794b5c15b71/87856/windbg-load.webp 2561w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/90d85e6794c14cb07409b794b5c15b71/8ff5a/windbg-load.png 240w,
+/static/90d85e6794c14cb07409b794b5c15b71/e85cb/windbg-load.png 480w,
+/static/90d85e6794c14cb07409b794b5c15b71/d9199/windbg-load.png 960w,
+/static/90d85e6794c14cb07409b794b5c15b71/07a9c/windbg-load.png 1440w,
+/static/90d85e6794c14cb07409b794b5c15b71/29114/windbg-load.png 1920w,
+/static/90d85e6794c14cb07409b794b5c15b71/db19e/windbg-load.png 2561w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/90d85e6794c14cb07409b794b5c15b71/d9199/windbg-load.png"
+            alt="WinDbg loaded"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>Next, run the program so it hits the breakpoint we set via <code class="language-text">Debugger.Break()</code>:</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">g</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/443f60871aad5056ca7ce68b8a0299d0/db19e/windbg-breakpoint.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 54.58333333333334%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABxUlEQVR42o1Sa6+UMBDl//8jE+MnY9aYGOMHd1ku0AKFQqG8ltfyOA7Fe69rrtEmJ007M6enZ8Y6nTlikSKKEgRRirNPe6Kh8gqFrt9AhapsUFXtC0o66z1WVLC++yl4rCBThVgqpHmJuunRDRP64f6CjjCMMzLdIJQ5clUgzzXSNCMijZFiXTfA0kVOr5TQdNm2LbZtxbau+HNt27GrdsA5khBRiDAM4XlPyJQ0sYXqLB7Qpe/RlyMopVBWFRVvfydsOlzjDDJJyKoYjPvIC2ViqyHkAS6XM54cB57rgjH2X4RJHCMSglQG5Gt+KFwWWL7PSLaHmBL2V3eV0zQZ7An7qzuWZTWsWX3DhZoYxwKCCD3fRSLFI6FtX+CQQk7qOOfUMU2NadAQ5nk2itdfvhqFO6E4CBnzaCKy1y8zxnG92nC9w8dnL3fSoijQ970hfDZhJ7SJUFBeGEbgAXsklDKjRtSk5oZb19OIjDQCd7MP42TQ96OJDXSX0cwFmSZ7Uho18lJK6LLE/T5THo3NMi/419q96bsOFZlfV9qM1ltrJZ+tjz9CnK7JAecVn3/DJ1vgwzcX776cDd5/dWDqnMeakx3hJ2uUQWecNikiAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/443f60871aad5056ca7ce68b8a0299d0/8ac56/windbg-breakpoint.webp 240w,
+/static/443f60871aad5056ca7ce68b8a0299d0/d3be9/windbg-breakpoint.webp 480w,
+/static/443f60871aad5056ca7ce68b8a0299d0/e46b2/windbg-breakpoint.webp 960w,
+/static/443f60871aad5056ca7ce68b8a0299d0/f992d/windbg-breakpoint.webp 1440w,
+/static/443f60871aad5056ca7ce68b8a0299d0/882b9/windbg-breakpoint.webp 1920w,
+/static/443f60871aad5056ca7ce68b8a0299d0/87856/windbg-breakpoint.webp 2561w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/443f60871aad5056ca7ce68b8a0299d0/8ff5a/windbg-breakpoint.png 240w,
+/static/443f60871aad5056ca7ce68b8a0299d0/e85cb/windbg-breakpoint.png 480w,
+/static/443f60871aad5056ca7ce68b8a0299d0/d9199/windbg-breakpoint.png 960w,
+/static/443f60871aad5056ca7ce68b8a0299d0/07a9c/windbg-breakpoint.png 1440w,
+/static/443f60871aad5056ca7ce68b8a0299d0/29114/windbg-breakpoint.png 1920w,
+/static/443f60871aad5056ca7ce68b8a0299d0/db19e/windbg-breakpoint.png 2561w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/443f60871aad5056ca7ce68b8a0299d0/d9199/windbg-breakpoint.png"
+            alt="Breakpoint is hit and stacktrace is visible"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>At this point we can look for our previously-created <code class="language-text">Ping</code> objects with something like this:</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token operator">!</span>dumpheap <span class="token parameter variable">-stat</span> <span class="token parameter variable">-type</span> Ping</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 317px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3eb7fd5529712aa42ff2e2cff9d2f0bd/a5d70/windbg-dumpheap.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 34.583333333333336%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABlElEQVR42h2RW3OiQBBG+f9/ZpMq9zG12YQ1eEEugsr9omAERKNg4tPZloep6YGp06e/UVauw3Q6JctyyqJksTCYTiaYloXjuhwOByypy6Kgrip832O3K4jiCG+z5vNQUdc15/MXXdehTDQN9f1dADaWvRTYjCRJiOOEoixpj0c5pwO4aRqiKGS721FIgzAMBHbkdrvRXTvaU4vyuc+oDjuqSlZTkqU+SRpQCszzNuT5VuyzofbELpW6LPfD91QaP8CuTOnKNLU0VDzvShBc2HgXwqBnPt+jab6YRBiGwXq9xvd8bMtktVrJ/xlz3UDXdf6+/iES+6VtY5iG2Arw5aXjsZ6ee0ajjl9PP3yM7/S365BJvt3S9R193/Nzv5MlsQB1HMdBG4+J05zb9/dw93w6oahqwT91z9vbEVVtGP3OZc8lv+0QdhCKbRxTSG4PeCzmURTLyDmmsSCUum1bGrF77IrrWOiLmVxOJY9MOttsNq5cDAdgmibDaztLG9O0BtjpdJa8ai6XLy7Xq9h3g+Hjlf8DF5L4DyPoqfIAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/3eb7fd5529712aa42ff2e2cff9d2f0bd/8ac56/windbg-dumpheap.webp 240w,
+/static/3eb7fd5529712aa42ff2e2cff9d2f0bd/7e61c/windbg-dumpheap.webp 317w"
+              sizes="(max-width: 317px) 100vw, 317px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/3eb7fd5529712aa42ff2e2cff9d2f0bd/8ff5a/windbg-dumpheap.png 240w,
+/static/3eb7fd5529712aa42ff2e2cff9d2f0bd/a5d70/windbg-dumpheap.png 317w"
+            sizes="(max-width: 317px) 100vw, 317px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/3eb7fd5529712aa42ff2e2cff9d2f0bd/a5d70/windbg-dumpheap.png"
+            alt="Two results for classes Ping and Ping2"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>Immediately we can see that both <code class="language-text">Ping</code> and <code class="language-text">Ping2</code> have one instance each. Crucially, both show up as having a total size of 80 bytes. This aligns with our BenchmarkDotNet findings that no allocation reduction was realised.</p>
+<p>To investigate deeper we can click on the link for the <code class="language-text">7ffc8b4d9bc8</code> Method Table which will execute <code class="language-text">!dumpheap -mt 7ffc8b4d9bc8</code>. This then tell us that the memory address for that object is located at <code class="language-text">2258d00a648</code>.</p>
+<p>Clicking that link then executes <code class="language-text">!dumpobj /d 2258d00a648</code> which gives us this nice overview of the object:</p>
+<div class="gatsby-highlight" data-language="log"><pre class="language-log"><code class="language-log"><span class="token number">0</span><span class="token operator">:</span><span class="token number">000</span><span class="token operator">></span> <span class="token operator">!</span>dumpobj <span class="token file-path string">/d</span> <span class="token number">2258d00a648</span>
+<span class="token property">Name:</span>        Ping
+<span class="token property">MethodTable:</span> <span class="token number">00007ffc8b4d9bc8</span>
+<span class="token property">EEClass:</span>     <span class="token number">00007ffc8b4e33f8</span>
+<span class="token property">Tracked Type:</span> <span class="token boolean">false</span>
+<span class="token property">Size:</span>        <span class="token number">80</span><span class="token operator">(</span><span class="token number">0x50</span><span class="token operator">)</span> bytes
+<span class="token property">File:</span>        <span class="token file-path string">C:\Users\jer_v\source\repos\pingsize\pingsize\bin\Release\net8.0\pingsize.dll</span>
+<span class="token property">Fields:</span>
+              MT    Field   Offset                 Type VT     Attr            Value Name
+<span class="token number">0000000000000000</span>  <span class="token number">4000019</span>        <span class="token number">8</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>ponentModel<span class="token punctuation">.</span>ISite  <span class="token number">0</span> instance <span class="token number">0000000000000000</span> _site
+<span class="token number">0000000000000000</span>  <span class="token number">400001a</span>       <span class="token number">10</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>EventHandlerList  <span class="token number">0</span> instance <span class="token number">0000000000000000</span> _events
+<span class="token number">00007ffc8b355fa0</span>  <span class="token number">4000018</span>       <span class="token number">98</span>        System<span class="token punctuation">.</span>Object  <span class="token number">0</span>   static <span class="token number">0000000000000000</span> s_eventDisposed
+<span class="token number">00007ffc8b4daa90</span>  <span class="token number">4000001</span>       <span class="token number">18</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>ualResetEventSlim  <span class="token number">0</span> instance <span class="token number">000002258d00a698</span> _lockObject
+<span class="token number">00007ffc8b3992d0</span>  <span class="token number">4000002</span>       <span class="token number">20</span>          System<span class="token punctuation">.</span>Void  <span class="token number">0</span> instance <span class="token number">0000000000000000</span> _onPingCompletedDelegate
+<span class="token number">00007ffc8b35d068</span>  <span class="token number">4000003</span>       <span class="token number">44</span>       System<span class="token punctuation">.</span>Boolean  <span class="token number">1</span> instance                <span class="token number">0</span> _disposeRequested
+<span class="token number">0000000000000000</span>  <span class="token number">4000004</span>       <span class="token number">28</span>              SZARRAY  <span class="token number">0</span> instance <span class="token number">0000000000000000</span> _defaultSendBuffer
+<span class="token number">00007ffc8b3992d0</span>  <span class="token number">4000005</span>       <span class="token number">30</span>          System<span class="token punctuation">.</span>Void  <span class="token number">0</span> instance <span class="token number">0000000000000000</span> _timeoutOrCancellationSource
+<span class="token number">00007ffc8b35d068</span>  <span class="token number">4000006</span>       <span class="token number">45</span>       System<span class="token punctuation">.</span>Boolean  <span class="token number">1</span> instance                <span class="token number">0</span> _canceled
+<span class="token number">00007ffc8b391188</span>  <span class="token number">4000007</span>       <span class="token number">40</span>         System<span class="token punctuation">.</span>Int32  <span class="token number">1</span> instance                <span class="token number">0</span> _status
+<span class="token number">00007ffc8b3992d0</span>  <span class="token number">4000008</span>       <span class="token number">38</span>          System<span class="token punctuation">.</span>Void  <span class="token number">0</span> instance <span class="token number">0000000000000000</span> PingCompleted</code></pre></div>
+<p>Excellent! Now we see the exact layout of our fields in the object. Worth noting here that the object is 80 bytes — in decimal. In hexadecimal, that corresponds to 0x50. This is particularly relevant because the <code class="language-text">Offset</code> column specifies its values in hexadecimal as well.</p>
+<p>Note that the CLR chooses the most optimal layout for us. We can override this behaviour in structs so beware when using <code class="language-text">LayoutKind.Sequential</code>!</p>
+<blockquote>
+<p><strong>Object Layout</strong></p>
+<p>At this point we’ll take a step back and revise some CLR fundamentals: what does an object look like? For simplicity we’ll focus on 64-bit systems here. That means we can assume references are 8 bytes and objects (as a whole) are padded to an 8-byte boundary. Furthermore, every object contains two references by default: the Object Header and a reference to the Method Table. Both are 8 bytes so we know that the resulting object will be at least 16 bytes in size before we’ve even started counting our fields.</p>
+<p>Interestingly, the Object Header is actually defined with a negative offset (i.e. <code class="language-text">-8 bytes</code>). So our actual object at offset <code class="language-text">0</code> is the Method Table reference.</p>
+</blockquote>
+<p>With this knowledge in mind we can now use the offsets in the above output to show how the object is laid out. To simplify our life, we write a small console script to help with translating hexadecimal to decimal:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">var</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">+=</span> <span class="token number">8</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">i</span><span class="token punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">i</span><span class="token format-string"><span class="token punctuation">:</span>x</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+Console<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>This outputs:</p>
+<div class="gatsby-highlight" data-language="log"><pre class="language-log"><code class="language-log"><span class="token number">0</span><span class="token operator">:</span> <span class="token number">0</span>
+<span class="token number">8</span><span class="token operator">:</span> <span class="token number">8</span>
+<span class="token number">16</span><span class="token operator">:</span> <span class="token number">10</span>
+<span class="token number">24</span><span class="token operator">:</span> <span class="token number">18</span>
+<span class="token number">32</span><span class="token operator">:</span> <span class="token number">20</span>
+<span class="token number">40</span><span class="token operator">:</span> <span class="token number">28</span>
+<span class="token number">48</span><span class="token operator">:</span> <span class="token number">30</span>
+<span class="token number">56</span><span class="token operator">:</span> <span class="token number">38</span>
+<span class="token number">64</span><span class="token operator">:</span> <span class="token number">40</span>
+<span class="token number">72</span><span class="token operator">:</span> <span class="token number">48</span>
+<span class="token number">80</span><span class="token operator">:</span> <span class="token number">50</span>
+<span class="token number">88</span><span class="token operator">:</span> <span class="token number">58</span>
+<span class="token number">96</span><span class="token operator">:</span> <span class="token number">60</span></code></pre></div>
+<p>Armed with this information we can deduce the following object layout:</p>
+<div class="gatsby-highlight" data-language="log"><pre class="language-log"><code class="language-log">Field                        Offset <span class="token operator">(</span>hex<span class="token operator">)</span>  Offset <span class="token operator">(</span>dec<span class="token operator">)</span>    Size <span class="token operator">(</span>bytes<span class="token operator">)</span>
+<span class="token operator">&lt;</span>Object Header<span class="token operator">></span>             <span class="token operator">-</span><span class="token number">0x08</span>         <span class="token operator">-</span><span class="token number">8</span>               <span class="token number">8</span>
+<span class="token operator">&lt;</span>Method Table Pointer<span class="token operator">></span>       <span class="token number">0x00</span>          <span class="token number">0</span>               <span class="token number">8</span>
+_site                        <span class="token number">0x08</span>          <span class="token number">8</span>               <span class="token number">8</span>
+_events                      <span class="token number">0x10</span>          <span class="token number">16</span>              <span class="token number">8</span>
+_lockObject                  <span class="token number">0x18</span>          <span class="token number">24</span>              <span class="token number">8</span>
+_onPingCompletedDelegate     <span class="token number">0x20</span>          <span class="token number">32</span>              <span class="token number">8</span>
+_defaultSendBuffer           <span class="token number">0x28</span>          <span class="token number">40</span>              <span class="token number">8</span>
+_timeoutOrCancellationSource <span class="token number">0x30</span>          <span class="token number">48</span>              <span class="token number">8</span>
+PingCompleted                <span class="token number">0x38</span>          <span class="token number">56</span>              <span class="token number">8</span>
+_status                      <span class="token number">0x40</span>          <span class="token number">64</span>              <span class="token number">4</span>
+_disposeRequested            <span class="token number">0x44</span>          <span class="token number">68</span>              <span class="token number">1</span>
+_canceled                    <span class="token number">0x45</span>          <span class="token number">69</span>              <span class="token number">1</span></code></pre></div>
+<blockquote>
+<p><strong>Object sizes</strong></p>
+<p>References are 8 bytes, but <code class="language-text">int</code> is a 32-bit integer (i.e. four bytes) while booleans are defined as a single byte.</p>
+</blockquote>
+<p>This gives us a total range of <code class="language-text">-0x08</code> to <code class="language-text">0x46</code>, which equates to <code class="language-text">0x4e</code> or 78 bytes. What gives?</p>
+<p>Remember the <em>Object Layout</em> section from above:</p>
+<blockquote>
+<p>(..) are padded to an 8-byte boundary</p>
+</blockquote>
+<p>78 is not a multiple of 8 so we need to add padding for that. Specifically, we need to add two bytes worth of padding (rounding up to the nearest multiple) so our object actually becomes</p>
+<div class="gatsby-highlight" data-language="log"><pre class="language-log"><code class="language-log">Field                        Offset <span class="token operator">(</span>hex<span class="token operator">)</span>  Offset <span class="token operator">(</span>dec<span class="token operator">)</span>    Size <span class="token operator">(</span>bytes<span class="token operator">)</span>
+<span class="token operator">&lt;</span>Object Header<span class="token operator">></span>             <span class="token operator">-</span><span class="token number">0x08</span>         <span class="token operator">-</span><span class="token number">8</span>               <span class="token number">8</span>
+<span class="token operator">&lt;</span>Method Table Pointer<span class="token operator">></span>       <span class="token number">0x00</span>          <span class="token number">0</span>               <span class="token number">8</span>
+_site                        <span class="token number">0x08</span>          <span class="token number">8</span>               <span class="token number">8</span>
+_events                      <span class="token number">0x10</span>          <span class="token number">16</span>              <span class="token number">8</span>
+_lockObject                  <span class="token number">0x18</span>          <span class="token number">24</span>              <span class="token number">8</span>
+_onPingCompletedDelegate     <span class="token number">0x20</span>          <span class="token number">32</span>              <span class="token number">8</span>
+_defaultSendBuffer           <span class="token number">0x28</span>          <span class="token number">40</span>              <span class="token number">8</span>
+_timeoutOrCancellationSource <span class="token number">0x30</span>          <span class="token number">48</span>              <span class="token number">8</span>
+PingCompleted                <span class="token number">0x38</span>          <span class="token number">56</span>              <span class="token number">8</span>
+_status                      <span class="token number">0x40</span>          <span class="token number">64</span>              <span class="token number">4</span>
+_disposeRequested            <span class="token number">0x44</span>          <span class="token number">68</span>              <span class="token number">1</span>
+_canceled                    <span class="token number">0x45</span>          <span class="token number">69</span>              <span class="token number">1</span>
+<span class="token operator">&lt;</span>Padding<span class="token operator">></span>                    <span class="token number">0x46</span>          <span class="token number">70</span>              <span class="token number">2</span></code></pre></div>
+<p>This now gives us a valid object of 80 bytes. It also immediately makes it clear why our optimisation didn’t work: if you remove <code class="language-text">_disposeRequested</code> and <code class="language-text">_canceled</code> from the object definition then we end up with 76 bytes which is also not a multiple of 8. As a result, the CLR will introduce four bytes of padding and end up with an 80-byte object once again.</p>
+<h1 id="simplified-diagnosis" style="position:relative;"><a href="#simplified-diagnosis" aria-label="simplified diagnosis permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Simplified Diagnosis</h1>
+<p>Spelunking through WinDbg is certainly not trivial! Fortunately, there are projects out there that will help us a long way here. Using the <a href="https://github.com/SergeyTeplyakov/ObjectLayoutInspector" target="_blank" rel="nofollow noopener noreferrer">ObjectLayoutInspector</a> we can inspect the object size at runtime and print out a helpful overview. Add a reference to its NuGet package (<code class="language-text">&lt;PackageReference Include="ObjectLayoutInspector" Version="0.1.4" /></code>) and add the following to our application:</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp">ObjectLayoutInspector<span class="token punctuation">.</span>TypeLayout<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">PrintLayout</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>Ping<span class="token punctuation">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>Run the console application and we can see the following output:</p>
+<div class="gatsby-highlight" data-language="log"><pre class="language-log"><code class="language-log">Type layout for <span class="token string">'Ping'</span>
+<span class="token property">Size:</span> <span class="token number">64</span> bytes<span class="token punctuation">.</span> Paddings<span class="token operator">:</span> <span class="token number">2</span> bytes <span class="token operator">(</span><span class="token operator">%</span><span class="token number">3</span> of empty space<span class="token operator">)</span>
+<span class="token operator">|</span><span class="token separator comment">=======================================================================</span><span class="token operator">|</span>
+<span class="token operator">|</span> Object Header <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>                                               <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> Method Table Ptr <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>                                            <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">=======================================================================</span><span class="token operator">|</span>
+<span class="token operator">|</span>   <span class="token number">0</span><span class="token operator">-</span><span class="token number">7</span><span class="token operator">:</span> ISite _site <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>                                          <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token number">8</span><span class="token operator">-</span><span class="token number">15</span><span class="token operator">:</span> EventHandlerList _events <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>                             <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">16</span><span class="token operator">-</span><span class="token number">23</span><span class="token operator">:</span> ManualResetEventSlim _lockObject <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>                     <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">24</span><span class="token operator">-</span><span class="token number">31</span><span class="token operator">:</span> SendOrPostCallback _onPingCompletedDelegate <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>          <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">32</span><span class="token operator">-</span><span class="token number">39</span><span class="token operator">:</span> Byte<span class="token punctuation">[</span><span class="token punctuation">]</span> _defaultSendBuffer <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>                            <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">40</span><span class="token operator">-</span><span class="token number">47</span><span class="token operator">:</span> CancellationTokenSource _timeoutOrCancellationSource <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span> <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">48</span><span class="token operator">-</span><span class="token number">55</span><span class="token operator">:</span> PingCompletedEventHandler PingCompleted <span class="token operator">(</span><span class="token number">8</span> bytes<span class="token operator">)</span>              <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">56</span><span class="token operator">-</span><span class="token number">59</span><span class="token operator">:</span> Int32 _status <span class="token operator">(</span><span class="token number">4</span> bytes<span class="token operator">)</span>                                        <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">60</span><span class="token operator">:</span> Boolean _disposeRequested <span class="token operator">(</span><span class="token number">1</span> byte<span class="token operator">)</span>                             <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">61</span><span class="token operator">:</span> Boolean _canceled <span class="token operator">(</span><span class="token number">1</span> byte<span class="token operator">)</span>                                     <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">-----------------------------------------------------------------------</span><span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">62</span><span class="token operator">-</span><span class="token number">63</span><span class="token operator">:</span> padding <span class="token operator">(</span><span class="token number">2</span> bytes<span class="token operator">)</span>                                              <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token separator comment">=======================================================================</span><span class="token operator">|</span></code></pre></div>
+<p>This confirms our WinDbg findings: padding is applied to the end of the object and we’re seeing 16 bytes of overhead.</p>
+<h1 id="conclusion" style="position:relative;"><a href="#conclusion" aria-label="conclusion permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Conclusion</h1>
+<p>In this case, padding is inevitable. Even if we were to replace the <code class="language-text">int _status</code> with a <code class="language-text">byte _status</code>, we’d still use a single <code class="language-text">byte</code> on top of the previous boundary and thus incur seven bytes of padding. As a result, moving these fields into the status enum will gain no benefit from an object size perspective.</p>
+<p>This type of optimization shows most promise when used in a type that has multiple fields smaller than the pointer size — we only see effects if we’re able to go down to a lower multiple of our byte boundary. Of course, removing a reference field entirely will always yield results!</p></div></div></div><div class="post-module--footer--87cff"><div class="post-footer-module--post-footer--9c13c"><p class="post-footer-module--date--abfe9">Published<!-- --> <!-- -->Oct 30, 2023</p></div><ul class="post-tags-module--post-tags--6c235"><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/c/">C#</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/clr/">CLR</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/win-dbg/">WinDbg</a></li></ul><div class="post-author-module--post-author--2247e"><p class="post-author-module--description--78aeb">Staff Software Engineer at Hudl</p></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/2023-10-30---Exploring-Object-Layouts/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+          <script
+            id="gatsby-chunk-mapping"
+          >
+            window.___chunkMapping="{\"app\":[\"/app-4d8a82dee2f49f449ca4.js\"],\"component---src-templates-categories-template-tsx\":[\"/component---src-templates-categories-template-tsx-e2aa74820d54d99fe3ca.js\"],\"component---src-templates-category-template-tsx\":[\"/component---src-templates-category-template-tsx-91198c0b28f43cf82e8c.js\"],\"component---src-templates-index-template-tsx\":[\"/component---src-templates-index-template-tsx-6b97cc63597a8b556989.js\"],\"component---src-templates-not-found-template-tsx\":[\"/component---src-templates-not-found-template-tsx-6f0b5a8af258d13412fd.js\"],\"component---src-templates-page-template-tsx\":[\"/component---src-templates-page-template-tsx-6f8a5c2cb19885f5a79c.js\"],\"component---src-templates-post-template-tsx\":[\"/component---src-templates-post-template-tsx-e0b96475de7444f8a312.js\"],\"component---src-templates-tag-template-tsx\":[\"/component---src-templates-tag-template-tsx-c3b1637f418d40c0666c.js\"],\"component---src-templates-tags-template-tsx\":[\"/component---src-templates-tags-template-tsx-b6e43fd8f2cfc2b12379.js\"]}";
+          </script>
+        <script>window.___webpackCompilationHash="c6936d1474492ffb553e";</script><script src="/webpack-runtime-ca386f5d5815a2ea1286.js" async></script><script src="/framework-6a5f65edcb7bd3065229.js" async></script><script src="/d904c7bf-5cdda61f968d23d0029b.js" async></script><script src="/app-4d8a82dee2f49f449ca4.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>

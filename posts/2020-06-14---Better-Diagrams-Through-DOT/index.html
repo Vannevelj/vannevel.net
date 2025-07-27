@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 5.14.1"/><meta name="theme-color" content="hsl(31, 92%, 62%)"/><meta name="description" content="Building flow diagrams can be tedious to create and even more to update. Rather than drawing shapes and lines yourself, consider using DOT to focus on what matters: the data." data-gatsby-head="true"/><meta name="twitter:card" content="summary_large_image" data-gatsby-head="true"/><meta name="twitter:title" content="Better diagrams through DOT - To kill a mocking bug" data-gatsby-head="true"/><meta name="twitter:description" content="Building flow diagrams can be tedious to create and even more to update. Rather than drawing shapes and lines yourself, consider using DOT to focus on what matters: the data." data-gatsby-head="true"/><meta name="og:title" content="Better diagrams through DOT - To kill a mocking bug" data-gatsby-head="true"/><meta name="og:type" content="website" data-gatsby-head="true"/><meta name="og:description" content="Building flow diagrams can be tedious to create and even more to update. Rather than drawing shapes and lines yourself, consider using DOT to focus on what matters: the data." data-gatsby-head="true"/><style data-href="/styles.aabeecdf386b227d2154.css" data-identity="gatsby-global-css">html{font-size:100}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background:hsl(var(--color-background));color:hsl(var(--color-foreground));font-size:16px;line-height:1.625;margin:0 0 0 calc(100vw - 100%);text-rendering:optimizelegibility}body,h1,h2,h3,h4,h5,h6{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif}h1,h2,h3,h4,h5,h6{font-weight:600}h1{font-size:40px;line-height:52px;margin-bottom:26px;margin-top:104px}h2{font-size:27px;line-height:39px}h2,h3{margin-bottom:13px;margin-top:52px}h3{font-size:22px;line-height:26px}h4{font-size:19.2px;margin-top:39px}h4,h5{line-height:26px;margin-bottom:13px}h5,h6{font-size:16px;margin-top:65px}h6{line-height:26px;margin-bottom:13px}img{max-width:100%}hr,img{border:0;display:block}hr{background-image:linear-gradient(to bottom,transparent 1px,transparent 11px,hsl(var(--color-foreground)) 11px,hsl(var(--color-foreground)) 15px,transparent 15px,transparent 26px);background-size:100% 26px;height:26px;margin:52px auto;width:100px}a,hr{color:hsl(var(--color-foreground))}a{text-decoration:none}a:active,a:focus,a:hover{color:hsl(var(--color-primary))}b,strong{font-weight:600}ul{list-style:square;margin-bottom:26px}ul li{margin-bottom:10px;padding:0 5px}p{line-height:26px;margin-bottom:26px}blockquote{font-style:italic;padding:0;text-align:center}figure{display:block;height:auto;width:100%}figcaption{color:hsl(var(--color-foreground));font-size:14px;font-style:italic;line-height:19.5px;margin-bottom:0;margin-top:6.5px;text-align:center}@media screen and (min-width:685px){figure.float-left,figure.float-right{max-width:310px;padding:0 26px}.float-right{float:right}.float-left{float:left}}code[class*=language-],pre[class*=language-]{word-wrap:normal;color:#657b83;font-family:ui-monospace,Cascadia Code,Source Code Pro,Menlo,Consolas,DejaVu Sans Mono,monospace;font-size:16px;-webkit-hyphens:none;hyphens:none;line-height:1.5;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{border-radius:.3em;margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background-color:hsl(var(--color-muted))}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#073642}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#93a1a1}.token.punctuation{color:#586e75}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#268bd2}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string,.token.url{color:#2aa198}.token.entity{background:#eee8d5;color:#657b83;cursor:help}.token.atrule,.token.attr-value,.token.keyword{color:#859900}.token.class-name,.token.function{color:#b58900}.token.important,.token.regex,.token.variable{color:#cb4b16}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}:root{--color-background:0 0% 100%;--color-foreground:240 7% 11%;--color-muted:240 6% 96%;--color-muted-foreground:240 6% 46.1%;--color-border:240 2% 89%;--color-primary:342 100% 47%;--color-primary-foreground:240 4% 98%;--color-secondary:240 6% 96%;--color-secondary-foreground:240 2% 17%;--color-accent:240 6% 96%;--color-accent-foreground:240 2% 17%;--color-destructive:342 100% 47%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:light}.dark{--color-background:240 7% 11%;--color-foreground:240 4% 98%;--color-muted:240 4% 17%;--color-muted-foreground:240 4% 66%;--color-border:240 4% 17%;--color-primary:342 100% 74%;--color-primary-foreground:240 4% 98%;--color-secondary:240 4% 17%;--color-secondary-foreground:240 4% 98%;--color-accent:240 4% 17%;--color-accent-foreground:240 4% 98%;--color-destructive:342 100% 74%;--color-destructive-foreground:240 7% 11%;--color-positive:162 52% 53%;--color-positive-foreground:240 7% 11%;color-scheme:dark}.feed-module--feed--be542 .feed-module--item--093ea{margin-bottom:32.5px}.feed-module--feed--be542 .feed-module--item--093ea:last-child{margin-bottom:13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13{font-size:27px;line-height:39px;margin-bottom:13px;margin-top:0}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef{color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--title--6ed13 .feed-module--link--797ef:hover{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--description--25c4d{color:hsl(var(--color-muted-foreground));font-size:16px;line-height:26px;margin-bottom:19.5px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--time--1da0e{color:hsl(var(--color-foreground));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--divider--dc8bf{margin:0 13px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--meta--5bd77 .feed-module--category--588f4 .feed-module--link--797ef{color:hsl(var(--color-primary));font-size:14px;font-weight:600;text-transform:uppercase}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839{color:hsl(var(--color-foreground));font-size:16px}.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:focus,.feed-module--feed--be542 .feed-module--item--093ea .feed-module--more--9d839:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.page-module--page--aeaf7{grid-column:span 12;margin-bottom:52px}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:26px 19.5px 0}.page-module--page--aeaf7 .page-module--title--3f843{font-size:40px;font-weight:600;line-height:52px;margin-bottom:37.7px;margin-top:0}.page-module--page--aeaf7 .page-module--body--91ea2{font-size:16px;line-height:26px;margin:0 0 26px}@media screen and (min-width:685px){.page-module--page--aeaf7{grid-column:span 7}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:32.5px 19.5px 0}}@media screen and (min-width:1100px){.page-module--page--aeaf7{grid-column:span 8}.page-module--page--aeaf7 .page-module--inner--bbb89{padding:39px 26px 0}}.button-module--button--5ffa9{border:1px solid hsl(var(--color-border));border-radius:20px;color:hsl(var(--color-foreground));display:inline-block;font-size:16px;font-weight:400;height:40px;line-height:40px;margin-left:auto;margin-right:auto;padding:0 26px;text-align:center;text-decoration:none}.button-module--button--5ffa9:focus,.button-module--button--5ffa9:hover{background:hsl(var(--color-accent));color:hsl(var(--color-accent-foreground))}.post-tags-module--post-tags--6c235{list-style:none;margin-bottom:13px;padding:0}.post-tags-module--post-tags--6c235 .post-tags-module--item--53595{display:inline-block;margin:6.5px 0}@media screen and (min-width:685px){.post-tags-module--post-tags--6c235 .post-tags-module--item--53595:first-child{margin-left:0;padding-left:0}}.post-author-module--post-author--2247e{border-top:1px solid hsl(var(--color-border));line-height:26px;margin-bottom:52px;margin-top:26px;max-width:100%;padding-top:26px}.post-author-module--post-author--2247e .post-author-module--description--78aeb .post-author-module--x--f2941{display:block;text-decoration:underline}@media screen and (min-width:685px){.post-author-module--post-author--2247e{margin-left:auto;margin-right:auto}}.post-footer-module--post-footer--9c13c .post-footer-module--date--abfe9{font-style:italic}.post-content-module--postContent--5129c{margin:0 auto;max-width:100%;padding:0 13px}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:32px;font-weight:600;line-height:42.9px;margin:26px auto 0;max-width:100%;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure{margin-bottom:26px}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote{font-style:italic;margin-top:0;padding:26px 0;text-align:center}.post-content-module--postContent--5129c .post-content-module--body--3be78 figure blockquote p{font-size:26.9072px;line-height:39px;margin-bottom:26px;margin-top:0;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 a{text-decoration:underline}.post-content-module--postContent--5129c .post-content-module--body--3be78 *{margin-left:auto;margin-right:auto;max-width:100%}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{visibility:hidden}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a>svg{fill:hsl(var(--color-foreground))}.post-content-module--postContent--5129c .post-content-module--body--3be78 img{max-width:100%}@media screen and (min-width:1100px){.post-content-module--postContent--5129c{padding:0}.post-content-module--postContent--5129c .post-content-module--title--b7e5d{font-size:48px;line-height:58.5px;margin-bottom:39px;margin-top:58.5px}.post-content-module--postContent--5129c .post-content-module--body--3be78,.post-content-module--postContent--5129c .post-content-module--body--3be78 p{font-size:18px;line-height:29.25px;margin-bottom:29.25px}.post-content-module--postContent--5129c .post-content-module--body--3be78 h2>a{padding-right:13px;visibility:unset}}.layout-module--layout--e08e0{display:grid;gap:30px;grid-template-columns:repeat(12,1fr);margin:0 auto;max-width:1070px}.sidebar-menu-module--sidebar-menu--a1f76{margin-bottom:26px}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39{list-style:none;margin:0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667{margin:13px 0;padding:0}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc{border:0;color:hsl(var(--color-foreground));font-size:16px;font-weight:400}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:focus,.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc:hover{border-bottom:1px solid hsl(var(--color-primary));color:hsl(var(--color-primary))}.sidebar-menu-module--sidebar-menu--a1f76 .sidebar-menu-module--list--11f39 .sidebar-menu-module--item--67667 .sidebar-menu-module--link--b41cc.sidebar-menu-module--active--0ae28{border-bottom:1px solid hsl(var(--color-foreground));color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4{--theme-switcher-color:hsl(var(--color-foreground))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0{align-items:center;background:transparent;border:0;cursor:pointer;display:flex;justify-content:center;outline:0}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0 svg{stroke:var(--theme-switcher-color);pointer-events:none;transition:stroke .4s}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--button--1cdf0:hover{--theme-switcher-color:hsl(var(--color-primary))}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--moon--f9082{stroke-dasharray:0 1px;opacity:0;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4 .theme-switcher-module--sun--65dc4{stroke-dasharray:1px 1px;opacity:1;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--moon--f9082{stroke-dasharray:1px 1px;opacity:1}.theme-switcher-module--themeSwitcher--8bcb4.theme-switcher-module--dark--fca2d .theme-switcher-module--sun--65dc4{stroke-dasharray:0 1px;opacity:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f{background-clip:padding-box;border:1px solid hsl(var(--color-muted));border-radius:50%;display:inline-block;height:75px;margin-bottom:0;width:75px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--photo--d388f img{border-radius:50%}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921{font-size:18px;font-weight:600;line-height:29.25px;margin:0}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:focus,.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--title--a6921 .sidebar-author-module--link--45332:hover{color:hsl(var(--color-foreground))}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--description--05f75{color:hsl(var(--color-muted-foreground));line-height:26px;margin-bottom:26px}.sidebar-author-module--sidebar-author--f2c33 .sidebar-author-module--titleContainer--335a3{align-items:center;display:flex;justify-content:space-between;margin:13px 0}.icon-module--icon--1a7c5{fill:currentcolor;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;speak:none;stroke:currentcolor;stroke-width:0;display:inline-block;font-style:normal;font-variant:normal;font-weight:400;height:1em;line-height:1em;text-align:center;text-transform:none;width:1em}.sidebar-contacts-module--sidebar-contacts--bbb62{margin-bottom:26px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4{display:flex;flex-flow:row wrap;flex-grow:0;flex-shrink:0;list-style:none;margin:13px 0;max-width:165px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2{border:1px solid hsl(var(--color-muted));border-radius:50%;margin:6.5px;padding:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2:nth-child(3n+1){margin-left:0}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a{align-items:center;border:0;color:hsl(var(--color-foreground));cursor:pointer;display:flex;height:40px;justify-content:center;width:40px}.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:focus,.sidebar-contacts-module--sidebar-contacts--bbb62 .sidebar-contacts-module--list--cbda4 .sidebar-contacts-module--item--1f6f2 .sidebar-contacts-module--link--8ba2a:hover{color:hsl(var(--color-primary))}.sidebar-copyright-module--sidebar-copyright--97d08{color:hsl(var(--color-muted-foreground));font-size:14px}.sidebar-module--sidebar--58428{grid-column:span 12;width:100%}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:26px 19.5px 0;position:relative}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{background:hsl(var(--color-border));background:linear-gradient(to bottom,hsl(var(--color-border)) 0,hsl(var(--color-border)) 48%,hsl(var(--color-background)) 100%)}@media screen and (min-width:685px){.sidebar-module--sidebar--58428{grid-column:span 5}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:32.5px 19.5px 0}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4:after{bottom:0;content:"";height:540px;position:absolute;right:-10px;top:30px;width:1px}}@media screen and (min-width:960px){.sidebar-module--sidebar--58428{grid-column:span 4}.sidebar-module--sidebar--58428 .sidebar-module--inner--f87a4{padding:39px}}.pagination-module--pagination--e5305{display:flex;margin-top:52px}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8{text-align:left;width:50%}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:focus,.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--previous--85cf8 .pagination-module--previousLink--35663.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.pagination-module--pagination--e5305 .pagination-module--next--92e1f{text-align:right;width:50%}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7{color:hsl(var(--color-foreground));font-size:26px;font-weight:700}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:focus,.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7:hover{color:hsl(var(--color-primary))}.pagination-module--pagination--e5305 .pagination-module--next--92e1f .pagination-module--nextLink--9a2d7.pagination-module--disable--f4637{color:hsl(var(--color-muted-foreground));pointer-events:none}.post-module--post--cd62a{grid-column:span 12}.post-module--post--cd62a .post-module--content--49372{margin:0 auto}.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{margin:0 auto;max-width:100%;padding:0 13px}.post-module--post--cd62a .post-module--buttons--26059{align-items:center;display:flex;justify-content:center;margin:26px 0 0;text-align:center}.post-module--post--cd62a .post-module--buttons--26059 .post-module--buttonArticles--8a265{margin:0 13px 0 0}@media screen and (min-width:1100px){.post-module--post--cd62a .post-module--comments--82b11,.post-module--post--cd62a .post-module--footer--87cff{padding:0}.post-module--post--cd62a .post-module--buttons--26059{left:30px;margin:0 13px 0 0;max-width:none;position:fixed;top:30px}}</style><link rel="alternate" type="application/rss+xml" title="To kill a mocking bug" href="/rss.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="sitemap" type="application/xml" href="/sitemap-index.xml"/><link rel="icon" href="/favicon-32x32.png?v=8be6cb7f3a020ee89583d44994892d92" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=8be6cb7f3a020ee89583d44994892d92"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=8be6cb7f3a020ee89583d44994892d92"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><title data-gatsby-head="true">Better diagrams through DOT - To kill a mocking bug</title></head><body><script>
+          void function() {
+            var cachedMode;
+
+            try {
+              var preferredTheme = JSON.parse(localStorage.getItem("diesel:theme-atom"));
+
+              if (preferredTheme && preferredTheme.mode) {
+                cachedMode = preferredTheme.mode;
+              }
+            } catch (err) { }
+
+            function setTheme(newTheme) {
+              document.documentElement.className = newTheme;
+            }
+
+            var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+            setTheme(cachedMode || (darkQuery.matches ? "dark" : "light"));
+          }()
+        </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="layout-module--layout--e08e0"><div class="post-module--post--cd62a"><div class="post-module--buttons--26059"><a class="button-module--button--5ffa9 post-module--buttonArticles--8a265" href="/">All Articles</a></div><div class="post-module--content--49372"><div class="post-content-module--postContent--5129c"><h1 class="post-content-module--title--b7e5d">Better diagrams through DOT</h1><div class="post-content-module--body--3be78"><p>I’ve often found myself thinking about how useful it would be to create a diagram of some architecture but more often than not, the thought of having to go in Google Drawings and mess around with arrows and circles stops me in my tracks. Whenever I do go for it, I spend most of my time on laying it all out. Updating a previously created diagram is a plain no-go.</p>
+<p>For a project I wanted to dig deeper into some existing architecture and quickly found myself overwhelmed — a flow diagram was inevitable. While I initially hoped to automatically generate one, that proved to be impossible. Throughout all this I did come across <a href="https://en.wikipedia.org/wiki/DOT_(graph_description_language)" target="_blank" rel="nofollow noopener noreferrer">DOT</a> — a <em>graph description language</em> which allows you to define nodes and edges and takes care of all the visual aspects.</p>
+<h2 id="getting-started" style="position:relative;"><a href="#getting-started" aria-label="getting started permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Getting started</h2>
+<p>It’s quite straightforward to get started:</p>
+<ul>
+<li>Install <a href="https://graphviz.org/download/" target="_blank" rel="nofollow noopener noreferrer">GraphViz</a>, which includes DOT</li>
+<li>Install the <a href="https://marketplace.visualstudio.com/items?itemName=joaompinto.vscode-graphviz" target="_blank" rel="nofollow noopener noreferrer">GraphViz VS Code extension</a></li>
+</ul>
+<p>With this in place, you can create a new <code class="language-text">.gv</code> file in VS Code and use <code class="language-text">Cmd</code> + <code class="language-text">K</code> + <code class="language-text">V</code> to open the preview window and every change you make will immediately be rendered to the side.</p>
+<h2 id="your-first-diagram" style="position:relative;"><a href="#your-first-diagram" aria-label="your first diagram permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Your first diagram</h2>
+<p>The DSL it uses is very straightforward: define the graph type (directed or not), define nodes and how they are related.
+A very basic example could look like this:</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">digraph {
+    A -> B
+}</code></pre></div>
+<p>which brings us to this basic graph:</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 196px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c61b70a05e2bdc78105f7e9a82d3a1f8/ad4c1/basic-graph.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 182.65306122448982%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAlCAYAAABCr8kFAAAACXBIWXMAABYlAAAWJQFJUiTwAAAD70lEQVR42s1Wt05sMRDdnpxZIQEVH0DPD9DQ0pDESiAKJGoKKgQIENBBSQuIvOScc845gwgii8ygM2i8vruXB0+84lmyrq89Ph5POGNLWFgYBQQEkJeXF3l7e6vu6enJ3c/Pj9fRfX19ycPDw0UW/0FBQQQsCwZFRUU0MzNDg4OD3MfHx/l/YmKCuru7qaWlhXtfXx9NTU3R9PQ0jY6OsuzAwAAtLCxQeno6+fj4kAUn2+12Qnt9feXvw8MDLS8v08jICINOTk5yxxhAW1tb9PLywrLyzcvLI3d390/A+vp6nnx8fKSenh4+YGNjg25ubtQhaM/Pz3R5ecka1dbWsrYCmJOTw+YwaAjg+fl5Hr+/v6vv29sbA8uctN7eXjYJWm5u7qeGMHpnZyetrKzwdeTqAJEGTe/v79U/1mS9ubmZrq+v2Q9ubm5k8ff350kY/O7uzqCFbCovL2cZfU7kDg4OaHZ21gEoNhwaGqKnpycFJhsuLi6otLSUsrKylD31Q6E9nFVQUODQsK2tjd1/fn6uNsimtbU12tvbY2cdHx+rdQFfXFyk1dVVKikpcQC2t7czWENDgzrZzAm6kyQqKisreQwNVdg0NjbyJIIZHoeRna/mbIqjoyOqqamh7e1to5f1sIEwrtXa2qo8j/+zszM6PT3lMcIK611dXXywXN0Q2AKIwBVgOAPeQ7ZUVFRQdXU1h9XS0hI7QuRkj6mGEn9yqtgKwDC8Pic2Nk0951zWHYMGMkBum8n8FaBoA2fBnvrc/wUI6oIzfg0oMQcNBdA5Nn8MKJrs7+9TZGQkxcTEqM066I8A9fRCi4iIoNjYWCWjp+W3gGanZ2RkUFlZmcstvo1DWQTHgR+RYv39/ZxmYGd0zA0PDytmEsozAAo5gJU7OjqY1k9OTlw8Kofu7u5yFURamqZeU1MTT9bV1XFFM/OmzpHyRZECl5rWlLm5Oc5Z0UK0u7q6YlKAt/WUFPPgRmCj4uJiRwmAhrAP6rFzDO7s7FBmZiZv0E0g66A05LqhpoCp8QowqymwV3Z2NtddM+IFleGlUVhYaCwBAJSaAU30IgXtQV9mFRFZtL6+bqwpMOzt7S1Tus53ui2lMEkX+1ZVVfE4Pz/fNWygBUrq4eEh/anhEFRDRAVqy5eMDUG8XXBFxBmMjUNQiDY3N5nCxsbG2InwPJz4Y3LAGB7GwwghheKEGiwafUkOISEhFB0dTcnJyRQfH08JCQkUFxdHSUlJlJqaSmlpafyVcUpKCiUmJrIMZLHHZrNRVFQUWa1WsoSGhlJgYCA/FvFC1bu8TvWXKr7OctgbHBz8+YIFIAbh4eG/6sAAFgP+y/4BT40V5QSNeoYAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/c61b70a05e2bdc78105f7e9a82d3a1f8/7bcb3/basic-graph.webp 196w"
+              sizes="(max-width: 196px) 100vw, 196px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/c61b70a05e2bdc78105f7e9a82d3a1f8/ad4c1/basic-graph.png 196w"
+            sizes="(max-width: 196px) 100vw, 196px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/c61b70a05e2bdc78105f7e9a82d3a1f8/ad4c1/basic-graph.png"
+            alt="Basic directional graph A to B"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<h2 id="your-second-diagram" style="position:relative;"><a href="#your-second-diagram" aria-label="your second diagram permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Your second diagram</h2>
+<p>With the simplest of definitions we’ve been able to connect two nodes but the real work still has to start. Our system will be more complex and consist out of larger subsystems, each of which we might want to model. Take a look at this example:</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">digraph {
+    subgraph cluster_client {
+        A
+        B
+        C
+    } 
+    
+    subgraph cluster_server {
+        X
+        Y
+        Z
+    }
+
+    A -> B -> C
+    C -> B
+    A -> A
+
+    X -> Z -> Y
+    Y -> X
+
+    B -> X
+}</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/54fd98815d1e345b0073674c4810d5c8/fcda8/advanced-graph.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 168.75%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAiCAYAAABfqvm9AAAACXBIWXMAABYlAAAWJQFJUiTwAAADE0lEQVR42qWWXUs6URDG/Y5e9SH6At0WSghdROmtpt1GlIpBiBeKQtSFkFiYvVmppfnSq2UTv/kzi/bC37WBw9k9u/OcZ56ZM7ue2dlZSafTsrGxIVtbW7K9va1jc3PTGdzH43FJJBKys7PzbSSTSclmszI3NyeeYDAoHx8f8vDwoOPu7k5arZa8vr7KYDDQ+f7+Xt7f3+U3e3t70zkSiYhnZWVFHh8fpdFoSK1Wk3a7Lbe3t3J0dCQnJyfS6XTk5uZGnp6edOPhcPhtsCkWDofFEwqFFPDs7EwXz8/Ppd/vKzuYAX55eemw+C9DQn5+fpaLiwtlQbiAHR4eqra9Xk+urq50zRUgLAGD4fX1tYa7t7enLyKHhTUxoDkQJqwwNPszICwLhYJeW2abzaZ7QDSCEcmh7mDJ+tQMGfV6XbWEUbfb1WRQFmTaFSAvU38AYYTMGkXORsxThYwjRUy4sD0+Pp5eQ3MAbHd3V8/uy8uL6scmPLes2zwRINrBlFrEKPZisajauk4KlsvlJJVKaaMwJpwi1tEWKarVqs4kCzl4DqFYLPYPEBZoyBkulUpyenqqYcIUo2lUKhVZX1/Xk2QVQM1aFMjjAIJOV7Es4ww7WLAR4cOKsCkjzrnVJ2vW5sYAYccL6MGMI0CcFtgAyIY4c8+GHFPTf4whu7AAKOHBjBkHjNNjmQaMDenQaI3hP8aQ3QBAZBN69BoQrs3sJB0cHGgEkHEYrq6ujjWCn4ywDJD38vm8kwwr+m+AaAfTr8McDZDMR6NRndEZeWCLtqxPxNBODANnGFtVsBHgEJoYkN1JDI6wRjuMhkLNMrsChJGxoZg5RfZ1tOEa0DSktPjeED42lYajgNaRAMGH4v8xy24A9/f3JZPJaOiA/wkQgHK5rM2X0AGdqrBJBk5oRv3xN2ENhBJyrSFZJTTrSJYUmAPoZHl5edkpXha/DtiQWRhZc6Dz2N8FgDQRkrS2tjYZQ56NfqS4t78xK3xMAb1erwQCAZmfn5eFhYVfh9/v1+Hz+XReXFx0rpmXlpZkZmZGPgG7odOfpoiAbgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/54fd98815d1e345b0073674c4810d5c8/8ac56/advanced-graph.webp 240w,
+/static/54fd98815d1e345b0073674c4810d5c8/d3be9/advanced-graph.webp 480w,
+/static/54fd98815d1e345b0073674c4810d5c8/5ca24/advanced-graph.webp 590w"
+              sizes="(max-width: 590px) 100vw, 590px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/54fd98815d1e345b0073674c4810d5c8/8ff5a/advanced-graph.png 240w,
+/static/54fd98815d1e345b0073674c4810d5c8/e85cb/advanced-graph.png 480w,
+/static/54fd98815d1e345b0073674c4810d5c8/fcda8/advanced-graph.png 590w"
+            sizes="(max-width: 590px) 100vw, 590px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/54fd98815d1e345b0073674c4810d5c8/fcda8/advanced-graph.png"
+            alt="Advanced graph with subgraphs"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>There are a couple of things at play here:</p>
+<ul>
+<li>We’ve introduced the concept of a <code class="language-text">subgraph</code> which allows us to provide a logical grouping for subsystems</li>
+<li>By prefixing the graph name with <code class="language-text">cluster_</code>, it will render it with a bounding rectangle</li>
+</ul>
+<p>It’s important to note that I’ve opted to split out declaring the node and edges from eachother. If we were to omit the node declaration and have it inferred from the edge declaration, the node would be included in the subgraph the edge is defined in which is not always what’s intended. The below example can make this clear:</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">digraph {
+    subgraph cluster_client {
+        A
+    } 
+    
+    subgraph cluster_server {
+        B
+    }
+
+    A -> B
+}</code></pre></div>
+<p>will produce</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 290px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ace8072ddd3478fb58c3d2b33259cf7d/139a5/graph-separate.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 147.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC1ElEQVR42rWVSU5qURCG2QfGgcCi3IDrYAGMTHAHxoEThw4EBySCPTaIgAiCoIKKEBoboF6+MkUu4EWNeSepnMs5Vf+p+qvBEwwGZXd3V7a2tiQajf5KIpGIxGIxWV9fF5/PJ3Nzc+JZW1sTVr/fl9+u4XCoe7lclkAg8Am4urqqh2dnZ3J0dCSnp6eSTCbl5ORELi4uxgQdu0Nvb29PBoPBOKB5yGW325XX11dV6vV6UqlUpFqtqvD98vKiXnHHDjg2d3d304CHh4cKxAIAL3K5nGSzWclkMnJ1dSXn5+f6++PjQ/VSqZQ74MHBge6AYOjG6e3trezv738PeHx8LK1WS3cn4XhLaM7E8ej9/b162+l0vgaE8JubG1VmWViJRELC4bA+YI80Gg1NErqugHD4/v6u4bCz4BTjWq2mibAFv81mU7l1Ddl4IRQy/vj4OFVvGFs5seD6R1lGiXCoNTglYXwD9PT0NHpoZlJ2dnbk4eFBw3t+ftaawzidTusd3wjnRMFOy0LFl4BUO1mj3hA8LBQK6t329rYUi0U9Q5w6VkpTgJN1Z7zBJcbOs5m9/N8A6/W65PN5DRMBBE6Xl5dlaWlJSqWSXF9fq3DPTqiugBCPkQ0EkkMGKerFxUXtIs5ICAB8Y8Mw+bZs2Hkd0ukUBikJwyse+VHZUNhwYuVAGzqNaUUoIOsAW7vOnDYA0iXtdnsEhDI0OJPA4wBdXl66A9IJhGkZtX7e2NiQUCg0VgkUvs1K1+HAiKIT6E+nMR5vbm4qr8YxybNGcAW0AQsvxtFXi+lDolj09kwO8QqBG/6wCJ8kUTJ4xKQhEkaXPe7ay5YUW3BoXPEARvbnZHozxxce4QG1RYKYMnDkFIDxCiHceDyuvFIFU4DUGV5Nytvb20gm7+xvYqz1VlZWNDTGEy/9Rsg24VIJfr//E3BhYUHR/yKAzc/Pq3hA9Xq9fxYD/AfEq74+B8KN8gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/ace8072ddd3478fb58c3d2b33259cf7d/8ac56/graph-separate.webp 240w,
+/static/ace8072ddd3478fb58c3d2b33259cf7d/60360/graph-separate.webp 290w"
+              sizes="(max-width: 290px) 100vw, 290px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/ace8072ddd3478fb58c3d2b33259cf7d/8ff5a/graph-separate.png 240w,
+/static/ace8072ddd3478fb58c3d2b33259cf7d/139a5/graph-separate.png 290w"
+            sizes="(max-width: 290px) 100vw, 290px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/ace8072ddd3478fb58c3d2b33259cf7d/139a5/graph-separate.png"
+            alt="Graph with edges and nodes separated"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>However if we were to define the edge connection in-place then the rendering shows no separate subgraphs: <code class="language-text">B</code> is considered to be in the same cluster as <code class="language-text">A</code>.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">digraph {
+    subgraph cluster_client {
+        A -> B
+    } 
+    
+    subgraph cluster_server {
+        B
+    }
+}</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 264px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/2fcfb899e16f8f6fee5590ae9d50efe4/e61aa/graph-together.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 155.41666666666666%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAfCAYAAADnTu3OAAAACXBIWXMAABYlAAAWJQFJUiTwAAACy0lEQVR42q2WO08yURCG+Ve0Nv4DSwtjQ0Gv/gUrO7QFjI2FnbVG5CqIeL9H5SICAWIUFXXMM8nw7QqrH+okk3N295x3bu+Zs76xsTFZXl6WSCTyYw2Hw7KysiKBQEB8MzMzgry9vclPpdvt6riwsCC+qakpfWg2m7K3tycHBwc93d/f1/Ho6EjV+Q49PDyUnZ0dubu7U4xQKCS+6elpfTg+PpatrS2p1Wpyc3Mj5XJZ5yy+vLxUvb29lXq9LpVKRdfwPZPJqBFkfn7+H+Dp6akuMnl6epKzszOXR8wx/PDw0FvHHt71AZ6cnMjV1ZXOLy4uJB6PqydsJr/o4+OjepVKpdQAwh7S0QeIFQDIZTKZ7Ev68/Ozzt/f33XM5/NSLBalWq1qLgcCki8s4wXy+vqqI7ldXV11vcPb3d1d75ANkDw1Go2ed3i0tramXCOvJngMICF7AlJFFCqYkDuA8Mi8Q8gbucaJgSFTFKsyYWezWWm32y5PEYpUKBRke3u7V+WBRXECIlhmEzxLp9NadXKZy+WkVCr1DHxJGwO0Y2ibIDlVdRbF1vwXIECobeJ0GO8AtO9DATpHuEZFB337EaDTwz8BXF9fl6Wlpd8BotbngsGgjI6O9ooxdA6tGJ1OR15eXmRxcVHm5ub0dFinGarKbCRn8I4R2sA9CAzhIbYBfwlI90ASiYSL5J8F0m9ubmpKzJBnc+B8np+fu8LipNj5NmLjNd5/2764V6CJs5LRaFRmZ2ddFxm5JXSuBqLzBGS00A2AXHKmnUZocZCdpuzZHMgHednY2HB1ms9C9cnh/f29NyCXlN0prVZL7w3yhpHr62tV5jRgOo91dc8GO4iHUIMi2TVKsczzb3nIRujCyAKUOR44lXcYJ0yMxGIxd8j2KwKZLTysmlq4ps5vpkZy/RX5838bv98vExMTMj4+/iudnJyUkZER+QA2XaKeNIhdmgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/2fcfb899e16f8f6fee5590ae9d50efe4/8ac56/graph-together.webp 240w,
+/static/2fcfb899e16f8f6fee5590ae9d50efe4/9a0f6/graph-together.webp 264w"
+              sizes="(max-width: 264px) 100vw, 264px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/2fcfb899e16f8f6fee5590ae9d50efe4/8ff5a/graph-together.png 240w,
+/static/2fcfb899e16f8f6fee5590ae9d50efe4/e61aa/graph-together.png 264w"
+            sizes="(max-width: 264px) 100vw, 264px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/2fcfb899e16f8f6fee5590ae9d50efe4/e61aa/graph-together.png"
+            alt="Graph with edges and nodes together"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>Particularly when you’re constantly revisiting your idea of what the architecture looks like, I find it much easier to define all nodes first and draw the edges at the end: it will avoid a node being unintentionally considered part of a different cluster.</p>
+<h3 id="your-third-diagram" style="position:relative;"><a href="#your-third-diagram" aria-label="your third diagram permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Your third diagram</h3>
+<p>Now that we are able to draw diagrams of any complexity, we’ll start to think a little bit more about how we can customize it. There are <a href="https://www.graphviz.org/doc/info/attrs.html" target="_blank" rel="nofollow noopener noreferrer">many different aspects</a> we can change but some that come to mind:</p>
+<ul>
+<li>Change node names</li>
+<li>Add labels to edges</li>
+<li>Change arrow styles</li>
+<li>Add background colours</li>
+</ul>
+<p>The documentation can provide all the info you need but as an example that applies this, here’s our example slightly reworked:</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">digraph {
+    node [style=filled, color=lightgrey]
+    style=filled
+    splines=ortho
+
+    subgraph cluster_client {
+        label = "Client"
+        color = "darkorange"
+
+        A [label = "Step 1"]
+        B [label = "Step 2" shape = "polygon" skew="0.1"]
+        C [label = "Step 3"]
+    } 
+    
+    subgraph cluster_server {
+        label = "Server"
+        color = "hotpink"
+        {rank = same; X; Y}
+        
+        X [label = "Phase 1"]
+        Y [label = "Phase 2"]
+        Z [label = "Phase 3"]
+    }
+
+    A -> B -> C [arrowhead = "diamond"]
+    C -> B
+    A -> A
+
+    X -> Z -> Y
+    Y -> X [dir = "both"]
+
+    B -> X [label = "HTTP" style = "dotted"]
+}</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/eeeb0bc48582554ba714d38ff5ee489e/21335/mega-graph.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 117.91666666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAYCAYAAAD6S912AAAACXBIWXMAABYlAAAWJQFJUiTwAAAEMUlEQVR42p2U6U8UZxzHh3i8aZOmfVnTF/0nmvSfaKvAAh6JaU1qWmu1aWs4qkEupRU1KR4JqbWsWMqxJ+xyKQpdlksQYQFFDq0IdVeo7LLuMfPpb2YXdVtjUyb55nnmmZnPfJ/f8Sjt1l+401rJTWclQ6KbTWcYdVTg87oZn5xi3OdjfHz8mcbGfP/S6OgYExOTeDw9KNOOw1CmsFKQxuxBhdDRjVCsoPV9j3GpMf7r0jTNGAOBAMqd+lzCpa8xZ96Nr/YQj6ozUQsE6DmG/poWjxofvEqqqhpAv9+PcrfuK1bOv0eXp5fma4OM9F0jVroZPMUG8P87bCyAIoWZkndZqHyf4A9vg+7QW76+LU8JMFKosCQxfHpYj+EmOCLAnnUC52wFqAJcPZJG9KhCsFCA+Trw+HqB+XDidfhxCwtlW5gpegeObUTtrVgfcNZ+hPvdF+kdHKG9pVnGW0x2W4j2nzWSokqW9Sy+TGsZTgFON5WyeOUEA601XK09zURXA3P271A9xxNlE42IybiA44kyUbXEvUiLq8SjMWNuAPWymZUY6oW9fDiN+XxJTPGmRJb/EcNoLMriYz9Pgisp211zm5IUjilESjawJIkJl2xOZPl6GSyJwwfLsBAiPBtgzuvj8dh9eBiS9RW0h0HU+SDxefnJYpjAvYUkUBxGitLEpUK4aKNRl1qNJGtPH2Q6IcsNOS1oezp5kFPLA1MN8d3tsKONUIaNiMkBplYCl2+8ACxOApO9THUe0f0D+IvaWDxxjaXcdv5MryWU3kjYZGX+AzPLB9xMFDuYLWtB/byDQPXgc2A0CVzVgSUCvJDLH/W3sfW6sXvauD7spX/vBVa3NvIks4F7OTV4r3Zj+b0F90g3d9tu4P81xeEGliV2q3oMkw7je/vkFGpnqew6oYPtBE0WQplWATYSz3YRFVfLxeK+qBP1k9YXHIqjWKFkOU9h/ptkDC/lwe5e2GaD9CaJkcuI46rJxpOMBqLZErcsWctoQsuU5+kuAmYdaM2Fk28wZS+hy/EzQ9ZTqCelc6q/Rfu4D227A22nG22HCzWn+Rkwli3J2uE2nqki/YcG8F79ISh/iyFXFS32enydtYTL34SfvjaAZImTHNczrWbZjC0bwOSatl3GzDWHA2K3v1xO6Aq0W9XQdwq8hdDVATuvQHZTKnCrhb8+rCNm0oHulwDn5lIanLVxSgo6u/k5TOaajE+/7GDq01qCORLbbLexlgKcmZk2vo/HIomDQO9dpFcn/ajpTtSMhDTR7d88NDbbcXW2cbO1h+guies2B3G9+D9y8uhi/ysczko77fPAFz0J7eshcm6Yeecwiy2jhKtH4IDXWNf2y3ufeQk0jKJUVVXhdDqxWCxYrdaEbKK6BqxnL6XIftqMs7IGe6XMT5mxnkmsW86YsZ+7jPn8Bf4GNSU3+UKSoQ4AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/eeeb0bc48582554ba714d38ff5ee489e/8ac56/mega-graph.webp 240w,
+/static/eeeb0bc48582554ba714d38ff5ee489e/d3be9/mega-graph.webp 480w,
+/static/eeeb0bc48582554ba714d38ff5ee489e/e46b2/mega-graph.webp 960w,
+/static/eeeb0bc48582554ba714d38ff5ee489e/6fed8/mega-graph.webp 1082w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/eeeb0bc48582554ba714d38ff5ee489e/8ff5a/mega-graph.png 240w,
+/static/eeeb0bc48582554ba714d38ff5ee489e/e85cb/mega-graph.png 480w,
+/static/eeeb0bc48582554ba714d38ff5ee489e/d9199/mega-graph.png 960w,
+/static/eeeb0bc48582554ba714d38ff5ee489e/21335/mega-graph.png 1082w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/eeeb0bc48582554ba714d38ff5ee489e/d9199/mega-graph.png"
+            alt="Graph with different arrowheads, colours, labels and other customizations"
+            title=""
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p></div></div></div><div class="post-module--footer--87cff"><div class="post-footer-module--post-footer--9c13c"><p class="post-footer-module--date--abfe9">Published<!-- --> <!-- -->Jun 14, 2020</p></div><ul class="post-tags-module--post-tags--6c235"><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/dot/">DOT</a></li><li class="post-tags-module--item--53595"><a class="button-module--button--5ffa9" href="/tag/diagrams/">Diagrams</a></li></ul><div class="post-author-module--post-author--2247e"><p class="post-author-module--description--78aeb">Staff Software Engineer at Hudl</p></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/2020-06-14---Better-Diagrams-Through-DOT/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+          <script
+            id="gatsby-chunk-mapping"
+          >
+            window.___chunkMapping="{\"app\":[\"/app-4d8a82dee2f49f449ca4.js\"],\"component---src-templates-categories-template-tsx\":[\"/component---src-templates-categories-template-tsx-e2aa74820d54d99fe3ca.js\"],\"component---src-templates-category-template-tsx\":[\"/component---src-templates-category-template-tsx-91198c0b28f43cf82e8c.js\"],\"component---src-templates-index-template-tsx\":[\"/component---src-templates-index-template-tsx-6b97cc63597a8b556989.js\"],\"component---src-templates-not-found-template-tsx\":[\"/component---src-templates-not-found-template-tsx-6f0b5a8af258d13412fd.js\"],\"component---src-templates-page-template-tsx\":[\"/component---src-templates-page-template-tsx-6f8a5c2cb19885f5a79c.js\"],\"component---src-templates-post-template-tsx\":[\"/component---src-templates-post-template-tsx-e0b96475de7444f8a312.js\"],\"component---src-templates-tag-template-tsx\":[\"/component---src-templates-tag-template-tsx-c3b1637f418d40c0666c.js\"],\"component---src-templates-tags-template-tsx\":[\"/component---src-templates-tags-template-tsx-b6e43fd8f2cfc2b12379.js\"]}";
+          </script>
+        <script>window.___webpackCompilationHash="c6936d1474492ffb553e";</script><script src="/webpack-runtime-ca386f5d5815a2ea1286.js" async></script><script src="/framework-6a5f65edcb7bd3065229.js" async></script><script src="/d904c7bf-5cdda61f968d23d0029b.js" async></script><script src="/app-4d8a82dee2f49f449ca4.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
