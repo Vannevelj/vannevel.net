@@ -48,5 +48,5 @@ jobs:
       - name: Deploy changes
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
-          branch: master
+          branch: main
           folder: public
