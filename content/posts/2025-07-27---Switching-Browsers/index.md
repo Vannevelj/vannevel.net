@@ -105,3 +105,4 @@ Rather than waiting for a Microsoft update to allow me to toggle this off, I'm n
 
 The UI (in its current state) is pretty straightforward and most of the code involved here is about the UI rather than the underlying idea. I have a couple of things I want to improve but functionally it is there.
 
+Find the full source code in Github: https://github.com/Vannevelj/browser-switcher.
