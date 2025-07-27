@@ -85,7 +85,7 @@ If we now go into Outlook and click on an arbitrary link we'll see the following
 
 Note: make sure to actually set the Browser Switcher as your default application.
 
-Now that this is hooked up the rest is straightforward because we know we can spawn an arbitrary application using `Command::new("path to browser").arg("some url").spawn()` similar to how our own Browser Switcher runs. I've created a small UI using []`egui`](https://github.com/emilk/egui) which will pop up a window with two big buttons: one for Firefox and another for Chrome. Clicking one will open the link in said browser and close the Browser Switcher. The full code for this application can be found in [Github](https://github.com/Vannevelj/browser-switcher).
+Now that this is hooked up the rest is straightforward because we know we can spawn an arbitrary application using `Command::new("path to browser").arg("some url").spawn()` similar to how our own Browser Switcher runs. I've created a small UI using [`egui`](https://github.com/emilk/egui) which will pop up a window with two big buttons: one for Firefox and another for Chrome. Clicking one will open the link in said browser and close the Browser Switcher. The full code for this application can be found in [Github](https://github.com/Vannevelj/browser-switcher).
 
 ![UI with logos for both Firefox and Google Chrome](./ui.png)
 
