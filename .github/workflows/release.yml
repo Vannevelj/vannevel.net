@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   release:
@@ -44,3 +44,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bun run release
+
+      - name: Deploy changes
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: master
+          folder: public
