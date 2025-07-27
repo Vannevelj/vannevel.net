@@ -43,7 +43,7 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bun run release
+        run: bun run build && bun run release
 
       - name: Deploy changes
         uses: JamesIves/github-pages-deploy-action@v4
