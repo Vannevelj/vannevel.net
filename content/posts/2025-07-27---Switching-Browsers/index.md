@@ -88,21 +88,3 @@ Note: make sure to actually set the Browser Switcher as your default application
 Now that this is hooked up the rest is straightforward because we know we can spawn an arbitrary application using `Command::new("path to browser").arg("some url").spawn()` similar to how our own Browser Switcher runs. I've created a small UI using [`egui`](https://github.com/emilk/egui) which will pop up a window with two big buttons: one for Firefox and another for Chrome. Clicking one will open the link in said browser and close the Browser Switcher. The full code for this application can be found in [Github](https://github.com/Vannevelj/browser-switcher).
 
 ![UI with logos for both Firefox and Google Chrome](./ui.png)
-
----
-
-This is all nice and solves a frustration but I realised I could solve another one of my problems here. For years now I have the [Bing Wallpaper](https://www.bing.com/apps/wallpaper) application running to automatically receive a new desktop background each day. A few weeks ago an update came out which meant that once a day when I click on my background, it would open a Bing search for that wallpaper. I looked through all settings and couldn't find anything to turn this behaviour off. Now, I definitely don't use Bing search so with this Browser Switcher solution in place I have an easy entry point to hook into this behaviour and avoid it altogether:
-
-```rust
-if input.starts_with("https://www.bing.com/search") {
-  std::process::exit(0);
-}
-```
-
-Rather than waiting for a Microsoft update to allow me to toggle this off, I'm now blocking every link on my system that opens a Bing search. It's unorthodox but it gets the job done.
-
----
-
-The UI (in its current state) is pretty straightforward and most of the code involved here is about the UI rather than the underlying idea. I have a couple of things I want to improve but functionally it is there.
-
-Find the full source code in Github: https://github.com/Vannevelj/browser-switcher.
