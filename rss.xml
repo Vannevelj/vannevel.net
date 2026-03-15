@@ -1,4 +1,313 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[To kill a mocking bug]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 02 Aug 2025 15:35:35 GMT</lastBuildDate><item><title><![CDATA[Switching Browsers: Taking back control]]></title><description><![CDATA[Using a custom application as your default browser to interchangeable use Chrome or Firefox]]></description><link>https://vannevel.net/posts/2025-07-27---Switching-Browsers/</link><guid isPermaLink="false">https://vannevel.net/posts/2025-07-27---Switching-Browsers/</guid><pubDate>Sun, 27 Jul 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Chrome’s recent update to block extensions that use &lt;a href=&quot;https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;ManifestV2&lt;/a&gt; spurred me to move over to Firefox. My current setup is relatively complex in the sense that I have seven different Chrome profiles that my household switches between, one of which is my work account. I’ve decided to start using Firefox for all my personal browsing but I’m not quite yet ready to switch my work flow to it as well. The tricky aspect comes into my dual use: I use my desktop for both personal and work-related things, meaning that at any given point in time I open links to Jira and Github but also Amazon, Octopus Energy and whatever else.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[To kill a mocking bug]]></title><description><![CDATA[To kill a mocking bug]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 15 Mar 2026 02:34:46 GMT</lastBuildDate><item><title><![CDATA[A retrospection on an AI task]]></title><description><![CDATA[Lots hype about AI so I'd like to offer a step-by-step review of some actual work I did on my open-source project.]]></description><link>https://vannevel.net/posts/2026-03-15---A-Retrospection-On-An-AI-Task/</link><guid isPermaLink="false">https://vannevel.net/posts/2026-03-15---A-Retrospection-On-An-AI-Task/</guid><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Over the course of the last 11 years I’ve worked on C#-focused static analysis tools, most recently &lt;a href=&quot;https://github.com/Vannevelj/SharpSource&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;SharpSource&lt;/a&gt;. The concept is straightforward: the C# compiler provides an SDK to hook into the build system and that can be used to then analyse the source code and, optionally, provide code fix suggestions. Export your analysers as either a VSIX project (to become a Visual Studio extension) or a NuGet package (to include it in a specific project) and now your custom analysis happens at compile time.&lt;/p&gt;
+&lt;p&gt;The SharpSource code base is fairly mature and up until a few weeks ago boasted roughly 1,150 unit tests spread across 60 analysers. Each analyser implementation follows a similar pattern:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Configure the analyser&lt;/li&gt;
+&lt;li&gt;Write unit tests for as many test cases I can think of&lt;/li&gt;
+&lt;li&gt;Implement the analyser&lt;/li&gt;
+&lt;li&gt;(optionally) Update the unit tests to also include a Code Fix&lt;/li&gt;
+&lt;li&gt;(optionally) Implement the code fix&lt;/li&gt;
+&lt;li&gt;Write some documentation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Straightforward and I know what to expect for each analyser but that also makes it a fairly monotone experience once you’ve done 60 of those. With the hype around AI I decided to bring Claude Opus into the mix; I had a small backlog of 35-odd issues collected over the years so there was work up for grabs.
+I don’t have any fancy setup with terminals and multiple agents and all of that - for me it’s Copilot in VS Code with Claude Opus 4.5 (and later 4.6). I did hear a lot about AGENTS.md so I took half an hour at the start to effectively document the project: what analysers are, the philosophy behind what I’m trying to do, how to go about writing an analyser and some tips-and-tricks around what one should look out for when writing an analyser. Fundamentally I don’t think there’s anything special there but if you’re interested it can be found &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/blob/master/AGENTS.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This blog post is not intended to walk anyone through my terribly bland prompting setup (after all, I just go into Agent mode with YOLO permissions) but rather to provide an account of my experience. With that in mind here’s roughly what that progress looked like:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;I gave Copilot a link to the Github issue and told it to implement it using the instructions in &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/blob/master/AGENTS.md&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;AGENTS.md&lt;/a&gt;. After each step in the process it had to ask for my confirmation to proceed, which gave me a chance to review the code and make a commit. I didn’t make any changes. &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/pull/362&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;PR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Let’s go faster - no more intermediate commits. I gave Copilot a few more Github issues, two of which had an ignored test that I added years ago but never figured out how to solve it. Both issues were solved within three minutes. &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/pull/363&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;PR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;At this point my preamble disappeared altogether and my chat message is now simply “Fix &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/issues/xxx&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://github.com/Vannevelj/SharpSource/issues/xxx&lt;/a&gt;“. &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/issues/190&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;This bug in particular&lt;/a&gt; I tried several times over the years to solve: I’d chew on it for multiple days, get nowhere closer and then drop it for a year before I try again. Opus solved it under five minutes. &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/pull/364&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;PR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Why am I even creating Github issues? I knew about the recently released &lt;code class=&quot;language-text&quot;&gt;LoggerMessageAttribute&lt;/code&gt; (in short: more performant logging) so I told Opus to read &lt;a href=&quot;https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/source-generation&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://learn.microsoft.com/en-us/dotnet/core/extensions/logging/source-generation&lt;/a&gt; and give me an analyser for it. No changes needed. &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/pull/367&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;PR&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is the point where existential questions reared in my head. I had reviewed every single line of code it produced and I could only conclude that this was exactly how I would (or at least: hoped I would) write these analysers. I have a fairly in-depth understanding of the C# language so coming up with scenarios to trip up naive implementations of my analysers is something I always found fun to do, but I couldn’t help but notice that Opus found those same scenarios and then some. Sometimes it focuses to much on a difference that wouldn’t be relevant, but I very rarely had to prompt it to add an additional test case.&lt;/p&gt;
+&lt;p&gt;It produced the same quality code, except previously it would take me a solid two hours to get one implementation out there and with Opus I did it while I went off to the bathroom. If anything &lt;strong&gt;it was too easy&lt;/strong&gt;: the confidence I gained in its output and the speed at which it produced it, meant that I found it hard to go to bed.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;The best test I’ve found is to pull a few large public repos, add SharpSource and see what gets flagged. Inevitably there are many scenarios that I have never thought of which cause false positives, not to mention bugs that cause the analysis to throw an exception. Historically I’ve used &lt;code class=&quot;language-text&quot;&gt;dotnet/runtime&lt;/code&gt; as my go-to test bed but 1) it is/was not trivial to set up, and 2) it is huge so building takes a while.&lt;/p&gt;
+&lt;p&gt;Once again, Opus to the rescue. In the span of less than two hours it crawled 560 (first 10, then 50, then 500) repos from Github, built them locally with SharpSource included and gave me an overview of the diagnostics that appear there. My starting prompt was straightforward:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I have a C# static analysis tool on NuGet (code is here: &lt;a href=&quot;https://github.com/Vannevelj/SharpSource&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://github.com/Vannevelj/SharpSource&lt;/a&gt;). The package name is SharpSource and version 1.32.0 is its latest.
+I want to evaluate how it performs on arbitrary code bases. Find 10 C# code bases online, pull them locally to a temporary directory, make sure they build and then install my static analysis tool. Evaluate its results - do the diagnostics make sense or is the codebase in a particular scenario that means we’re flagging false positives? Do this for each of the repos you select and then give me a summarised result, including code context (render this in a browsable HTML page).
+I recommend that you select arbitrary repos of small to midsize, as well as at least one large one.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;No AGENTS.md or anything else - this was a new Copilot chat window in VS Code and I wasn’t even in any folder. I had no idea what it was going to build but it ended up writing +- 3,000 lines of Powershell to pull repos locally, figured out how to build them and then added SharpSource (taking Directory.Packages.props or not into account). It created its own storage structure of pipe-delineated values to keep track of results for rendering. The very first iteration already gave me an html file which I could use to browse through results aggregated per-repo and which includes some observations Opus made (e.g. analysers that were too noisy or too context-dependent).&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 889px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c170306024c396fbce5ab58473ba524e/83e77/results-one.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 84.58333333333331%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB50lEQVR42oVU7ZKCMBDj/d9O53QEhdoCLW1R0RfY2yy0h553/sgU+5Emu6mFc47O5zO1xpBhaK1lVErRMAx0uVzodrt9xDRN5J2noq5rMkySiJqmEbKu6+jMo1KNkE7TXQ79h/v9ToW1PUFlCIGu16sA35ExjqMgjvEjWUKhWJH3PkuHGtO2orZnlUpUKvJ8wax0+tMy1sXy8XjM6rAI6dgA5SDuup5avgRlGHgOqt8RYp4VKgLpWmUuMjfFWZftYD5duq5bOjMTsh3UDItpczoIhV3bkeUR3+g69uJyAL8xj71ZIeyCFDe9EvZ9L2uIFUatDVlWbK3lNUsxxlyqTIjI1KeT1OfVMtRAxdpWumxt/amGJyaDykS4jgBsIZ8/FmeALDXuV1MQDVi7LpFJ2VtDcsn2Qpgx8jfm372iQi+vBKQheDk8Fz7IYRABIx+OCznmoRjzv4INsrIsSXPeUC8hwOuIY1YEEsfrjrOYuru2/UTYNDXtdjtquItAtd/TYbOh6uuLqqqi8nCgcrslg/dtzNLhXiy/JTRGyx9Czxs1h1xBLWLCc8iYNIQVPR6PJ4DsFUKIGzu2guZgBGDJD35pRpB3LMF2Q7acQp2+5a8OXcYbFSW5GZ4XLk/PbB34d0C35RXFSN/O5fac+742pQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/c170306024c396fbce5ab58473ba524e/8ac56/results-one.webp 240w,
+/static/c170306024c396fbce5ab58473ba524e/d3be9/results-one.webp 480w,
+/static/c170306024c396fbce5ab58473ba524e/ade25/results-one.webp 889w&quot;
+              sizes=&quot;(max-width: 889px) 100vw, 889px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/c170306024c396fbce5ab58473ba524e/8ff5a/results-one.png 240w,
+/static/c170306024c396fbce5ab58473ba524e/e85cb/results-one.png 480w,
+/static/c170306024c396fbce5ab58473ba524e/83e77/results-one.png 889w&quot;
+            sizes=&quot;(max-width: 889px) 100vw, 889px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/c170306024c396fbce5ab58473ba524e/83e77/results-one.png&quot;
+            alt=&quot;Copilot chat overview of the analysis result for 10 arbitrary repos&quot;
+            title=&quot;&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I wasn’t at home when I(?) did this - I went for a stroll to pick some brown sugar up at Tesco.&lt;/p&gt;
+&lt;p&gt;After I told it to do 50 more (it decided for itself to make sure it’s five new ones), I gave it this prompt:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Once you have collected all the data, go through the false positives and create an issue at &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/issues&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://github.com/Vannevelj/SharpSource/issues&lt;/a&gt; around them. In the issue description, make it clear it is submitted by a bot and include all relevant information around the assessment (e.g. code sample and reasoning why it shouldn’t be flagging)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A little bit of fiddling with &lt;code class=&quot;language-text&quot;&gt;gh auth login&lt;/code&gt; and I had &lt;a href=&quot;https://github.com/Vannevelj/SharpSource/issues?q=is%3Aissue%20%22False%20positive%22%20created%3A2026-03-14&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;detailed Github issues&lt;/a&gt; which I can read through to decide which ones I agree with and want to action. I didn’t tell it to group related patterns (or even what constitutes a pattern, let alone relations between them) but it did it anyway and it certainly makes for a high quality PR description.&lt;/p&gt;
+&lt;p&gt;At this point I did notice some HTML rendering issues so I told Opus&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The HTML page seems weird - the “repository overview” part is too large and has illegible characters.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It immediately identified the problem and went to fixing:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 876px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/31c777a3d29782c0ff9ee0f838047143/1b1d5/html-one.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 14.166666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAhklEQVR42oWOSRLDIBAD+f8DWczicmwg7PxAwRNXrjmoRi0dRsx7j/M8UWvFGAOjd7pzzuUH+uLeGtrqyf8R41xAKQUpJYQQcMbA6g0b53jtO0IICOvpdRzkY4y4R1D+6Gbvvx3Tm4a1lmS0oTDFgMs5vNfyspaVUpBSonsr50ycUv5xfvoPnI7eAONHwJ0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/31c777a3d29782c0ff9ee0f838047143/8ac56/html-one.webp 240w,
+/static/31c777a3d29782c0ff9ee0f838047143/d3be9/html-one.webp 480w,
+/static/31c777a3d29782c0ff9ee0f838047143/21dbd/html-one.webp 876w&quot;
+              sizes=&quot;(max-width: 876px) 100vw, 876px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/31c777a3d29782c0ff9ee0f838047143/8ff5a/html-one.png 240w,
+/static/31c777a3d29782c0ff9ee0f838047143/e85cb/html-one.png 480w,
+/static/31c777a3d29782c0ff9ee0f838047143/1b1d5/html-one.png 876w&quot;
+            sizes=&quot;(max-width: 876px) 100vw, 876px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/31c777a3d29782c0ff9ee0f838047143/1b1d5/html-one.png&quot;
+            alt=&quot;Copilot chat response indicating a corrupt Unicode character issue and an &amp;quot;absurdly wide&amp;quot; CSS width&quot;
+            title=&quot;&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;A few Instagram reels later it came with the solution: HTML escaded entities because Powershell 5.1’s encoding is incompatible, and calculating a &lt;code class=&quot;language-text&quot;&gt;Count&lt;/code&gt; differently - I’m sure both of those would have taken me significantly longer to find.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 879px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/125947432709930316b0e57bfeca5cd1/bcb8c/html-two.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 22.499999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA1klEQVR42mWQa66DIBSE2f/6WlsrgrwFFd3B3IG0zU3648twhsNMVMQYkVLCeZ64rutLm3+pb07UeuCslVq7dugLKSW0VnDOITLYh4BI0rpiJSVnbNuOHDnzvuSCTKLWSMuCoBQiNVqLg6FiGAZM04TH84nHcMfMAsUlyxJ9u8G8Rlg5w3DH0Q/B9/LgPTxVM9g2eGeoYhxfmGeJxSzwiyFs5W/wbDQscZzbw0CaWvq+hb2x9Jx3XfU4QqiWzqXW1IK240AphZ+59XP+nMnH7/rP/7Lv+ANrIXCgUJI1CAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/125947432709930316b0e57bfeca5cd1/8ac56/html-two.webp 240w,
+/static/125947432709930316b0e57bfeca5cd1/d3be9/html-two.webp 480w,
+/static/125947432709930316b0e57bfeca5cd1/6f82a/html-two.webp 879w&quot;
+              sizes=&quot;(max-width: 879px) 100vw, 879px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/125947432709930316b0e57bfeca5cd1/8ff5a/html-two.png 240w,
+/static/125947432709930316b0e57bfeca5cd1/e85cb/html-two.png 480w,
+/static/125947432709930316b0e57bfeca5cd1/bcb8c/html-two.png 879w&quot;
+            sizes=&quot;(max-width: 879px) 100vw, 879px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/125947432709930316b0e57bfeca5cd1/bcb8c/html-two.png&quot;
+            alt=&quot;Copilot chat response indicating the issues are fixed&quot;
+            title=&quot;&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I told Copilot to find another 500 repos and continuously update the HTML page with additional results so I can refresh every now-and-then. I enjoyed a cajun seafood platter with some guests while upstairs my chat window was patiently processing 500 repos, figuring out how to build each one, gathering data and fixing sporadic issues it experienced (for example: running out of disk space).&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 898px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a92b2b9cd4530eb140ec96d7ef81f117/84cc5/results-two.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 67.5%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABeUlEQVR42o1TWbKCMBDk/hfUKh9EspCVRT3AvOmEIIVa+tFFCKSnuyfTOGfJGEPWOoalYRg2hBDodrt9wPKytywLNdY5cgzLBCB067v3gVJK5IOnGCOTR36WvWmaMsZxLEgjJf4nE7anE4nzmeS1J3G9klJqQ9u29He5kBCC2q6jC687Xsu+p172JKUi7zwFz0VZTFHIygwfhqp5nrfq+Ph4PDLu9/uGo828j38YmRD5Dcxe89NaM1ReO67seN9DQUzZHiwDiCGm+FwzIKQRnWB7knq2YSvxoQieOLA/jIYh58AZAyiaCY0pB+zabSjcdxmo4adUUN/fdlmxvUqoOUspJWFPqycxqoO4KkO349rVIxrY00ZT17WszmQCs7NZVR7v5DuyQrhmBRV71JABdP8TwQshmgGbIDWr2pKjycS4TsjrZ0K3jlydEnQSBFD1zd57y6wEyirq6CGzaS529xf+m/0mzy3fI9isI1evjzZmyzTPO7v4Zv8f1VAZANKGrd4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/a92b2b9cd4530eb140ec96d7ef81f117/8ac56/results-two.webp 240w,
+/static/a92b2b9cd4530eb140ec96d7ef81f117/d3be9/results-two.webp 480w,
+/static/a92b2b9cd4530eb140ec96d7ef81f117/005c4/results-two.webp 898w&quot;
+              sizes=&quot;(max-width: 898px) 100vw, 898px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/a92b2b9cd4530eb140ec96d7ef81f117/8ff5a/results-two.png 240w,
+/static/a92b2b9cd4530eb140ec96d7ef81f117/e85cb/results-two.png 480w,
+/static/a92b2b9cd4530eb140ec96d7ef81f117/84cc5/results-two.png 898w&quot;
+            sizes=&quot;(max-width: 898px) 100vw, 898px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/a92b2b9cd4530eb140ec96d7ef81f117/84cc5/results-two.png&quot;
+            alt=&quot;Copilot chat providing continuous updates, including indicating it solved a contention issue&quot;
+            title=&quot;&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;It gave me a lot of data on what analyses trigger but I’d like some more handholding. Which ones of my analysers are actually troublesome?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Based on this data, look at the places in depth where analysers are fired and decide whether they are false positives or not. If the analyzer fired but you believe it shouldn’t have been, create a github issue to help me triage whether we want to change the analyzer to account for it&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Not much later I had a few more bugs filed:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 884px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8147aaf350e49829cbdab72a161c71c6/136a2/results-three.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 38.33333333333333%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABDElEQVR42nWS246DMAxE+f8vrFRxTwhQcEjEu3fGge52pT4cOTcP9phqdE7HcdRhGDSEoH3fq/deRaLu+34hGqPocRzfiSVWDskOog6i0zSpBxPO5nkGi8VlWXTbtq9iKSXNORXBYRhNsK5rXddVz/PEZcYjkJOtM9dIIkUEaxBjtD3z2JUJ+imgMm9tW7WIvDRYbQilcu/sjLYEOwv6uqqmIK1iNEEK9W2rHapsEW86UD8e2jyftmeSeSpiUUTegrynNVUwr+biIVrn4wjk4kX/wF+BG7Z8I9dHKopx0hFTcq4M4zjiW/DXt0+BG56Xwa32tuL0OBSaz4umaaw1o+uuX0g+BP5P+PaVgj91qla3sfKmlgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/8147aaf350e49829cbdab72a161c71c6/8ac56/results-three.webp 240w,
+/static/8147aaf350e49829cbdab72a161c71c6/d3be9/results-three.webp 480w,
+/static/8147aaf350e49829cbdab72a161c71c6/8af20/results-three.webp 884w&quot;
+              sizes=&quot;(max-width: 884px) 100vw, 884px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/8147aaf350e49829cbdab72a161c71c6/8ff5a/results-three.png 240w,
+/static/8147aaf350e49829cbdab72a161c71c6/e85cb/results-three.png 480w,
+/static/8147aaf350e49829cbdab72a161c71c6/136a2/results-three.png 884w&quot;
+            sizes=&quot;(max-width: 884px) 100vw, 884px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/8147aaf350e49829cbdab72a161c71c6/136a2/results-three.png&quot;
+            alt=&quot;Copilot chat creating three more false-positive Github issues&quot;
+            title=&quot;&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;SharpSource is a collection of mistakes that I’ve seen engineers make, often in my own professional environment. I see many mistakes but I am only one person and I don’t know everything (yet) - what I have in SharpSource is a subset of the issues we &lt;em&gt;could&lt;/em&gt; be preventing. But, considering I just had a chat window where an AI went through nearly 600 C# repositories.. could it give me some juice?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Based on everything you’ve seen now - do you have any suggestions of additional analysers that would be useful? I’m specifically interested in analysers in this same vein: hidden performance or correctness issues that would show up at runtime and that aren’t covered OOTB by the BCL analysers. Create github issues for each of your suggestions. They can be relatively obscure but ideally they are more impactful the more obscure they are&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Vannevelj/SharpSource/issues?q=is%3Aissue%20%22Analyzer%20suggestion%22%20created%3A2026-03-14&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Lo and behold&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 884px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8147aaf350e49829cbdab72a161c71c6/136a2/results-three.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 38.33333333333333%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABDElEQVR42nWS246DMAxE+f8vrFRxTwhQcEjEu3fGge52pT4cOTcP9phqdE7HcdRhGDSEoH3fq/deRaLu+34hGqPocRzfiSVWDskOog6i0zSpBxPO5nkGi8VlWXTbtq9iKSXNORXBYRhNsK5rXddVz/PEZcYjkJOtM9dIIkUEaxBjtD3z2JUJ+imgMm9tW7WIvDRYbQilcu/sjLYEOwv6uqqmIK1iNEEK9W2rHapsEW86UD8e2jyftmeSeSpiUUTegrynNVUwr+biIVrn4wjk4kX/wF+BG7Z8I9dHKopx0hFTcq4M4zjiW/DXt0+BG56Xwa32tuL0OBSaz4umaaw1o+uuX0g+BP5P+PaVgj91qla3sfKmlgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/8147aaf350e49829cbdab72a161c71c6/8ac56/results-three.webp 240w,
+/static/8147aaf350e49829cbdab72a161c71c6/d3be9/results-three.webp 480w,
+/static/8147aaf350e49829cbdab72a161c71c6/8af20/results-three.webp 884w&quot;
+              sizes=&quot;(max-width: 884px) 100vw, 884px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/8147aaf350e49829cbdab72a161c71c6/8ff5a/results-three.png 240w,
+/static/8147aaf350e49829cbdab72a161c71c6/e85cb/results-three.png 480w,
+/static/8147aaf350e49829cbdab72a161c71c6/136a2/results-three.png 884w&quot;
+            sizes=&quot;(max-width: 884px) 100vw, 884px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/8147aaf350e49829cbdab72a161c71c6/136a2/results-three.png&quot;
+            alt=&quot;10 Github issues filed as suggestions, six of which I&amp;#39;ll action&quot;
+            title=&quot;&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Not only does Opus allow me to do the work faster, it also allows me to get an unprecedented insight into the actual results. I &lt;em&gt;could&lt;/em&gt; do all of this myself, but it’s been more than 10 years now and I still haven’t gotten around to it.&lt;/p&gt;
+&lt;p&gt;Copilot ended up generating 52,982 lines of code spread across powershell scripts and an HTML page to give me &lt;a href=&quot;/f157dfc7fd959a60cfc5d31d15cf35de/sharpsource-evaluation-report.html&quot;&gt;an interactive result&lt;/a&gt;. I didn’t look at any of it and it took all together perhaps 30 minutes of my attention but the value it produced for me in that time period is immense.&lt;/p&gt;
+&lt;p&gt;I offer no philosophical standpoint on AI, its future as a tool, our future as software engineers or anything else. All I know is that I made progress on my side project and it gave me a sense of satisfaction; something I wouldn’t have had otherwise because I would’ve watched Netflix instead.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Switching Browsers: Taking back control]]></title><description><![CDATA[Using a custom application as your default browser to interchangeable use Chrome or Firefox]]></description><link>https://vannevel.net/posts/2025-07-27---Switching-Browsers/</link><guid isPermaLink="false">https://vannevel.net/posts/2025-07-27---Switching-Browsers/</guid><pubDate>Sun, 27 Jul 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Chrome’s recent update to block extensions that use &lt;a href=&quot;https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;ManifestV2&lt;/a&gt; spurred me to move over to Firefox. My current setup is relatively complex in the sense that I have seven different Chrome profiles that my household switches between, one of which is my work account. I’ve decided to start using Firefox for all my personal browsing but I’m not quite yet ready to switch my work flow to it as well. The tricky aspect comes into my dual use: I use my desktop for both personal and work-related things, meaning that at any given point in time I open links to Jira and Github but also Amazon, Octopus Energy and whatever else.&lt;/p&gt;
 &lt;p&gt;When I’m in Slack or my company’s Outlook inbox and click on a link I probably want it to open in Chrome because it’s a work thing. However when I’m in my private Outlook inbox or on WhatsApp, I want it to open in Firefox. How do I avoid the frustration of constantly opening links in the wrong application? I decided to create an application that lets me decide which browser to open a link in whenever I click something.&lt;/p&gt;
 &lt;h1 id=&quot;browser-switcher&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#browser-switcher&quot; aria-label=&quot;browser switcher permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Browser Switcher&lt;/h1&gt;
 &lt;p&gt;When you click on any link, Windows uses the default browser to open it. The default browser can be configured in your &lt;a href=&quot;https://support.microsoft.com/en-us/windows/change-default-apps-in-windows-e5d82cad-17d1-c53b-3505-f10a32e1894d&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Default apps&lt;/a&gt; and is probably set to something like Chrome or Firefox already. The idea is straightforward: I want to define my own “browser” which is set as the default and will in turn start either Firefox or Chrome as usual.&lt;/p&gt;
@@ -2213,57 +2522,7 @@ discovery.seed_hosts: [&quot;127.0.0.1&quot;, &quot;[::1]&quot;]&lt;/code&gt;&lt
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.&lt;/p&gt;
-&lt;p&gt;Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Exploring the Depths of Innovation]]></title><description><![CDATA[Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum.]]></description><link>https://vannevel.net/posts/exploring-depths-of-innovation</link><guid isPermaLink="false">https://vannevel.net/posts/exploring-depths-of-innovation</guid><pubDate>Thu, 01 Sep 2016 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed odio dui. Vestibulum id ligula porta felis euismod semper.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/14a757c94d7ffb632ec309d049c669b1/35f32/image.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAECAwX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB6BQhiT//xAAcEAACAQUBAAAAAAAAAAAAAAABAgADERMiMkH/2gAIAQEAAQUC9htB2H1erjb/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAhEAABAgQHAAAAAAAAAAAAAAAAARECEiExMkFxgYLB8P/aAAgBAQAGPwLziW62KrDyuSVs7kETYqaEsrtmp//EAB0QAAICAgMBAAAAAAAAAAAAABEhAAExUUFxsZH/2gAIAQEAAT8hrsdHbyUAwIXyz9SxI2KXpNhKOdvEJzWgKyxDolbLU//aAAwDAQACAAMAAAAQg9//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAcEAADAAIDAQAAAAAAAAAAAAABESEAMUFRkaH/2gAIAQEAAT8QIoFrMp5kvzhsBkoJnAH9YAlWAYQbPeEHk7lCLHqZUAPuQBbwcWQY4CzM/9k=&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;picture&gt;
-          &lt;source
-              srcset=&quot;/static/14a757c94d7ffb632ec309d049c669b1/8ac56/image.webp 240w,
-/static/14a757c94d7ffb632ec309d049c669b1/d3be9/image.webp 480w,
-/static/14a757c94d7ffb632ec309d049c669b1/e46b2/image.webp 960w,
-/static/14a757c94d7ffb632ec309d049c669b1/f992d/image.webp 1440w,
-/static/14a757c94d7ffb632ec309d049c669b1/882b9/image.webp 1920w,
-/static/14a757c94d7ffb632ec309d049c669b1/061e5/image.webp 5753w&quot;
-              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
-              type=&quot;image/webp&quot;
-            /&gt;
-          &lt;source
-            srcset=&quot;/static/14a757c94d7ffb632ec309d049c669b1/09b79/image.jpg 240w,
-/static/14a757c94d7ffb632ec309d049c669b1/7cc5e/image.jpg 480w,
-/static/14a757c94d7ffb632ec309d049c669b1/6a068/image.jpg 960w,
-/static/14a757c94d7ffb632ec309d049c669b1/644c5/image.jpg 1440w,
-/static/14a757c94d7ffb632ec309d049c669b1/0f98f/image.jpg 1920w,
-/static/14a757c94d7ffb632ec309d049c669b1/35f32/image.jpg 5753w&quot;
-            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
-            type=&quot;image/jpeg&quot;
-          /&gt;
-          &lt;img
-            class=&quot;gatsby-resp-image-image&quot;
-            src=&quot;/static/14a757c94d7ffb632ec309d049c669b1/6a068/image.jpg&quot;
-            alt=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
-            title=&quot;&quot;
-            loading=&quot;lazy&quot;
-            decoding=&quot;async&quot;
-            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-          /&gt;
-        &lt;/picture&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum. Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.&lt;/p&gt;
-&lt;p&gt;Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The Quantum Leap in Digital Architecture]]></title><description><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras porttitor metus velit, vitae vehicula massa venenatis sed. Duis tempus enim quam, in interdum ex dapibus in.]]></description><link>https://vannevel.net/posts/quantum-leap-digital-architecture</link><guid isPermaLink="false">https://vannevel.net/posts/quantum-leap-digital-architecture</guid><pubDate>Thu, 01 Sep 2016 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Suspendisse potenti. Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl.&lt;/p&gt;
+&lt;p&gt;Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The Quantum Leap in Digital Architecture]]></title><description><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras porttitor metus velit, vitae vehicula massa venenatis sed. Duis tempus enim quam, in interdum ex dapibus in.]]></description><link>https://vannevel.net/posts/quantum-leap-digital-architecture</link><guid isPermaLink="false">https://vannevel.net/posts/quantum-leap-digital-architecture</guid><pubDate>Thu, 01 Sep 2016 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Suspendisse potenti. Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
@@ -2313,7 +2572,57 @@ discovery.seed_hosts: [&quot;127.0.0.1&quot;, &quot;[::1]&quot;]&lt;/code&gt;&lt
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend justo vel bibendum sapien massa ac turpis faucibus orci luctus non.&lt;/p&gt;
-&lt;p&gt;Nam vestibulum accumsan nisl. Nullam eu ante vel est convallis dignissim. Fusce suscipit, wisi nec facilisis facilisis, est dui fermentum leo, quis tempor ligula erat quis odio. Nunc porta vulputate tellus. Nunc rutrum turpis sed pede. Sed bibendum. Aliquam posuere. Nunc aliquet, augue nec adipiscing interdum, lacus tellus malesuada massa, quis varius mi purus non odio.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[A Brief History of Typography]]></title><description><![CDATA[Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.]]></description><link>https://vannevel.net/posts/a-brief-history-of-typography</link><guid isPermaLink="false">https://vannevel.net/posts/a-brief-history-of-typography</guid><pubDate>Tue, 02 Feb 2016 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;&lt;strong&gt;Pellentesque habitant morbi tristique&lt;/strong&gt; senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. &lt;em&gt;Aenean ultricies mi vitae est.&lt;/em&gt; Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.&lt;/p&gt;
+&lt;p&gt;Nam vestibulum accumsan nisl. Nullam eu ante vel est convallis dignissim. Fusce suscipit, wisi nec facilisis facilisis, est dui fermentum leo, quis tempor ligula erat quis odio. Nunc porta vulputate tellus. Nunc rutrum turpis sed pede. Sed bibendum. Aliquam posuere. Nunc aliquet, augue nec adipiscing interdum, lacus tellus malesuada massa, quis varius mi purus non odio.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Exploring the Depths of Innovation]]></title><description><![CDATA[Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum.]]></description><link>https://vannevel.net/posts/exploring-depths-of-innovation</link><guid isPermaLink="false">https://vannevel.net/posts/exploring-depths-of-innovation</guid><pubDate>Thu, 01 Sep 2016 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed odio dui. Vestibulum id ligula porta felis euismod semper.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/14a757c94d7ffb632ec309d049c669b1/35f32/image.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAECAwX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB6BQhiT//xAAcEAACAQUBAAAAAAAAAAAAAAABAgADERMiMkH/2gAIAQEAAQUC9htB2H1erjb/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAhEAABAgQHAAAAAAAAAAAAAAAAARECEiExMkFxgYLB8P/aAAgBAQAGPwLziW62KrDyuSVs7kETYqaEsrtmp//EAB0QAAICAgMBAAAAAAAAAAAAABEhAAExUUFxsZH/2gAIAQEAAT8hrsdHbyUAwIXyz9SxI2KXpNhKOdvEJzWgKyxDolbLU//aAAwDAQACAAMAAAAQg9//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAcEAADAAIDAQAAAAAAAAAAAAABESEAMUFRkaH/2gAIAQEAAT8QIoFrMp5kvzhsBkoJnAH9YAlWAYQbPeEHk7lCLHqZUAPuQBbwcWQY4CzM/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/14a757c94d7ffb632ec309d049c669b1/8ac56/image.webp 240w,
+/static/14a757c94d7ffb632ec309d049c669b1/d3be9/image.webp 480w,
+/static/14a757c94d7ffb632ec309d049c669b1/e46b2/image.webp 960w,
+/static/14a757c94d7ffb632ec309d049c669b1/f992d/image.webp 1440w,
+/static/14a757c94d7ffb632ec309d049c669b1/882b9/image.webp 1920w,
+/static/14a757c94d7ffb632ec309d049c669b1/061e5/image.webp 5753w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/14a757c94d7ffb632ec309d049c669b1/09b79/image.jpg 240w,
+/static/14a757c94d7ffb632ec309d049c669b1/7cc5e/image.jpg 480w,
+/static/14a757c94d7ffb632ec309d049c669b1/6a068/image.jpg 960w,
+/static/14a757c94d7ffb632ec309d049c669b1/644c5/image.jpg 1440w,
+/static/14a757c94d7ffb632ec309d049c669b1/0f98f/image.jpg 1920w,
+/static/14a757c94d7ffb632ec309d049c669b1/35f32/image.jpg 5753w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/jpeg&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/14a757c94d7ffb632ec309d049c669b1/6a068/image.jpg&quot;
+            alt=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
+            title=&quot;&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum. Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.&lt;/p&gt;
+&lt;p&gt;Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[A Brief History of Typography]]></title><description><![CDATA[Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.]]></description><link>https://vannevel.net/posts/a-brief-history-of-typography</link><guid isPermaLink="false">https://vannevel.net/posts/a-brief-history-of-typography</guid><pubDate>Tue, 02 Feb 2016 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;&lt;strong&gt;Pellentesque habitant morbi tristique&lt;/strong&gt; senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. &lt;em&gt;Aenean ultricies mi vitae est.&lt;/em&gt; Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.&lt;/p&gt;
 &lt;p&gt;Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. &lt;a href=&quot;#&quot;&gt;Donec non enim&lt;/a&gt; in turpis pulvinar facilisis.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
