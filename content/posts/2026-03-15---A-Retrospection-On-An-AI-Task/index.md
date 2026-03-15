@@ -23,7 +23,7 @@ The SharpSource code base is fairly mature and up until a few weeks ago boasted 
 1. (optionally) Implement the code fix
 1. Write some documentation
 
-Straightforward and I know what to expect for each analyser but that also makes it a fairly monotone experience once you've done 60 of those. With the hype around AI I decided to bring Claude Opus into the mix; I had a small backlog of 35-odd issues collected over the years so there was work up for grabs.
+Straightforward and I know what to expect for each analyser, but that also makes it a fairly monotone experience once you've done 60 of those. With the hype around AI I decided to bring Claude Opus into the mix; I had a small backlog of 35-odd issues collected over the years so there was work up for grabs.
 I don't have any fancy setup with terminals and multiple agents and all of that - for me it's Copilot in VS Code with Claude Opus 4.5 (and later 4.6). I did hear a lot about AGENTS.md so I took half an hour at the start to effectively document the project: what analysers are, the philosophy behind what I'm trying to do, how to go about writing an analyser and some tips-and-tricks around what one should look out for when writing an analyser. Fundamentally I don't think there's anything special there but if you're interested it can be found [here](https://github.com/Vannevelj/SharpSource/blob/master/AGENTS.md).
 
 This blog post is not intended to walk anyone through my terribly bland prompting setup (after all, I just go into Agent mode with YOLO permissions) but rather to provide an account of my experience. With that in mind here's roughly what that progress looked like:
@@ -41,7 +41,7 @@ It produced the same quality code, except previously it would take me a solid tw
 
 The best test I've found is to pull a few large public repos, add SharpSource and see what gets flagged. Inevitably there are many scenarios that I have never thought of which cause false positives, not to mention bugs that cause the analysis to throw an exception. Historically I've used `dotnet/runtime` as my go-to test bed but 1) it is/was not trivial to set up, and 2) it is huge so building takes a while.
 
-Once again, Opus to the rescue. In the span of less than two hours it crawled 560 (first 10, then 50, then 500) repos from Github, built them locally with SharpSource included and gave me an overview of the diagnostics that appear there. My starting prompt was straightforward:
+Opus to the rescue: in the span of less than two hours it crawled 560 (first 10, then 50, then 500) repos from Github, built them locally with SharpSource included and gave me an overview of the diagnostics that appear there. My starting prompt was straightforward:
 
 > I have a C# static analysis tool on NuGet (code is here: https://github.com/Vannevelj/SharpSource). The package name is SharpSource and version 1.32.0 is its latest.
 > I want to evaluate how it performs on arbitrary code bases. Find 10 C# code bases online, pull them locally to a temporary directory, make sure they build and then install my static analysis tool. Evaluate its results - do the diagnostics make sense or is the codebase in a particular scenario that means we're flagging false positives? Do this for each of the repos you select and then give me a summarised result, including code context (render this in a browsable HTML page).
@@ -71,7 +71,7 @@ A few Instagram reels later it came with the solution: HTML escaped entities bec
 
 ![Copilot chat response indicating the issues are fixed](./html-two.png)
 
-I told Copilot to find another 500 repos and continuously update the HTML page with additional results so I can refresh every now-and-then. I enjoyed a Cajun seafood platter with some guests while upstairs my chat window was patiently processing 500 repos, figuring out how to build each one, gathering data and fixing sporadic issues it experienced (for example: running out of disk space).
+I told Copilot to find another 500 repos and continuously update the HTML page with additional results so I can refresh every now-and-then. I enjoyed a Cajun seafood boil with some guests while upstairs my chat window was patiently processing 500 repos, figuring out how to build each one, gathering data and fixing sporadic issues it experienced (for example: running out of disk space).
 
 ![Copilot chat providing continuous updates, including indicating it solved a contention issue](./results-two.png)
 
@@ -97,6 +97,6 @@ SharpSource is a collection of mistakes that I've seen engineers make, often in 
 
 Not only does Opus allow me to do the work faster, it also allows me to get an unprecedented insight into the actual results. I _could_ do all of this myself, but it's been more than 10 years now and I still haven't gotten around to it.
 
-Copilot ended up generating 52,982 lines of code spread across powershell scripts and an HTML page to give me [an interactive result](./sharpsource-evaluation-report.html). I didn't look at any of it and it took altogether perhaps 30 minutes of my attention but the value it produced for me in that time period is immense.
+Copilot ended up generating 52,982 lines of code spread across powershell scripts and an HTML page to give me [an interactive result](./sharpsource-evaluation-report.html). I didn't look at any of it and it took altogether perhaps 30 minutes of my attention but the value it produced for me in that time period is immense. It's worth pointing out that this type of project is also extremely well suited for AI development: everything is a consequence of a well-defined language specification, can be executed as fast isolated unit tests and the failure mode is an unambiguous build failure. This provides the AI agent with a high value feedback loop and it can focus on making sure the extensive suite of unit tests passes.
 
 I offer no philosophical standpoint on AI, its future as a tool, our future as software engineers or anything else. All I know is that I made progress on my side project and it gave me a sense of satisfaction; something I wouldn't have had otherwise because I would've watched Netflix instead.
